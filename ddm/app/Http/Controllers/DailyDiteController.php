@@ -126,18 +126,7 @@ class DailyDiteController extends Controller
     {
         //
     }
-    /**
-     * Store or update image for dite.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function imageform()
-    {
-        return view('upload_image');
-    }
-
-
+    
     public function dite_defaults(int $id)
     {
         $dite = Dite::find($id);
@@ -159,38 +148,7 @@ class DailyDiteController extends Controller
     }
 
 
-    public function upload_image(Request $request)
-    {
-
-        $input = $request->all();
-        $id = $input['id'];
-        $dailydite = DailyDite::find($id);
-
-        if (!$request->hasFile('image')) {
-            return response()->json(['upload_file_not_found'], 400);
-        }
-        $file = $request->file('image');
-        if (!$file->isValid()) {
-            return response()->json(['invalid_file_upload'], 400);
-        }
-        if (isset($dailydite->image) and $dailydite->image != "")
-            if (file_exists(public_path() . $dailydite->image))
-                unlink(public_path() . $dailydite->image);
-        $path =  public_path() . '/uploads/images/store/';
-        $name = time() . '.' . $file->getClientOriginalName();
-        $file->move($path, $name);
-
-        $dailydite->image = '/uploads/images/store/' . $name;
-        $dailydite->save();
-        $class = "";
-        if (file_exists($path . $name)) {
-            $image = getimagesize($path . $name);
-            $width = $image[0];
-            $height = $image[1];
-            $class = ($width / $height) < 1.2 ? "img-full-width" : "img-full-height";
-        }
-        return response()->json(array("image" => $dailydite->image, "class" => $class));
-    }
+    
 
     /**
      * Store a newly created resource in storage.

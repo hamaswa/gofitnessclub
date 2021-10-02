@@ -68,11 +68,17 @@
 
            <ul class="navbar-nav">
 
-             <li class="nav-item">
+            <li class="nav-item">
 
-               <a class="nav-link nav-menu-link active" aria-current="page" href="" data-href="{{ url("/home") }}">Home</a>
+              <a class="nav-link nav-menu-link active" aria-current="page" href="" data-href="{{ url("/home") }}">Dining</a>
 
-             </li>
+            </li> 
+            
+            <li class="nav-item">
+
+              <a class="nav-link nav-menu-link active" aria-current="page" href="" data-href="{{ route("buying-index") }}">Buying</a>
+
+            </li>
 
              <li class="nav-item">
 
@@ -80,10 +86,16 @@
 
              </li>
 
-             <li class="nav-item">
+             <li class="nav-item dropdown dropup">
+               
+               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                href="#" role="button">History</a>
 
-               <a class="nav-link nav-menu-link" href="" data-href="{{ url("/show_monthly_dite") }}">Meals History</a>
-
+               <ul class="dropdown-menu">
+                <li><a class="dropdown-item nav-menu-link" href="#" data-href="{{ url("/show_monthly_dite") }}">Dining</a></li>
+                <li><a class="dropdown-item nav-menu-link" href="#" data-href="{{ url("/show_monthly_buying") }}">Buying</a></li>
+               
+              </ul>
              </li>
 
              <li class="nav-item">

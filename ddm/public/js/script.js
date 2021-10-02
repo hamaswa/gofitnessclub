@@ -40,6 +40,31 @@ $(document).on("click", "#button-add-meal", function() {
 });
 
 
+$(document).on("click", "#button-buy-meal", function() {
+
+    $.ajax({
+
+        url: "/api/buying/buy_meal",
+
+        type: "post",
+
+        data: { "items": $("#buy-meal-input-box").val() },
+
+    }).done(function(res) {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
+
+        msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
+
+        $("#content").html("").append(res);
+
+        alert(msg);
+
+
+    });
+
+});
+
+
 
 $(document).on("click", "#button-edit-meal", function() {
 
@@ -58,19 +83,9 @@ $(document).on("click", "#button-edit-meal", function() {
 
             msg += '<strong>Success!</strong> Meal successfully Updated</div>'
 
-            //res = msg + '' + res;
-
             $("#content").html("").append(res);
 
-            $(document.body).prepend(msg);
-
-            $("#success-alert").alert();
-
-            window.setTimeout(function() {
-
-                $("#success-alert").alert('close');
-
-            }, 2000);
+            alert(msg)
             $("#myModal").modal("hide");
 
         });
@@ -98,17 +113,7 @@ $(document).on("click", ".btn-edit-item", function(e) {
 
         msg += ' <span class="mx-auto"><strong>Success!</strong> item default successfully updated </span></div>'
 
-        //res = msg + '' + res;
-
-        $(document.body).prepend(msg);
-
-        $("#success-alert").alert();
-
-        window.setTimeout(function() {
-
-            $("#success-alert").alert('close');
-
-        }, 2000);
+        alert(msg);
 
     });
 
@@ -135,15 +140,7 @@ $(document).on("click", ".btn-delete-item", function(e) {
 
         msg += ' <span class="mx-auto"><strong>Success!</strong> Food item successfully Deleted </span></div>'
 
-        $(document.body).prepend(msg);
-
-        $("#success-alert").alert();
-
-        window.setTimeout(function() {
-
-            $("#success-alert").alert('close');
-
-        }, 2000);
+        alert(msg);
 
     }.bind(this));
 
@@ -170,17 +167,12 @@ $(document).on("click", "#btn-add-item", function(e) {
 
         msg += '<strong>Success!</strong> item default successfully added</div>'
 
-        res = msg + '' + res;
 
         $("#content").html("").append(res);
 
-        $("#success-alert").alert();
+        alert(msg);
 
-        window.setTimeout(function() {
 
-            $("#success-alert").alert('close');
-
-        }, 2000);
 
     });
 
@@ -258,10 +250,6 @@ $(document).on("submit", ".dite-image-form", function(e) {
 
     var id = $(this).find('input[name=id').val();
 
-
-
-    // Check file selected or not
-
     if (files.length > 0) {
 
         $.ajax({
@@ -281,6 +269,7 @@ $(document).on("submit", ".dite-image-form", function(e) {
                 fooditem = $("#image-container-" + id).parent("div").find("div"); //.closest("div").find("div");
 
                 h2 = $(fooditem).find("h2");
+                h5 = $(fooditem).find("h5");
 
                 h6 = $(fooditem).find("h6");
 
@@ -293,10 +282,11 @@ $(document).on("submit", ".dite-image-form", function(e) {
                     $("#image-container-" + id).html(image);
 
                     $(fooditem).html("").append(h6);
+                    if (h5) {
+                        $(fooditem).append(h5);
+                    }
 
                     $(fooditem).append(h2);
-
-
 
                 } else {
 
@@ -400,15 +390,7 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
             msg += ' <span class="mx-auto"><strong>Success! </strong> food deleted successfully</span></div>'
 
-            $(document.body).prepend(msg);
-
-            $("#success-alert").alert();
-
-            window.setTimeout(function() {
-
-                $("#success-alert").alert('close');
-
-            }, 2000);
+            alert(msg)
 
         }.bind(this))
 
@@ -590,15 +572,17 @@ $(document).on("click", ".person-weight", function(e) {
 
 })
 
+$(document).on("click", ".buying-details", function() {
+    $("#myModal").modal("show");
+})
+
 
 function weightadded(res) {
     msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
     msg += res.msg + '</div>'
 
-    $(document.body).prepend(msg);
-
-    alert();
+    alert(msg);
 }
 
 function mealadded(res) {
@@ -606,13 +590,13 @@ function mealadded(res) {
 
     msg += '<strong>Success!</strong> Meal successfully added</div>'
 
-    res = msg + '' + res;
-
     $("#content").html("").append(res);
-    alert();
+    alert(msg);
 }
 
-function alert() {
+function alert(msg) {
+    $(document.body).prepend(msg);
+
     $("#success-alert").alert();
 
     window.setTimeout(function() {

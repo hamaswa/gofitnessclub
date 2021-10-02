@@ -53,6 +53,7 @@
                   <div class="product-actions d-flex justify-content-between px-2 py-1">
                         <a href="#" class="d-inline-block camera-btn">
                            <input type="hidden" name="id" value="{{ $item->id }}" >
+                           <input type="hidden" name="table" value="dailydite" >
                            <input type="file" name="image" style="display: none" class="dite-image-input">
                            <img src="{{ asset("images/camera-icon.png") }}" height="16" class="dite-image" alt="Photos" /></a>
                         <a type="submit" data-text="{{$item->name}} {{ $val }}" class="text-decoration-none text-add-btn">Add</a>
@@ -70,8 +71,6 @@
       $link = $data->nextPageUrl();
       if( $link!=""){
       $add_more = '<a class="text-center col-2 m-auto page-link ajax-page-load-more" href="" data-href="'.$link.'">Load More</a>';        
-      //$links = str_replace('<a class="page-link"', '<a class="page-link ajax-page-link" ', $links);
-      //$links = str_replace('href', 'href="" data-href', $links);
       echo $add_more;
       }
      @endphp      
