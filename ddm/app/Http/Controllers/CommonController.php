@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\DailyBuying;
 use App\Models\DailyDite;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -15,16 +17,19 @@ class CommonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload_image(Request $request)
+    public function upload_image($folder,Request $request)
     {
-
+       
         $input = $request->all();
         $id = $input['id'];
-        if($input['table']=="dailydite"){
-        $foodItem = DailyDite::find($id);
-        }
-        else 
-        $foodItem = DailyBuying::find($id);
+        if($input['table']=="eat")
+        $obj = DailyDite::find($id);
+        else if($input['table']=='buy')
+        $obj = DailyBuying::find($id);
+        else if($input['table']=='prdbrd')
+        $obj = Brand::find($id);
+        else if($input['table']=='prdshp')
+        $obj = Shop::find($id);
 
 
         if (!$request->hasFile('image')) {
@@ -34,15 +39,15 @@ class CommonController extends Controller
         if (!$file->isValid()) {
             return response()->json(['invalid_file_upload'], 400);
         }
-        if (isset($foodItem->image) and $foodItem->image != "")
-            if (file_exists(public_path() . $foodItem->image))
-                unlink(public_path() . $foodItem->image);
-        $path =  public_path() . '/uploads/images/store/';
+        if (isset($obj->image) and $obj->image != "")
+            if (file_exists(public_path() . $obj->image))
+                unlink(public_path() . $obj->image);
+        $path =  public_path() . "/uploads/images/$folder";
         $name = time() . '.' . $file->getClientOriginalName();
         $file->move($path, $name);
 
-        $foodItem->image = '/uploads/images/store/' . $name;
-        $foodItem->save();
+        $obj->image = "/uploads/images/$folder/" . $name;
+        $obj->save();
         $class = "";
         if (file_exists($path . $name)) {
             $image = getimagesize($path . $name);
@@ -50,6 +55,6 @@ class CommonController extends Controller
             $height = $image[1];
             $class = ($width / $height) < 1.2 ? "img-full-width" : "img-full-height";
         }
-        return response()->json(array("image" => $foodItem->image, "class" => $class));
+        return response()->json(array("image" => $obj->image, "class" => $class));
     }
 }

@@ -119,6 +119,10 @@
     margin-bottom: 2px;
 }
 
+.lowest-price {
+    background-color: green;
+}
+
 @media (min-width: 1200px) {
     .row-cols-5>* {
         width: 20%;

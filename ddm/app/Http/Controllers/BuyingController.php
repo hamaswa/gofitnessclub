@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\DailyBuying;
 use App\Models\DailyDite;
 use App\Models\Dite;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class BuyingController extends Controller
 {
@@ -47,10 +50,15 @@ class BuyingController extends Controller
         foreach ($itemlist as $item) {
             $newbuy = new  DailyBuying();
             $fooditem = explode(" ", trim($item));
-            $newbuy->name = $fooditem[0];
-            $newbuy->weight = str_replace("g", "", strtolower($fooditem[1]));
-            $newbuy->price = str_replace("RM", "", strtoupper($fooditem[2]));
-            $newbuy->frequency = $fooditem[3];
+            $newbuy->weight = str_replace("g", "", strtolower($fooditem[count($fooditem)-3]));
+            $newbuy->price = str_replace("RM", "", strtoupper($fooditem[count($fooditem)-2]));
+            $newbuy->frequency = $fooditem[count($fooditem)-1];
+            unset($fooditem[count($fooditem)-1]);
+            unset($fooditem[count($fooditem)-1]);
+            unset($fooditem[count($fooditem)-1]);
+
+            $newbuy->name =   trim(implode(" ", $fooditem));
+
             if ($newbuy->save()) {
                 $saved[] = $item;
             } else {
@@ -71,29 +79,67 @@ class BuyingController extends Controller
      * 
      */
 
-     public function buying_detail(Request $request){
-         
-     }
+    public function buying_detail(Request $request)
+    {
+        $input = $request->all();
+        $month = date("m");
+        $food_item = $input['food_item'];
+        $monthly_buying = new DailyBuying();
+        $data['data'] = $monthly_buying->where("dailybuyings.name", '=', $food_item)
+            ->whereMonth('dailybuyings.created_at', $month)
+            ->get();
+        return  response()->json($data);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function edit_item_bought(Request $request)
     {
-        //
+        $input = $request->all();
+        $data['item'] = DailyBuying::find($input['id']);
+        $data['id'] = $input['id'];
+        $data['shops'] = Shop::all();
+        $data['brands'] = Brand::all();
+        return view("edit_item_bought", compact('data'));
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_item_bought(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $fooditem = DailyBuying::find($input['id']);
+            $food_item = explode(" ", trim($input['food-item']));
+            $fooditem->weight = str_replace("g", "", strtolower($food_item[count($food_item)-3]));
+            $fooditem->price = str_replace("RM", "", strtoupper($food_item[count($food_item)-2]));
+            $fooditem->frequency = $food_item[count($food_item)-1];
+            unset($food_item[count($food_item)-1]);
+            unset($food_item[count($food_item)-1]);
+            unset($food_item[count($food_item)-1]);
+            $fooditem->name =   implode(" ", $food_item);
+            $fooditem->shop_id = $input['shop'];
+            $fooditem->brand_id = $input['brand'];
+            $fooditem->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function show_monthly_buying(Request $request)
     {
-        //
+        return "To Do";
     }
 
     /**

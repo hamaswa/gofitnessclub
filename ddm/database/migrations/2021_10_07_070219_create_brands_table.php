@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserWeightsTable extends Migration
+class CreateBrandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUserWeightsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_weights', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign("user_id");
-            $table->string("weight");
+            $table->string("name");
+            $table->string("name")->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateUserWeightsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_weights');
+        Schema::dropIfExists('brands');
     }
 }

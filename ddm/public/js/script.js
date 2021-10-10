@@ -12,10 +12,6 @@ $("document").ready(function() {
 
     })
 
-
-
-
-
 })
 
 $(document).on("click", "#button-add-meal", function() {
@@ -30,9 +26,9 @@ $(document).on("click", "#button-add-meal", function() {
 
     }).done(function(res) {
         if (typeof(res.weight) != 'undefined') {
-            weightadded(res);
+            weightAdded(res);
         } else {
-            mealadded(res);
+            mealAdded(res);
         }
 
     });
@@ -191,32 +187,27 @@ $(document).on("submit", "#dite-item-default-frm", function(e) {
 
 
 $(document).on("click", ".text-add-btn", function() {
-
-    val = $("#meal-input-box").val();
-
+    input = $(this).data('input');
+    val = $("#" + input).val();
     if (val != "") {
-
-        val = val + ",";
-
+        val = val + ", ";
     }
-
     str = $(this).data("text");
-
     val += str;
-
-    $("#meal-input-box").val(val).trigger('focus');
+    $("#" + input).val(val).trigger('focus');
 
 });
 
 
 
-$(document).on('keypress', "#meal-input-box", function(event) {
+
+
+$(document).on('keypress', "#meal-input-box, #buy-meal-input-box", function(event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
-
     if (keycode == '13') {
 
-        $("#button-add-meal").trigger("click");
+        $(this).next("button").trigger("click"); // $("#button-buy-meal").trigger("click");
 
     }
 
@@ -224,7 +215,7 @@ $(document).on('keypress', "#meal-input-box", function(event) {
 
 
 
-$(document).on("click", ".dite-image", function() {
+$(document).on("click", ".upload-image", function() {
 
     $(this).parent("a").find("input").trigger("click");
 
@@ -232,7 +223,7 @@ $(document).on("click", ".dite-image", function() {
 
 
 
-$(document).on('change', ".dite-image-input", function() {
+$(document).on('change', ".upload-image-input", function() {
 
     $(this).parents("form").trigger("submit");
 
@@ -240,7 +231,7 @@ $(document).on('change', ".dite-image-input", function() {
 
 
 
-$(document).on("submit", ".dite-image-form", function(e) {
+$(document).on("submit", ".upload-image-form", function(e) {
 
     e.preventDefault();
 
@@ -270,12 +261,13 @@ $(document).on("submit", ".dite-image-form", function(e) {
 
                 h2 = $(fooditem).find("h2");
                 h5 = $(fooditem).find("h5");
-
                 h6 = $(fooditem).find("h6");
 
                 if (response != 0) {
 
-                    $(h6).addClass("mb-auto");
+                    if (h6) {
+                        $(h6).addClass("mb-auto");
+                    }
 
                     image = '<img src="' + response.image + '" id="image' + response.id + '" alt="Food" class="' + response.class + '" />'
 
@@ -528,14 +520,104 @@ $(document).on("mouseenter", ".library-input", function() {
 })
 
 $(document).on("click", ".person-weight", function(e) {
-    e.preventDefault();
-    myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
+        e.preventDefault();
+        myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
+        myModalHeadHtml = modalHeadHtml(['Date', 'Weight'])
 
+        $("#myModalHead").html($(myModalHeadHtml));
+
+        $.ajax({
+
+            url: $(this).data('href'),
+
+            type: "post",
+
+        }).done(function(res) {
+
+            myModalBodyHtml = '';
+
+
+
+            res.data.forEach(element => {
+
+                myModalBodyHtml += '<tr>';
+
+                myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+
+                myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
+
+                myModalBodyHtml += '<td>' + element.weight + '</td>';
+
+                myModalBodyHtml += '</tr>';
+
+
+
+            });
+
+
+            $(".modal-title").text("User Weight Report")
+
+            $("#myModalBody").html($(myModalBodyHtml));
+
+        })
+
+        $('#myModal').modal('show');
+
+    })
+    // buying events
+$(document).on("submit", ".update-food-form", function(e) {
+    e.preventDefault();
+    url = $(".update-food-form").data("action");
+    formdata = $(this).serializeArray();
+    $.ajax({
+
+        url: url,
+
+        data: formdata,
+
+        type: "post",
+
+    }).done(function(res) {
+        console.log($(this));
+    }.bind(this));
+})
+
+$(document).on("click", ".edit-item-btn", function(e) {
+    e.preventDefault();
+    $.ajax({
+
+        url: $(this).data('href'),
+
+        data: { id: $(this).data("id") },
+
+        type: "get",
+
+    }).done(function(res) {
+        console.log(res);
+        $("#myModalHead").html("");
+        $(".modal-title").text("Update Food Item");
+        td = $("<td></td>");
+        td.append($(res));
+        $("#myModalBody").html("").append($(td));
+        $('#myModal').modal('show');
+
+    }.bind(this));
+})
+
+$(document).on("click", ".buying-details", function(e) {
+    e.preventDefault();
+    myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg'])
     $("#myModalHead").html($(myModalHeadHtml));
 
     $.ajax({
 
         url: $(this).data('href'),
+
+        data: {
+
+            food_item: $(this).data('item'),
+
+        },
 
         type: "post",
 
@@ -545,39 +627,161 @@ $(document).on("click", ".person-weight", function(e) {
 
 
 
+        lowestPricePerKg = 0;
         res.data.forEach(element => {
 
-            myModalBodyHtml += '<tr>';
+
+            pricePerKg = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
+            if (lowestPricePerKg == 0) {
+                lowestPricePerKg = pricePerKg;
+            }
+            if (lowestPricePerKg > pricePerKg) {
+                lowestPricePerKg = pricePerKg;
+            }
+
+            if (lowestPricePerKg == pricePerKg)
+                myModalBodyHtml += '<tr data-id="' + lowestPricePerKg + '">';
+            else
+                myModalBodyHtml += '<tr>';
 
             myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
-
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
-
-            myModalBodyHtml += '<td>' + element.weight + '</td>';
-
+            myModalBodyHtml += '<td>' + element.weight + 'g</td>';
+            myModalBodyHtml += '<td>RM' + element.price + '</td>';
+            myModalBodyHtml += '<td>RM' + pricePerKg + '</td>';
             myModalBodyHtml += '</tr>';
-
 
 
         });
 
 
-        $(".modal-title").text("User Weight Report")
-
+        $(".modal-title").text("Meal Item Report");
         $("#myModalBody").html($(myModalBodyHtml));
+        $(document).find('[data-id="' + lowestPricePerKg + '"]').addClass("lowest-price")
+        $('#myModal').modal('show');
+
 
     })
 
-    $('#myModal').modal('show');
 
 })
 
-$(document).on("click", ".buying-details", function() {
-    $("#myModal").modal("show");
-})
+/*
+Settings and Configrations
+*/
+// Shop events
 
 
-function weightadded(res) {
+$(document).on("click", "#button-add-shop", function() {
+    if ($("#" + $(this).data('input')).val() == "") {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
+        msg += '<strong>Error!</strong> Please Input Shop list';
+        msg += '</div>';
+        alert(msg);
+        return;
+    }
+    submitInputData(this);
+});
+
+
+$(document).on("click", ".shop-delete-btn", function() {
+    url = $(this).data("href");
+    if (confirm("Are you sure to delete Shop")) {
+        $.ajax({
+            url: url,
+            type: "get",
+        }).done(function(res) {
+            $(this).parent().parent().parent().parent().remove();
+        }.bind(this));
+    }
+});
+
+$(document).on("click", ".shop-edit-btn", function() {
+    id = $(this).data("id");
+    text = $(this).data("text");
+    input = $(this).data("input");
+    $("#" + input).val(text).data("id", id)
+});
+
+
+// Brand events
+
+
+$(document).on("click", "#button-add-brand", function() {
+    if ($("#" + $(this).data('input')).val() == "") {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
+        msg += '<strong>Error!</strong> Please Input brand list';
+        msg += '</div>';
+        alert(msg);
+        return;
+    }
+    submitInputData(this);
+});
+
+$(document).on("click", ".brand-delete-btn", function() {
+    url = $(this).data("href");
+    if (confirm("Are you sure to delete brand")) {
+        $.ajax({
+            url: url,
+            type: "get",
+
+        }).done(function(res) {
+            $(this).parent().parent().parent().parent().remove();
+        }.bind(this));
+    }
+});
+
+$(document).on("click", ".brand-edit-btn", function() {
+    id = $(this).data("id");
+    text = $(this).data("text");
+    input = $(this).data("input");
+    $("#" + input).val(text).data("id", id)
+});
+/// Functions
+
+function submitInputData(element) {
+    url = $(element).data("href");
+    input = $(element).data("input");
+    $.ajax({
+
+        url: url,
+
+        type: "post",
+
+        data: { "input": $("#" + input).val(), id: $("#" + input).data("id") },
+
+    }).done(function(res) {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-' + res.status + '" id="success-alert">';
+        msg += res.msg;
+        msg += '</div>';
+        $(element).data("id", "");
+        alert(msg);
+
+        $.ajax({
+
+            url: url,
+
+            type: "get",
+
+        }).done(function(res) {
+            $("#content").html("").append(res);
+        });
+
+
+    });
+}
+
+function modalHeadHtml(cols) {
+    myModalHeadHtml = '<tr>';
+    cols.forEach(col => {
+        myModalHeadHtml += '<th scope="col">' + col + '</th>'
+    })
+    myModalHeadHtml += '</tr>';
+    return myModalHeadHtml;
+}
+
+
+function weightAdded(res) {
     msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
     msg += res.msg + '</div>'
@@ -585,7 +789,7 @@ function weightadded(res) {
     alert(msg);
 }
 
-function mealadded(res) {
+function mealAdded(res) {
     msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
     msg += '<strong>Success!</strong> Meal successfully added</div>'

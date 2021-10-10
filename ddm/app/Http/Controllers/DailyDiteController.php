@@ -48,7 +48,6 @@ class DailyDiteController extends Controller
             ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
             ->orderBy("dailydite.created_at", "desc")
             ->get();
-
         $data = array();
         foreach ($result as $row) {
             $data[date($row->created_at)][] = $row;
@@ -74,7 +73,6 @@ class DailyDiteController extends Controller
         return view("monthly_dite_report", compact("data"));
     }
 
-
     public function food_item_report(Request $request)
     {
         $input = $request->all();
@@ -89,8 +87,6 @@ class DailyDiteController extends Controller
             ->get();
         return  response()->json($data);
     }
-
-
 
     public function show_monthly_dite(int $month, Request $request)
     {
@@ -215,9 +211,6 @@ class DailyDiteController extends Controller
 
             }
         }
-
-
-
 
         $data =  DailyDite::select(DB::raw('t.*'))
             ->from(DB::raw('(SELECT * FROM dailydite ORDER BY created_at DESC) t'))

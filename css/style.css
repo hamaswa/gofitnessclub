@@ -33,6 +33,14 @@
     color: #6c757d;
 }
 
+.product-title h5 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: .75rem;
+    border-radius: 5px 0 0 0 !important;
+}
+
 .product-img-gradiant {
     top: 0;
     left: 0;
@@ -109,6 +117,10 @@
 
 .camera-btn {
     margin-bottom: 2px;
+}
+
+.lowest-price {
+    background-color: green;
 }
 
 @media (min-width: 1200px) {

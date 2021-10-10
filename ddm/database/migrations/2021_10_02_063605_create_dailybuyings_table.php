@@ -15,6 +15,8 @@ class CreateDailybuyingsTable extends Migration
     {
         Schema::create('dailybuyings', function (Blueprint $table) {
             $table->increments('id');
+            $table->foreign("shop_id")->nullable();
+            $table->forign("brand_id")->nullable();
             $table->string('name');
             $table->string('qty')->nullable();
             $table->string('price')->nullable();

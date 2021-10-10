@@ -49,14 +49,15 @@
                      @endif
                   </figure>
                </div>             
-               <form action="{{ route("upload_image") }}" method="post" class="dite-image-form" enctype="multipart/form-data">
+               <form action="{{ route("upload_image","meal eat") }}" method="post" class="upload-image-form" enctype="multipart/form-data">
                   <div class="product-actions d-flex justify-content-between px-2 py-1">
                         <a href="#" class="d-inline-block camera-btn">
                            <input type="hidden" name="id" value="{{ $item->id }}" >
-                           <input type="hidden" name="table" value="dailydite" >
-                           <input type="file" name="image" style="display: none" class="dite-image-input">
-                           <img src="{{ asset("images/camera-icon.png") }}" height="16" class="dite-image" alt="Photos" /></a>
-                        <a type="submit" data-text="{{$item->name}} {{ $val }}" class="text-decoration-none text-add-btn">Add</a>
+                           <input type="hidden" name="table" value="eat" >
+                           <input type="file" name="image" style="display: none" class="upload-image-input">
+                           <img src="{{ asset("images/camera-icon.png") }}" height="16" class="upload-image" alt="Photos" /></a>
+                        <a type="submit" data-input="meal-input-box" data-text="{{$item->name}} {{ $val }}" 
+                           class="text-decoration-none text-add-btn">Add</a>
                   </div>
                </form>                 
 
