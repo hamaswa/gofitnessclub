@@ -1,5 +1,5 @@
    <div class="d-flex mb-3">
-       <input type="text" class="form-control me-2" placeholder="Sunrise Mart-Malaysia,Bromley Food Store-Malaysia"
+       <input type="text" class="data-input-box form-control me-2" placeholder="Sunrise Mart-Malaysia,Bromley Food Store-Malaysia"
            aria-label="egg 2, beef 15g" aria-describedby="button-add-shop" id="add-shop-input-box">
 
        <button data-href="{{ route('post_shop_list') }}" data-input="add-shop-input-box"

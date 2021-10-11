@@ -202,7 +202,7 @@ $(document).on("click", ".text-add-btn", function() {
 
 
 
-$(document).on('keypress', "#meal-input-box, #buy-meal-input-box", function(event) {
+$(document).on('keypress', ".data-input-box", function(event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {

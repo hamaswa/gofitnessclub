@@ -1,5 +1,5 @@
    <div class="d-flex mb-3">
-       <input type="text" class="form-control me-2" placeholder="Jimmy Choo,Dutch Lady Milk"
+       <input type="text" class="data-input-box form-control me-2" placeholder="Jimmy Choo,Dutch Lady Milk"
            aria-label="egg 2, beef 15g" aria-describedby="button-add-brand" id="add-brand-input-box">
 
        <button data-href="{{ route('post_brand_list') }}" data-input="add-brand-input-box"

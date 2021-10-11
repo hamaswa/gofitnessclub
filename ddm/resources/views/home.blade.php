@@ -1,6 +1,6 @@
    
    <div class="d-flex mb-3">
-    <input type="text" class="form-control me-2" placeholder="egg 2, beef 15g" aria-label="egg 2, beef 15g" 
+    <input type="text" class="data-input-box form-control me-2" placeholder="egg 2, beef 15g" aria-label="egg 2, beef 15g" 
     aria-describedby="button-add-meal" id="meal-input-box">
     <button class="btn btn-success d-flex align-items-center" type="button" id="button-add-meal">
         <img src="{{ asset("images/right-arrow.png") }}" width="10" class="img-fluid" /></button>
