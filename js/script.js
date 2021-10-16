@@ -488,7 +488,7 @@ $(document).on("click", ".meal_item_history", function(e) {
 
             myModalBodyHtml += '<tr>';
 
-            myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
 
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
 
@@ -542,7 +542,7 @@ $(document).on("click", ".person-weight", function(e) {
 
                 myModalBodyHtml += '<tr>';
 
-                myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+                myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
 
                 myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
 
@@ -644,7 +644,7 @@ $(document).on("click", ".buying-details", function(e) {
             else
                 myModalBodyHtml += '<tr>';
 
-            myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
             myModalBodyHtml += '<td>' + element.weight + 'g</td>';
             myModalBodyHtml += '<td>RM' + element.price + '</td>';

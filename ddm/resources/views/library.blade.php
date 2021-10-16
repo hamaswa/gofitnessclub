@@ -5,10 +5,10 @@
             <li class="library-input border bg-white rounded-top d-flex justify-content-between align-items-center mb-2 p-2">
                 <input type=text class="form-control border-0 me-2" 
                 value="{{ $item->name }} ={{ str_replace("g","",$item->weight) }}g, {{ str_replace("cal/100g","",isset($item->energy)?strtolower($item->energy):0)}} Cal/100g" />
-                <a href="#" data-value="{{ $item->name }} = {{ $item->weight }}, {{ $item->energy}}" 
+                <a href="javascript:void(0)" data-value="{{ $item->name }} = {{ $item->weight }}, {{ $item->energy}}" 
                     id={{ $item->id }}  class="d-none py-0 px-2 btn-edit-item">Save
                 </a>
-                <a href="#" data-value="{{ $item->name }} = {{ $item->weight }}, {{ $item->energy}}" 
+                <a href="javascript:void(0)" data-value="{{ $item->name }} = {{ $item->weight }}, {{ $item->energy}}" 
                     id={{ $item->id }}  class="d-none py-0 px-2 btn-delete-item">Delete
                 </a>
             </li>                      
@@ -24,7 +24,7 @@
      <ul class="list-unstyled">
         <li class="library-input border bg-white rounded-top d-flex justify-content-between align-items-center mb-2 p-2"> 
             <input type=text class="form-control border-0 me-2" placeholder="egg = 60g, 15Cal" />
-           <a href="#" class="d-none py-0 px-2" id='btn-add-item'>Add</a>
+           <a href="javascript:void(0)" class="d-none py-0 px-2" id='btn-add-item'>Add</a>
         </li>
      </ul>   
     

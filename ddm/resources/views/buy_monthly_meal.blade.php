@@ -21,7 +21,8 @@
     <ul class="list-unstyled mb-4">
         @foreach ($data as $key=>$item)
         <div class="d-flex flex-wrap">
-            <button type="button" style="background-color:{{ $css_colors[(int)date("D", strtotime($key))]}}" class="btn btn-success me-2 mb-2">
+            <button type="button" style="background-color:{{ $css_colors[(int)date("D", strtotime($key))]}}" 
+            class="btn btn-success me-2 mb-2">
                 {{ date("d", strtotime($key)) }}
             </button>
             @foreach ($item as $sub_item)       
@@ -30,21 +31,13 @@
                         {{ str_replace("g","",$sub_item->weight)."g" }} 
                     </div>
                     <span class="text-muted font-11">
-                        
-                        {{ (int)str_replace("cal","",$sub_item->cal) * (int)str_replace("g","",$sub_item->weight)/100 ." Cal" }}               
+                        RM{{ str_replace("RM","", $sub_item->price) }} 
                     </span>
-                    @php
-                        if($sub_item->qty !=0 ){
-                            echo '<div class="history-btn-number bg-primary position-absolute text-white">';
-                            $val =  (int) str_replace("g","",$sub_item->qty);
-                            echo $val;
-                            echo '</div>';
-                        } 
-                    @endphp
+                   
                 </button>             
             @endforeach
-            <a href="javascript:void(0)" data-href="{{route("edit_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-edit-food">Edit</a>
-            <a href="javascript:void(0)" data-href="{{route("delete_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-delete-food">Delete</a> 
+            {{-- <a href="javascript:void(0)" data-href="{{route("edit_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-edit-food">Edit</a>
+            <a href="javascript:void(0)" data-href="{{route("delete_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-delete-food">Delete</a>  --}}
          </div>                      
         @endforeach    
     </ul>

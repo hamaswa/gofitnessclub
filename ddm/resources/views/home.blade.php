@@ -23,12 +23,12 @@
                      if($item->image!=null){
                         echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';   
                         echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">' .$val. '</h6>';  
-                        echo '<h2 class="mt-0 mb-1"><a href="#" class="text-decoration-none text-white">'.$item->name.'</a></h2>';
+                        echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" class="text-decoration-none text-white">'.$item->name.'</a></h2>';
 
                      } else 
                      {
                         echo '<div class="position-absolute product-title">';
-                        echo '<h2 class="mt-0 mb-0"><a href="#" class="text-decoration-none text-dark">'.$item->name.'</a></h2>';
+                        echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" class="text-decoration-none text-dark">'.$item->name.'</a></h2>';
                         echo '<h6  class="mb-auto">' .$val. '</h6>';                    
                      }
                      @endphp
@@ -51,7 +51,7 @@
                </div>             
                <form action="{{ route("upload_image","meal eat") }}" method="post" class="upload-image-form" enctype="multipart/form-data">
                   <div class="product-actions d-flex justify-content-between px-2 py-1">
-                        <a href="#" class="d-inline-block camera-btn">
+                        <a href="javascript:void(0)" class="d-inline-block camera-btn">
                            <input type="hidden" name="id" value="{{ $item->id }}" >
                            <input type="hidden" name="table" value="eat" >
                            <input type="file" name="image" style="display: none" class="upload-image-input">

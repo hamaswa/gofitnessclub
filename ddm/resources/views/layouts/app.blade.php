@@ -56,7 +56,7 @@
 
         <div class="container">
 
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,26 +91,26 @@
 
                     <li class="nav-item dropdown dropup">
 
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="#"
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="javascript:void(0)"
                             role="button">History</a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item nav-menu-link" href="#"
+                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ url('/show_monthly_dite') }}">Dining</a></li>
-                            <li><a class="dropdown-item nav-menu-link" href="#"
+                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route("show_monthly_buying") }}">Buying</a></li>
 
                         </ul>
                     </li>
                     <li class="nav-item dropdown dropup">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="#"
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="javascript:void(0)"
                             role="button">Settings</a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item nav-menu-link" href="#"
+                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route('get_shop_list') }}">
                                     Shop List</a></li>
-                            <li><a class="dropdown-item nav-menu-link" href="#"
+                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route('get_brand_list') }}">
                                     Brand List</a></li>
                         </ul>
@@ -141,7 +141,7 @@
 
     <script src="{{ asset('js/jquery-3.6.0.js') }}" type="text/javascript"></script>
 
-    <script src="{{ asset('js/bootstrap.bundle.js') }}" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
     <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
 

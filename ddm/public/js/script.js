@@ -450,8 +450,7 @@ $(document).on("click", ".meal_item_history", function(e) {
 
     e.preventDefault();
 
-    myModalHeadHtml = '<tr><th scope="col">Items</th><th scope="col">g/pcs</th><th scope="col">Counts</th></tr>';
-
+    myModalHeadHtml = modalHeadHtml(['Items', 'g/pcs', 'Counts'])
     $("#myModalHead").html($(myModalHeadHtml));
 
     $.ajax({
@@ -472,7 +471,7 @@ $(document).on("click", ".meal_item_history", function(e) {
 
 
 
-        res.data.forEach(element => {
+        res.data.forEach(function(element) {
 
             if (element.qty != 0) {
 
@@ -488,7 +487,7 @@ $(document).on("click", ".meal_item_history", function(e) {
 
             myModalBodyHtml += '<tr>';
 
-            myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
 
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
 
@@ -538,11 +537,11 @@ $(document).on("click", ".person-weight", function(e) {
 
 
 
-            res.data.forEach(element => {
+            res.data.forEach(function(element) {
 
                 myModalBodyHtml += '<tr>';
 
-                myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+                myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
 
                 myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
 
@@ -569,6 +568,7 @@ $(document).on("submit", ".update-food-form", function(e) {
     e.preventDefault();
     url = $(".update-food-form").data("action");
     formdata = $(this).serializeArray();
+    console.log(formdata);
     $.ajax({
 
         url: url,
@@ -578,7 +578,17 @@ $(document).on("submit", ".update-food-form", function(e) {
         type: "post",
 
     }).done(function(res) {
-        console.log($(this));
+        if (res.status != "error") {
+            item = $(res).attr("id");
+            console.log(item);
+            $("#" + item).html("").append($($(res).html()))
+            msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
+            msg += '<strong>Success!</strong> Successfully Updated';
+            msg += '</div>';
+            alert(msg);
+        }
+        $('#myModal').modal('hide');
+
     }.bind(this));
 })
 
@@ -593,7 +603,6 @@ $(document).on("click", ".edit-item-btn", function(e) {
         type: "get",
 
     }).done(function(res) {
-        console.log(res);
         $("#myModalHead").html("");
         $(".modal-title").text("Update Food Item");
         td = $("<td></td>");
@@ -606,7 +615,7 @@ $(document).on("click", ".edit-item-btn", function(e) {
 
 $(document).on("click", ".buying-details", function(e) {
     e.preventDefault();
-    myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg'])
+    myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg', 'shop', 'brand'])
     $("#myModalHead").html($(myModalHeadHtml));
 
     $.ajax({
@@ -628,7 +637,7 @@ $(document).on("click", ".buying-details", function(e) {
 
 
         lowestPricePerKg = 0;
-        res.data.forEach(element => {
+        res.data.forEach(function(element) {
 
 
             pricePerKg = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
@@ -644,11 +653,13 @@ $(document).on("click", ".buying-details", function(e) {
             else
                 myModalBodyHtml += '<tr>';
 
-            myModalBodyHtml += '<th><a href="#" class="text-decoration-none" data-bs-toggle="modal"';
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
             myModalBodyHtml += '<td>' + element.weight + 'g</td>';
             myModalBodyHtml += '<td>RM' + element.price + '</td>';
             myModalBodyHtml += '<td>RM' + pricePerKg + '</td>';
+            myModalBodyHtml += '<td>' + element.shop_name + '</td>';
+            myModalBodyHtml += '<td>' + element.brand_name + '</td>';
             myModalBodyHtml += '</tr>';
 
 
@@ -658,11 +669,28 @@ $(document).on("click", ".buying-details", function(e) {
         $(".modal-title").text("Meal Item Report");
         $("#myModalBody").html($(myModalBodyHtml));
         $(document).find('[data-id="' + lowestPricePerKg + '"]').addClass("lowest-price")
-        $('#myModal').modal('show');
+        $('#myModal').modal({
+            escapeClose: false,
+            clickClose: false,
+            showClose: false
+        });
 
 
     })
 
+
+})
+
+$(document).on("click", ".delete-card", function(e) {
+    if (confirm("are you sure to delete")) {
+        $.ajax({
+            url: $(this).data('href'),
+            type: "get",
+
+        }).done(function(res) {
+
+        });
+    }
 
 })
 
@@ -773,7 +801,7 @@ function submitInputData(element) {
 
 function modalHeadHtml(cols) {
     myModalHeadHtml = '<tr>';
-    cols.forEach(col => {
+    cols.forEach(function(col) {
         myModalHeadHtml += '<th scope="col">' + col + '</th>'
     })
     myModalHeadHtml += '</tr>';

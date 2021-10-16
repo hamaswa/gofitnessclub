@@ -33,6 +33,7 @@ Route::post("/buying/buy_meal","BuyingController@buy_meal")->name("buy_meal");
 Route::post("/buying/buying-detail","BuyingController@buying_detail")->name("buying_detail");
 Route::get("/buying/edit-item-bought","BuyingController@edit_item_bought")->name("edit_item_bought");
 Route::post("/buying/update-item-bought","BuyingController@update_item_bought")->name("update_item_bought");
+Route::get("/buying/delete-item-bought/{id}","BuyingController@delete_item_bought")->name("delete_item_bought");
 
 Route::get("dailydite/add_dite","DailyDiteController@add_dite")->name("add_dite");
 Route::get("dailydite/delete_dite","DailyDiteController@delete_dite")->name("delete_dite");
@@ -49,7 +50,7 @@ Route::get("dailydite/monthly_dite","DailyDiteController@show_monthly_dite");
 Route::get("dailydite/monthly_dite_report","DailyDiteController@show_monthly_dite_report");
 Route::post("dailydite/user_weight_report","DailyDiteController@user_weight_report")->name("user_weight_report");
 
-Route::post("dailydite/monthly_dite_report/food_item_report","DailyDiteController@food_item_report")->name("food_item_report");
+Route::post("dailydite/food_item_report","DailyDiteController@food_item_report")->name("food_item_report");
 
 // Common Routes
 Route::post("upload_image/{folder}","CommonController@upload_image")->name("upload_image");

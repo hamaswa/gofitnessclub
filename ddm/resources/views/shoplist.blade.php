@@ -16,12 +16,12 @@
                        @php
                            if ($shop->image != null) {
                                echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
-                               echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">RM' . $shop->location  . '</h6>';
+                               echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">' . $shop->location  . '</h6>';
                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $shop->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-white buying-details">' . $shop->name . '</a></h2>';
                            } else {
                                echo '<div class="position-absolute product-title">';
                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $shop->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-dark buying-details">' . $shop->name . '</a></h2>';
-                               echo '<h6  class="mb-auto">RM' . $shop->location . '</h6>';
+                               echo '<h6  class="mb-auto">' . $shop->location . '</h6>';
                            }
                        @endphp
                    </div>
@@ -46,7 +46,7 @@
                <form action="{{ route("upload_image","shop") }}" method="post" class="upload-image-form"
                    enctype="multipart/form-data">
                    <div class="product-actions d-flex justify-content-between px-2 py-1">
-                       <a href="#" class="d-inline-block camera-btn">
+                       <a href="javascript:void(0)" class="d-inline-block camera-btn">
                            <input type="hidden" name="id" value="{{ $shop->id }}">
                            <input type="hidden" name="table" value="prdshp">
                            <input type="file" name="image" style="display: none" class="upload-image-input">

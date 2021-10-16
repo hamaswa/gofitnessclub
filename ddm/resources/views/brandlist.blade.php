@@ -44,7 +44,7 @@
                <form action="{{ route("upload_image","brand") }}" method="post" class="upload-image-form"
                    enctype="multipart/form-data">
                    <div class="product-actions d-flex justify-content-between px-2 py-1">
-                       <a href="#" class="d-inline-block camera-btn">
+                       <a href="javascript:void(0)" class="d-inline-block camera-btn">
                            <input type="hidden" name="id" value="{{ $brand->id }}">
                            <input type="hidden" name="table" value="prdbrd">
                            <input type="file" name="image" style="display: none" class="upload-image-input">

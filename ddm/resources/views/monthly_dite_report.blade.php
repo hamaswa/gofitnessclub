@@ -22,7 +22,7 @@
               <tbody>
                 @foreach ($data['data'] as $key=>$item)
                     <tr>
-                        <th><a href="#" data-item="{{$item->name}}" data-href="{{ route("food_item_report")}}" 
+                        <th><a href="javascript:void(0)" data-item="{{$item->name}}" data-href="{{ route("food_item_report")}}" 
                            class="text-decoration-none meal_item_history">{{$item->name}}</a></th>
                         <td>@php
                            echo  (isset($item->qty) and $item->qty!="")? $item->qty . " pcs": $item->weight."g";

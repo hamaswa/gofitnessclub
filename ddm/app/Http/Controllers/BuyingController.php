@@ -27,8 +27,8 @@ class BuyingController extends Controller
                                     WHERE m2.id IS NULL ORDER BY id asc) t'))
             ->OrderBy('id', 'desc')
             ->paginate(25);
-        if (isset($input['response-type']) and $input['response-type'] === "json") {
-            return response() . json_encode(compact("data"));
+        if (isset($input['response_type']) and $input['response_type'] === "json") {
+            return response()->json(compact("data"));
         } else
             return view("buying", compact("data"));
     }
@@ -52,7 +52,10 @@ class BuyingController extends Controller
             $fooditem = explode(" ", trim($item));
             $newbuy->weight = str_replace("g", "", strtolower($fooditem[count($fooditem)-3]));
             $newbuy->price = str_replace("RM", "", strtoupper($fooditem[count($fooditem)-2]));
-            $newbuy->frequency = $fooditem[count($fooditem)-1];
+            $lastval = $fooditem[count($fooditem)-1];
+            if(is_numeric($lastval) OR strpos($lastval,"x")){
+                $newbuy->frequency = $lastval;
+            } 
             unset($fooditem[count($fooditem)-1]);
             unset($fooditem[count($fooditem)-1]);
             unset($fooditem[count($fooditem)-1]);
@@ -70,7 +73,7 @@ class BuyingController extends Controller
             ->from(DB::raw('(SELECT * FROM dailybuyings ORDER BY created_at DESC) t'))
             ->groupBy('t.name')
             ->get();
-        return redirect()->route("buying-index", compact($data));
+        return redirect()->route("buying-index", compact("data"));
     }
 
 
@@ -85,8 +88,12 @@ class BuyingController extends Controller
         $month = date("m");
         $food_item = $input['food_item'];
         $monthly_buying = new DailyBuying();
-        $data['data'] = $monthly_buying->where("dailybuyings.name", '=', $food_item)
+        $data['data'] = $monthly_buying->selectRaw("dailybuyings.*,ifnull(shops.name,'') as shop_name,
+                                                ifnull(brands.name,'')  as brand_name")
+            ->where("dailybuyings.name", '=', $food_item)
             ->whereMonth('dailybuyings.created_at', $month)
+            ->leftjoin("shops", 'dailybuyings.shop_id', '=', 'shops.id')
+            ->leftjoin("brands", 'dailybuyings.shop_id', '=', 'brands.id')
             ->get();
         return  response()->json($data);
     }
@@ -116,20 +123,44 @@ class BuyingController extends Controller
     {
         try {
             $input = $request->all();
-            $fooditem = DailyBuying::find($input['id']);
+            $item = DailyBuying::find($input['id']);
+            //print_r($fooditem);
             $food_item = explode(" ", trim($input['food-item']));
-            $fooditem->weight = str_replace("g", "", strtolower($food_item[count($food_item)-3]));
-            $fooditem->price = str_replace("RM", "", strtoupper($food_item[count($food_item)-2]));
-            $fooditem->frequency = $food_item[count($food_item)-1];
+            $item->weight = str_replace("g", "", strtolower($food_item[count($food_item)-3]));
+            $item->price = str_replace("RM", "", strtoupper($food_item[count($food_item)-2]));
+            $item->frequency = $food_item[count($food_item)-1];
             unset($food_item[count($food_item)-1]);
             unset($food_item[count($food_item)-1]);
             unset($food_item[count($food_item)-1]);
-            $fooditem->name =   implode(" ", $food_item);
-            $fooditem->shop_id = $input['shop'];
-            $fooditem->brand_id = $input['brand'];
-            $fooditem->save();
+            $item->name =   implode(" ", $food_item);
+            $item->shop_id = $input['shop'];
+            $item->brand_id = $input['brand'];
+            $item->save();
+            if(isset($input['response_type']) and $input['response_type']=="json"){
+                return response()->json(json_encode(json_decode($item)));
+            }
+            else {
+                return view("buying_item_card",compact("item"));
+            }
+            
         } catch (\Throwable $th) {
-            //throw $th;
+            return response()->json(array("status"=>"error","exception"=>$th));
+        }
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @param $id
+     */
+    public function delete_item_bought($id)
+    {
+        try {
+            $item = DailyBuying::where("id", $id)->delete();
+            return response()->json(json_encode(json_decode($item)));
+            
+        } catch (\Throwable $th) {
+            return response()->json(array("status"=>"error","exception"=>$th));
         }
     }
 
@@ -139,7 +170,19 @@ class BuyingController extends Controller
      */
     public function show_monthly_buying(Request $request)
     {
-        return "To Do";
+        $month = date("m");
+        $monthly_buy_dite = new DailyBuying();
+        $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, dailybuyings.weight, 
+             dailybuyings.price")
+            ->whereMonth('dailybuyings.created_at', $month)
+            ->orderBy("dailybuyings.created_at", "desc")
+            ->get();
+            $data = array();
+            foreach ($result as $row) {
+                $data[date('Y-m-d',strtotime($row->created_at))][] = $row;
+            }
+            return view("buy_monthly_meal", compact("data"));
+
     }
 
     /**
