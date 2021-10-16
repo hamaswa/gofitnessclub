@@ -15,7 +15,7 @@ class CreateUserWeightsTable extends Migration
     {
         Schema::create('user_weights', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign("user_id");
+            $table->integer("user_id");
             $table->string("weight");
             $table->timestamps();
         });

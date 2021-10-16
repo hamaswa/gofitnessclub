@@ -1,4 +1,32 @@
-   <div class="d-flex mb-3">
+
+
+    <form id="enterQuantityForm" class="mb-3">
+        <div class="form-row">
+            <div class="form-col">
+                <input type="text" class="form-control" placeholder="Apple">
+            </div>
+            <div class="form-col">
+                <input type="text" class="form-control" placeholder="400g">
+            </div>
+            <div class="form-col">
+                <input type="text" class="form-control" placeholder="PCS">
+            </div>
+            <div class="form-col">
+                <input type="text" class="form-control" placeholder="RM">
+            </div>
+            <div class="form-col">
+                <input type="text" class="form-control" placeholder="Quantity">
+            </div>
+            <div class="form-col">
+                <a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                <a href="#" id="jsRemoveFormRow" class="btn btn-danger"><i class="fas fa-minus"></i></a>
+            </div>
+        </div>
+        <div class="text-end mt-3 px-1">
+            <button class="btn btn-success" type="button"><img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
+        </div>
+    </form>
+   <div class="d-flex mb-3 d-none">
        <input type="text" class="data-input-box form-control me-2" placeholder="chicken 300g RM14.52 2x"
            aria-label="egg 2, beef 15g" aria-describedby="button-buy-meal" id="buy-meal-input-box">
        <button class="btn btn-success d-flex align-items-center" type="button" id="button-buy-meal">

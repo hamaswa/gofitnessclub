@@ -837,3 +837,33 @@ function alert(msg) {
 
     }, 2000);
 }
+
+$(document).on('click','#jsAddFormRow', function (e) {
+  e.preventDefault();
+  var form_row = '<div class="form-row">\n' +
+    '<div class="form-col">\n' +
+    '<input type="text" class="form-control" placeholder="Apple">\n' +
+    '</div>\n' +
+    '<div class="form-col">\n' +
+    '<input type="text" class="form-control" placeholder="400mg">\n' +
+    '</div>\n' +
+    '<div class="form-col">\n' +
+    '<input type="text" class="form-control" placeholder="PCS">\n' +
+    '</div>\n' +
+    '<div class="form-col">\n' +
+    '<input type="text" class="form-control" placeholder="RM">\n' +
+    '</div>\n' +
+    '<div class="form-col">\n' +
+    '<input type="text" class="form-control" placeholder="Quantity">\n' +
+    '</div>\n' +
+    '<div class="form-col">\n' +
+    '<a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>\n' +
+    '<a href="#" id="jsRemoveFormRow" class="btn btn-danger"><i class="fas fa-minus"></i></a>\n' +
+    '</div>\n' +
+    '</div>';
+  $('#enterQuantityForm .form-row:last').after(form_row);
+});
+$(document).on('click', '#jsRemoveFormRow', function (e) {
+  e.preventDefault();
+  $(this).parents('.form-row:not(:first-child)').remove();
+});

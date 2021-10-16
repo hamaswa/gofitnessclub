@@ -17,7 +17,7 @@
     <!-- Fontawesome CSS -->
     <link rel="icon" href="{{ url('css/favicon.png') }}">
 
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -78,14 +78,14 @@
 
                     <li class="nav-item">
 
-                        <a class="nav-link nav-menu-link" aria-current="page" href=""
+                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" aria-current="page" href=""
                             data-href="{{ route('buying-index') }}">Buying</a>
 
                     </li>
 
                     <li class="nav-item">
 
-                        <a class="nav-link nav-menu-link" href="" data-href="{{ url('/library') }}">Library</a>
+                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" href="" data-href="{{ url('/library') }}">Library</a>
 
                     </li>
 
@@ -95,9 +95,9 @@
                             role="button">History</a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
+                            <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ url('/show_monthly_dite') }}">Dining</a></li>
-                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
+                            <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route("show_monthly_buying") }}">Buying</a></li>
 
                         </ul>
@@ -107,10 +107,10 @@
                             role="button">Settings</a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
+                            <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route('get_shop_list') }}">
                                     Shop List</a></li>
-                            <li><a class="dropdown-item nav-menu-link" href="javascript:void(0)"
+                            <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route('get_brand_list') }}">
                                     Brand List</a></li>
                         </ul>
@@ -118,7 +118,7 @@
 
                     <li class="nav-item">
 
-                        <a class="nav-link nav-menu-link" href=""
+                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" href=""
                             data-href="{{ url('/show_monthly_dite_report') }}">Report</a>
 
                     </li>
