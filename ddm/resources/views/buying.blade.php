@@ -1,29 +1,36 @@
 
-
     <form id="enterQuantityForm" class="mb-3">
         <div class="form-row">
             <div class="form-col">
-                <input type="text" class="form-control" placeholder="Apple">
+                <input id="qName" name="qName" type="text" class="form-control" placeholder="Apple">
+                <p>Please enter Name!</p>
             </div>
             <div class="form-col">
-                <input type="text" class="form-control" placeholder="400g">
+                <input id="qWeight" name="qWeight" type="text" class="form-control" placeholder="400g">
+                <p>Please enter weight!</p>
             </div>
             <div class="form-col">
-                <input type="text" class="form-control" placeholder="PCS">
+                <input id="qPCS" name="qPCS" type="text" class="form-control" placeholder="PCS">
+                <p>Please enter PCS!</p>
             </div>
             <div class="form-col">
-                <input type="text" class="form-control" placeholder="RM">
+                <input id="qRM" name="qRM" type="text" class="form-control" placeholder="RM">
+                <p>Please enter RM!</p>
             </div>
             <div class="form-col">
-                <input type="text" class="form-control" placeholder="Quantity">
+                <input id="qQuantity" name="qQuantity" type="text" class="form-control" placeholder="Quantity">
+                <p>Please enter Quantity!</p>
             </div>
             <div class="form-col">
-                <a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>
-                <a href="#" id="jsRemoveFormRow" class="btn btn-danger"><i class="fas fa-minus"></i></a>
+                <div class="button-group">
+                    <a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    <a href="#" id="jsRemoveFormRow" class="btn btn-danger d-none"><i class="fas fa-minus"></i></a>
+                </div>
+
             </div>
         </div>
         <div class="text-end mt-3 px-1">
-            <button class="btn btn-success" type="button"><img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
+            <button id="submitForm" class="btn btn-success" type="submit"><img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
         </div>
     </form>
    <div class="d-flex mb-3 d-none">

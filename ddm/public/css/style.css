@@ -138,7 +138,6 @@ a {
 .lowest-price {
     background-color: green;
 }
-
 .form-row{
     display: flex;
     display: -webkit-box;
@@ -151,14 +150,30 @@ a {
     margin-top: 20px;
 }
 .form-col{
-    display: flex;
     display: -webkit-box;
+    display: flex;
     -webkit-justify-content: flex-start;
     justify-content: flex-start;
-    -webkit-align-items: center;
-    align-items: center;
-    display: flex;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     padding: 0 5px;
+}
+.form-col input{
+    max-width: 202px;
+}
+.form-col .button-group{
+    display: -webkit-box;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
 }
 #enterQuantityForm .btn{
     margin-left: 5px;
@@ -166,6 +181,16 @@ a {
 }
 #enterQuantityForm .btn img{
     margin-top: -5px;
+}
+.form-col p{
+    display: none;
+}
+.form-col.has-error p{
+    display: block;
+    color: red;
+    margin: 0;
+    font-size: 12px;
+    padding: 5px 4px 0;
 }
 @media (max-width: 767px) and (min-width: 320px) {
     .form-row{

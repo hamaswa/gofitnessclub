@@ -840,30 +840,55 @@ function alert(msg) {
 
 $(document).on('click','#jsAddFormRow', function (e) {
   e.preventDefault();
-  var form_row = '<div class="form-row">\n' +
-    '<div class="form-col">\n' +
-    '<input type="text" class="form-control" placeholder="Apple">\n' +
-    '</div>\n' +
-    '<div class="form-col">\n' +
-    '<input type="text" class="form-control" placeholder="400mg">\n' +
-    '</div>\n' +
-    '<div class="form-col">\n' +
-    '<input type="text" class="form-control" placeholder="PCS">\n' +
-    '</div>\n' +
-    '<div class="form-col">\n' +
-    '<input type="text" class="form-control" placeholder="RM">\n' +
-    '</div>\n' +
-    '<div class="form-col">\n' +
-    '<input type="text" class="form-control" placeholder="Quantity">\n' +
-    '</div>\n' +
-    '<div class="form-col">\n' +
-    '<a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>\n' +
-    '<a href="#" id="jsRemoveFormRow" class="btn btn-danger"><i class="fas fa-minus"></i></a>\n' +
-    '</div>\n' +
-    '</div>';
+  var form_row = $(".form-row:first").clone();
+  $(form_row).find("a.btn-danger").removeClass('d-none');
   $('#enterQuantityForm .form-row:last').after(form_row);
 });
 $(document).on('click', '#jsRemoveFormRow', function (e) {
   e.preventDefault();
   $(this).parents('.form-row:not(:first-child)').remove();
 });
+
+$(document).ready( function () {
+    $(document).on('click','#enterQuantityForm #submitForm',function (e) {
+        e.preventDefault();
+        var qName = $('#qName');
+        var qWeight = $('#qWeight');
+        var qPCS = $('#qPCS');
+        var qRM = $('#qRM');
+        var qQuantity = $('#qQuantity');
+        if(qName.val() === ''){
+          qName.parent('.form-col').addClass('has-error');
+        }else{
+          qName.parent('.form-col').removeClass('has-error');
+        }
+        if(qWeight.val() === ''){
+        qWeight.parent('.form-col').addClass('has-error');
+        }else{
+        qWeight.parent('.form-col').removeClass('has-error');
+        }
+        if(qPCS.val() === ''){
+          qPCS.parent('.form-col').addClass('has-error');
+        }else{
+          qPCS.parent('.form-col').removeClass('has-error');
+        }
+        if(qRM.val() === ''){
+        qRM.parent('.form-col').addClass('has-error');
+        }else{
+        qRM.parent('.form-col').removeClass('has-error');
+        }
+        if(qQuantity.val() === ''){
+        qQuantity.parent('.form-col').addClass('has-error');
+        }else{
+        qQuantity.parent('.form-col').removeClass('has-error');
+        }
+    });
+
+    $(document).on('keyup','#enterQuantityForm input',function(){
+        $(this).parent('.form-col').removeClass('has-error');
+    });
+} );
+
+// override jquery validate plugin defaults
+
+
