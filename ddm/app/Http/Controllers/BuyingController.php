@@ -43,6 +43,8 @@ class BuyingController extends Controller
     public function buy_meal(Request $request)
     {
         $input = $request->all();
+        print_r($input);
+        exit();
         $saved = [];
         $rejected = [];
         $itemlist = explode(",", $input['items']);
