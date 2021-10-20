@@ -42,32 +42,25 @@ class BuyingController extends Controller
 
     public function buy_meal(Request $request)
     {
-        $input = $request->all();
-        print_r($input);
-        exit();
-        $saved = [];
-        $rejected = [];
-        $itemlist = explode(",", $input['items']);
+        $inputs = $request->all();
+        $rows = count($inputs['name']);
 
-        foreach ($itemlist as $item) {
-            $newbuy = new  DailyBuying();
-            $fooditem = explode(" ", trim($item));
-            $newbuy->weight = str_replace("g", "", strtolower($fooditem[count($fooditem)-3]));
-            $newbuy->price = str_replace("RM", "", strtoupper($fooditem[count($fooditem)-2]));
-            $lastval = $fooditem[count($fooditem)-1];
-            if(is_numeric($lastval) OR strpos($lastval,"x")){
-                $newbuy->frequency = $lastval;
-            } 
-            unset($fooditem[count($fooditem)-1]);
-            unset($fooditem[count($fooditem)-1]);
-            unset($fooditem[count($fooditem)-1]);
-
-            $newbuy->name =   trim(implode(" ", $fooditem));
-
-            if ($newbuy->save()) {
-                $saved[] = $item;
-            } else {
-                $rejected[] = $item;
+        print_r($inputs['name']);
+        for ($i = 0; $i < $rows; $i++) {
+            if (isset($inputs['name'][$i]) and $inputs['name'][$i] != "") {
+                $newbuy = new  DailyBuying();
+                $newbuy->name =  $inputs['name'][$i];
+                if ($inputs['unit'] == "g")
+                    $newbuy->weight =  $inputs['weight'][$i];
+                else
+                    $newbuy->qty =  $inputs['weight'][$i];
+                $newbuy->price =  $inputs['price'][$i];
+                $newbuy->frequency =  isset($inputs['count'][$i])?$inputs['count'][$i]:0;
+                if ($newbuy->save()) {
+                    $saved[] = $inputs['name'][$i];
+                } else {
+                    $rejected[] = $inputs['name'][$i];
+                }
             }
         }
 
@@ -128,29 +121,27 @@ class BuyingController extends Controller
             $item = DailyBuying::find($input['id']);
             //print_r($fooditem);
             $food_item = explode(" ", trim($input['food-item']));
-            $item->weight = str_replace("g", "", strtolower($food_item[count($food_item)-3]));
-            $item->price = str_replace("RM", "", strtoupper($food_item[count($food_item)-2]));
-            $item->frequency = $food_item[count($food_item)-1];
-            unset($food_item[count($food_item)-1]);
-            unset($food_item[count($food_item)-1]);
-            unset($food_item[count($food_item)-1]);
+            $item->weight = str_replace("g", "", strtolower($food_item[count($food_item) - 3]));
+            $item->price = str_replace("RM", "", strtoupper($food_item[count($food_item) - 2]));
+            $item->frequency = $food_item[count($food_item) - 1];
+            unset($food_item[count($food_item) - 1]);
+            unset($food_item[count($food_item) - 1]);
+            unset($food_item[count($food_item) - 1]);
             $item->name =   implode(" ", $food_item);
             $item->shop_id = $input['shop'];
             $item->brand_id = $input['brand'];
             $item->save();
-            if(isset($input['response_type']) and $input['response_type']=="json"){
+            if (isset($input['response_type']) and $input['response_type'] == "json") {
                 return response()->json(json_encode(json_decode($item)));
+            } else {
+                return view("buying_item_card", compact("item"));
             }
-            else {
-                return view("buying_item_card",compact("item"));
-            }
-            
         } catch (\Throwable $th) {
-            return response()->json(array("status"=>"error","exception"=>$th));
+            return response()->json(array("status" => "error", "exception" => $th));
         }
     }
 
-     /**
+    /**
      * Show the form for creating a new resource.
      *
      * @param $id
@@ -160,9 +151,8 @@ class BuyingController extends Controller
         try {
             $item = DailyBuying::where("id", $id)->delete();
             return response()->json(json_encode(json_decode($item)));
-            
         } catch (\Throwable $th) {
-            return response()->json(array("status"=>"error","exception"=>$th));
+            return response()->json(array("status" => "error", "exception" => $th));
         }
     }
 
@@ -179,12 +169,11 @@ class BuyingController extends Controller
             ->whereMonth('dailybuyings.created_at', $month)
             ->orderBy("dailybuyings.created_at", "desc")
             ->get();
-            $data = array();
-            foreach ($result as $row) {
-                $data[date('Y-m-d',strtotime($row->created_at))][] = $row;
-            }
-            return view("buy_monthly_meal", compact("data"));
-
+        $data = array();
+        foreach ($result as $row) {
+            $data[date('Y-m-d', strtotime($row->created_at))][] = $row;
+        }
+        return view("buy_monthly_meal", compact("data"));
     }
 
     /**

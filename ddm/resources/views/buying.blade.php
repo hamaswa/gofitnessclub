@@ -2,23 +2,27 @@
     <form id="buy_meal_form" class="mb-3">
         <div class="form-row">
             <div class="form-col">
-                <input id="qName" name="name[]" type="text" class="form-control" placeholder="Apple">
+                <input id="qName" name="name[]" type="text" class="form-control" placeholder="Name">
                 <p>Please enter Name!</p>
             </div>
             <div class="form-col">
-                <input id="qWeight" name="weight[]" type="text" class="form-control" placeholder="400g">
+                <input  name="weight" type="text" class="form-control" placeholder="weight/pcs">
                 <p>Please enter weight!</p>
             </div>
             <div class="form-col">
-                <input id="qPCS" name="pcs[]" type="text" class="form-control" placeholder="PCS">
+                <select name="unit[]" class="form-select">
+                    <option value="pcs">Pcs</option>
+                    <option value="g">g</option>
+                </select>
+                {{-- <input id="qPCS" name="pcs[]" type="text" class="form-control" placeholder="PCS"> --}}
                 <p>Please enter PCS!</p>
             </div>
             <div class="form-col">
-                <input id="qRM" name="price[]" type="text" class="form-control" placeholder="RM">
+                <input  name="price[]" type="number" class="form-control" placeholder="Price">
                 <p>Please enter RM!</p>
             </div>
             <div class="form-col">
-                <input id="qQuantity" name="quantity" type="text" class="form-control" placeholder="Quantity">
+                <input  name="count" type="number" class="form-control" placeholder="Quantity">
                 <p>Please enter Quantity!</p>
             </div>
             <div class="form-col">
@@ -30,7 +34,7 @@
             </div>
         </div>
         <div class="text-end mt-3 px-1">
-            <button id="submitForm" class="btn btn-success" type="submit"><img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
+            <button id="submitForm" class="btn btn-success" type="submit">Save <img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
         </div>
     </form>
    <div class="d-flex mb-3 d-none">

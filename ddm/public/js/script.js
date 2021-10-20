@@ -519,7 +519,7 @@ $(document).on("click", ".person-weight", function(e) {
 
 $(document).on('submit','#buy_meal_form',function (e) {
     e.preventDefault();
-    data = $(this).serialize();
+    data = $(this).serializeArray();
    
     $.ajax({
 
@@ -822,6 +822,7 @@ function alert(msg) {
 $(document).on('click','#add_buy_meal_form_row', function (e) {
   e.preventDefault();
   var form_row = $(".form-row:first").clone();
+  $(form_row).find("input").val("");
   $(form_row).find("a.btn-danger").removeClass('d-none');
   $('#buy_meal_form .form-row:last').after(form_row);
 });
