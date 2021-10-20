@@ -842,7 +842,7 @@ $(document).on('click','#jsAddFormRow', function (e) {
   e.preventDefault();
   var form_row = $(".form-row:first").clone();
   $(form_row).find("a.btn-danger").removeClass('d-none');
-  $('#enterQuantityForm .form-row:last').after(form_row);
+  $('#buy_meal_form .form-row:last').after(form_row);
 });
 $(document).on('click', '#jsRemoveFormRow', function (e) {
   e.preventDefault();
@@ -850,7 +850,7 @@ $(document).on('click', '#jsRemoveFormRow', function (e) {
 });
 
 $(document).ready( function () {
-    $(document).on('click','#enterQuantityForm #submitForm',function (e) {
+    $(document).on('click','#buy_meal_form #submitForm',function (e) {
         e.preventDefault();
         var qName = $('#qName');
         var qWeight = $('#qWeight');
@@ -884,7 +884,7 @@ $(document).ready( function () {
         }
     });
 
-    $(document).on('keyup','#enterQuantityForm input',function(){
+    $(document).on('keyup','#buy_meal_form input',function(){
         $(this).parent('.form-col').removeClass('has-error');
     });
 } );

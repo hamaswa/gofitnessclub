@@ -1,5 +1,5 @@
 
-    <form id="enterQuantityForm" class="mb-3">
+    <form id="buy_meal_form" class="mb-3">
         <div class="form-row">
             <div class="form-col">
                 <input id="qName" name="qName" type="text" class="form-control" placeholder="Apple">
