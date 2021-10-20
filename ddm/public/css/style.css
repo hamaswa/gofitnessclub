@@ -175,11 +175,11 @@ a {
     -ms-flex-direction: row;
     flex-direction: row;
 }
-#enterQuantityForm .btn{
+#buy_meal_form .btn{
     margin-left: 5px;
     min-width: 40px;
 }
-#enterQuantityForm .btn img{
+#buy_meal_form .btn img{
     margin-top: -5px;
 }
 .form-col p{
