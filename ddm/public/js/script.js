@@ -867,15 +867,12 @@ $(document).ready( function () {
         }else{
         qWeight.parent('.form-col').removeClass('has-error');
         }
-        if(qPCS.val() === ''){
+        if(qPCS.val() === '' &&  qRM.val() === ''){
           qPCS.parent('.form-col').addClass('has-error');
+          qRM.parent('.form-col').addClass('has-error');
         }else{
           qPCS.parent('.form-col').removeClass('has-error');
-        }
-        if(qRM.val() === ''){
-        qRM.parent('.form-col').addClass('has-error');
-        }else{
-        qRM.parent('.form-col').removeClass('has-error');
+          qRM.parent('.form-col').removeClass('has-error');
         }
         if(qQuantity.val() === ''){
         qQuantity.parent('.form-col').addClass('has-error');
