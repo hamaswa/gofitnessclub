@@ -2,29 +2,29 @@
     <form id="buy_meal_form" class="mb-3">
         <div class="form-row">
             <div class="form-col">
-                <input id="qName" name="qName" type="text" class="form-control" placeholder="Apple">
+                <input id="qName" name="name[]" type="text" class="form-control" placeholder="Apple">
                 <p>Please enter Name!</p>
             </div>
             <div class="form-col">
-                <input id="qWeight" name="qWeight" type="text" class="form-control" placeholder="400g">
+                <input id="qWeight" name="weight[]" type="text" class="form-control" placeholder="400g">
                 <p>Please enter weight!</p>
             </div>
             <div class="form-col">
-                <input id="qPCS" name="qPCS" type="text" class="form-control" placeholder="PCS">
+                <input id="qPCS" name="pcs[]" type="text" class="form-control" placeholder="PCS">
                 <p>Please enter PCS!</p>
             </div>
             <div class="form-col">
-                <input id="qRM" name="qRM" type="text" class="form-control" placeholder="RM">
+                <input id="qRM" name="price[]" type="text" class="form-control" placeholder="RM">
                 <p>Please enter RM!</p>
             </div>
             <div class="form-col">
-                <input id="qQuantity" name="qQuantity" type="text" class="form-control" placeholder="Quantity">
+                <input id="qQuantity" name="quantity" type="text" class="form-control" placeholder="Quantity">
                 <p>Please enter Quantity!</p>
             </div>
             <div class="form-col">
                 <div class="button-group">
-                    <a href="#" id="jsAddFormRow" class="btn btn-success"><i class="fas fa-plus"></i></a>
-                    <a href="#" id="jsRemoveFormRow" class="btn btn-danger d-none"><i class="fas fa-minus"></i></a>
+                    <a href="#" id="add_buy_meal_form_row" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    <a href="#" id="remove_buy_meal_form_row" class="btn btn-danger d-none"><i class="fas fa-minus"></i></a>
                 </div>
 
             </div>

@@ -36,31 +36,6 @@ $(document).on("click", "#button-add-meal", function() {
 });
 
 
-$(document).on("click", "#button-buy-meal", function() {
-
-    $.ajax({
-
-        url: "/api/buying/buy_meal",
-
-        type: "post",
-
-        data: { "items": $("#buy-meal-input-box").val() },
-
-    }).done(function(res) {
-        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
-
-        msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
-
-        $("#content").html("").append(res);
-
-        alert(msg);
-
-
-    });
-
-});
-
-
 
 $(document).on("click", "#button-edit-meal", function() {
 
@@ -115,9 +90,9 @@ $(document).on("click", ".btn-edit-item", function(e) {
 
 });
 
-$(document).on("change blur", ".library-input input", function() {
-    $(this).next("a").trigger("click");
-})
+// $(document).on("change blur", ".library-input input:not(.intro input)", function() {
+//     $(this).next("a").trigger("click");
+// })
 
 $(document).on("click", ".btn-delete-item", function(e) {
 
@@ -174,8 +149,6 @@ $(document).on("click", "#btn-add-item", function(e) {
 
 });
 
-
-
 $(document).on("submit", "#dite-item-default-frm", function(e) {
 
     e.preventDefault();
@@ -183,7 +156,6 @@ $(document).on("submit", "#dite-item-default-frm", function(e) {
 
 
 });
-
 
 
 $(document).on("click", ".text-add-btn", function() {
@@ -198,10 +170,6 @@ $(document).on("click", ".text-add-btn", function() {
 
 });
 
-
-
-
-
 $(document).on('keypress', ".data-input-box", function(event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -213,23 +181,17 @@ $(document).on('keypress', ".data-input-box", function(event) {
 
 });
 
-
-
 $(document).on("click", ".upload-image", function() {
 
     $(this).parent("a").find("input").trigger("click");
 
 });
 
-
-
 $(document).on('change', ".upload-image-input", function() {
 
     $(this).parents("form").trigger("submit");
 
 });
-
-
 
 $(document).on("submit", ".upload-image-form", function(e) {
 
@@ -300,8 +262,6 @@ $(document).on("submit", ".upload-image-form", function(e) {
 
 
 
-
-
 $(".nav-menu-link").on("click", function(e) {
 
     e.preventDefault();
@@ -323,8 +283,6 @@ $(".nav-menu-link").on("click", function(e) {
     })
 
 });
-
-
 
 $(document).on("click", ".btn-edit-food", function() {
 
@@ -358,8 +316,6 @@ $(document).on("click", ".btn-edit-food", function() {
 
 })
 
-
-
 $(document).on("click", ".btn-delete-food", function(e) {
 
     if (confirm("Are you sure to delete Food")) {
@@ -390,8 +346,6 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
 });
 
-
-
 $("#content").on("click", ".ajax-page-load-more", function(e) {
 
     e.preventDefault();
@@ -419,9 +373,6 @@ $("#content").on("click", ".ajax-page-load-more", function(e) {
 
 
 })
-
-
-
 
 
 $("#content").on("click", ".ajax-page-link", function(e) {
@@ -563,7 +514,35 @@ $(document).on("click", ".person-weight", function(e) {
         $('#myModal').modal('show');
 
     })
-    // buying events
+
+// buying events
+
+$(document).on('submit','#buy_meal_form',function (e) {
+    e.preventDefault();
+    data = $(this).serialize();
+   
+    $.ajax({
+
+        url: "/api/buying/buy_meal",
+
+        type: "post",
+
+        data: data ,
+
+    }).done(function(res) {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
+
+        msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
+
+        $("#content").html("").append(res);
+
+        alert(msg);
+
+
+    });
+
+});
+
 $(document).on("submit", ".update-food-form", function(e) {
     e.preventDefault();
     url = $(".update-food-form").data("action");
@@ -693,6 +672,8 @@ $(document).on("click", ".delete-card", function(e) {
     }
 
 })
+
+
 
 /*
 Settings and Configrations
@@ -838,7 +819,7 @@ function alert(msg) {
     }, 2000);
 }
 
-$(document).on('click','#jsAddFormRow', function (e) {
+$(document).on('click','#add_buy_meal_form_row', function (e) {
   e.preventDefault();
   var form_row = $(".form-row:first").clone();
   $(form_row).find("a.btn-danger").removeClass('d-none');
@@ -849,42 +830,45 @@ $(document).on('click', '#jsRemoveFormRow', function (e) {
   $(this).parents('.form-row:not(:first-child)').remove();
 });
 
-$(document).ready( function () {
-    $(document).on('click','#buy_meal_form #submitForm',function (e) {
-        e.preventDefault();
-        var qName = $('#qName');
-        var qWeight = $('#qWeight');
-        var qPCS = $('#qPCS');
-        var qRM = $('#qRM');
-        var qQuantity = $('#qQuantity');
-        if(qName.val() === ''){
-          qName.parent('.form-col').addClass('has-error');
-        }else{
-          qName.parent('.form-col').removeClass('has-error');
-        }
-        if(qWeight.val() === ''){
-        qWeight.parent('.form-col').addClass('has-error');
-        }else{
-        qWeight.parent('.form-col').removeClass('has-error');
-        }
-        if(qPCS.val() === '' &&  qRM.val() === ''){
-          qPCS.parent('.form-col').addClass('has-error');
-          qRM.parent('.form-col').addClass('has-error');
-        }else{
-          qPCS.parent('.form-col').removeClass('has-error');
-          qRM.parent('.form-col').removeClass('has-error');
-        }
-        if(qQuantity.val() === ''){
-        qQuantity.parent('.form-col').addClass('has-error');
-        }else{
-        qQuantity.parent('.form-col').removeClass('has-error');
-        }
-    });
+// $(document).ready( function () {
+//     $(document).on('click','#enterQuantityForm #submitForm',function (e) {
+//         e.preventDefault();
+//         var qName = $('#qName');
+//         var qWeight = $('#qWeight');
+//         var qPCS = $('#qPCS');
+//         var qRM = $('#qRM');
+//         var qQuantity = $('#qQuantity');
+//         if(qName.val() === ''){
+//           qName.parent('.form-col').addClass('has-error');
+//         }else{
+//           qName.parent('.form-col').removeClass('has-error');
+//         }
+//         if(qWeight.val() === ''){
+//         qWeight.parent('.form-col').addClass('has-error');
+//         }else{
+//         qWeight.parent('.form-col').removeClass('has-error');
+//         }
+//         if(qPCS.val() === ''){
+//           qPCS.parent('.form-col').addClass('has-error');
+//         }else{
+//           qPCS.parent('.form-col').removeClass('has-error');
+//         }
+//         if(qRM.val() === ''){
+//         qRM.parent('.form-col').addClass('has-error');
+//         }else{
+//         qRM.parent('.form-col').removeClass('has-error');
+//         }
+//         if(qQuantity.val() === ''){
+//         qQuantity.parent('.form-col').addClass('has-error');
+//         }else{
+//         qQuantity.parent('.form-col').removeClass('has-error');
+//         }
+//     });
 
-    $(document).on('keyup','#buy_meal_form input',function(){
-        $(this).parent('.form-col').removeClass('has-error');
-    });
-} );
+//     $(document).on('keyup','#enterQuantityForm input',function(){
+//         $(this).parent('.form-col').removeClass('has-error');
+//     });
+// } );
 
 // override jquery validate plugin defaults
 
