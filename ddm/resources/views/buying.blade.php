@@ -22,7 +22,7 @@
                 <p>Please enter RM!</p>
             </div>
             <div class="form-col">
-                <input  name="count" type="number" class="form-control" placeholder="Quantity">
+                <input  name="count" type="number" class="form-control quantity" placeholder="Quantity">
                 <p>Please enter Quantity!</p>
             </div>
             <div class="form-col">

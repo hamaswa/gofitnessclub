@@ -831,45 +831,20 @@ $(document).on('click', '#jsRemoveFormRow', function (e) {
   $(this).parents('.form-row:not(:first-child)').remove();
 });
 
-// $(document).ready( function () {
-//     $(document).on('click','#enterQuantityForm #submitForm',function (e) {
-//         e.preventDefault();
-//         var qName = $('#qName');
-//         var qWeight = $('#qWeight');
-//         var qPCS = $('#qPCS');
-//         var qRM = $('#qRM');
-//         var qQuantity = $('#qQuantity');
-//         if(qName.val() === ''){
-//           qName.parent('.form-col').addClass('has-error');
-//         }else{
-//           qName.parent('.form-col').removeClass('has-error');
-//         }
-//         if(qWeight.val() === ''){
-//         qWeight.parent('.form-col').addClass('has-error');
-//         }else{
-//         qWeight.parent('.form-col').removeClass('has-error');
-//         }
-//         if(qPCS.val() === ''){
-//           qPCS.parent('.form-col').addClass('has-error');
-//         }else{
-//           qPCS.parent('.form-col').removeClass('has-error');
-//         }
-//         if(qRM.val() === ''){
-//         qRM.parent('.form-col').addClass('has-error');
-//         }else{
-//         qRM.parent('.form-col').removeClass('has-error');
-//         }
-//         if(qQuantity.val() === ''){
-//         qQuantity.parent('.form-col').addClass('has-error');
-//         }else{
-//         qQuantity.parent('.form-col').removeClass('has-error');
-//         }
-//     });
+$(document).ready( function () {
+    $(document).on('click','#buy_meal_form #submitForm',function (e) {
+        e.preventDefault();
+      $('#buy_meal_form input').not('.quantity').filter(function() {
+        if( !$(this).val() ) {
+          $(this).parents('.form-col').addClass('has-error');
+        }
+      });
+    });
 
-//     $(document).on('keyup','#enterQuantityForm input',function(){
-//         $(this).parent('.form-col').removeClass('has-error');
-//     });
-// } );
+    $(document).on('keyup','#buy_meal_form input',function(){
+        $(this).parent('.form-col').removeClass('has-error');
+    });
+} );
 
 // override jquery validate plugin defaults
 
