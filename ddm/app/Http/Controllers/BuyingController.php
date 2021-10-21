@@ -45,7 +45,6 @@ class BuyingController extends Controller
         $inputs = $request->all();
         $rows = count($inputs['name']);
 
-        print_r($inputs['name']);
         for ($i = 0; $i < $rows; $i++) {
             if (isset($inputs['name'][$i]) and $inputs['name'][$i] != "") {
                 $newbuy = new  DailyBuying();
@@ -55,11 +54,19 @@ class BuyingController extends Controller
                 else
                     $newbuy->qty =  $inputs['weight'][$i];
                 $newbuy->price =  $inputs['price'][$i];
-                $newbuy->frequency =  isset($inputs['count'][$i])?$inputs['count'][$i]:0;
+                $newbuy->frequency =  isset($inputs['count'][$i]) ? $inputs['count'][$i] : 0;
                 if ($newbuy->save()) {
                     $saved[] = $inputs['name'][$i];
                 } else {
                     $rejected[] = $inputs['name'][$i];
+                }
+                $new_food_item = new Dite();
+                $row = $new_food_item->where("name", $inputs['name'][$i])->first();
+
+                if (!isset($row)) {
+                    $new_food_item->name = $newbuy->name;
+                    $new_food_item->weight = $inputs['unit'] == "g" ? $newbuy->weight : 0;
+                    $new_food_item->save();
                 }
             }
         }
@@ -68,6 +75,8 @@ class BuyingController extends Controller
             ->from(DB::raw('(SELECT * FROM dailybuyings ORDER BY created_at DESC) t'))
             ->groupBy('t.name')
             ->get();
+
+
         return redirect()->route("buying-index", compact("data"));
     }
 

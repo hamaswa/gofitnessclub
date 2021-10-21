@@ -84,18 +84,19 @@
 
                     <li class="nav-item">
 
-                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" href="" data-href="{{ url('/library') }}">Library</a>
+                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" 
+                        class="nav-link nav-menu-link" href="" data-href="{{ route('library') }}">Library</a>
 
                     </li>
 
                     <li class="nav-item dropdown dropup">
 
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="javascript:void(0)"
-                            role="button">History</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" 
+                        href="javascript:void(0)" role="button">History</a>
 
                         <ul class="dropdown-menu">
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
-                                    data-href="{{ url('/show_monthly_dite') }}">Dining</a></li>
+                                    data-href="{{ route('monthly_dite') }}">Dining</a></li>
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
                                     data-href="{{ route("show_monthly_buying") }}">Buying</a></li>
 
@@ -118,7 +119,7 @@
                     <li class="nav-item">
 
                         <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" href=""
-                            data-href="{{ url('/show_monthly_dite_report') }}">Report</a>
+                            data-href="{{ route('monthly_dite_report') }}">Report</a>
 
                     </li>
 

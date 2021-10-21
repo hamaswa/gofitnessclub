@@ -35,22 +35,24 @@ Route::get("/buying/edit-item-bought","BuyingController@edit_item_bought")->name
 Route::post("/buying/update-item-bought","BuyingController@update_item_bought")->name("update_item_bought");
 Route::get("/buying/delete-item-bought/{id}","BuyingController@delete_item_bought")->name("delete_item_bought");
 
+Route::get('/library', "DailyDiteController@library")->name("library");
 Route::get("dailydite/add_dite","DailyDiteController@add_dite")->name("add_dite");
 Route::get("dailydite/delete_dite","DailyDiteController@delete_dite")->name("delete_dite");
 Route::get("dailydite/edit_dite","DailyDiteController@edit_dite")->name("edit_dite");
 Route::post("dailydite/update_dite","DailyDiteController@update_dite")->name("update_dite");
 Route::get("dailydite/edit","DailyDiteController@edit");
 Route::post("dailydite/add_dite","DailyDiteController@add_dite");
-Route::post("dailydite/monthly_dite","DailyDiteController@show_monthly_dite");
 Route::post("dailydite/dite_defaults","DailyDiteController@add_dite_defaults")->name("dite_defaults");
 Route::post("dailydite/delete_food_item","DailyDiteController@delete_food_item")->name("delete_food_item");
 
 
-Route::get("dailydite/monthly_dite","DailyDiteController@show_monthly_dite");
-Route::get("dailydite/monthly_dite_report","DailyDiteController@show_monthly_dite_report");
+
 Route::post("dailydite/user_weight_report","DailyDiteController@user_weight_report")->name("user_weight_report");
 
 Route::post("dailydite/food_item_report","DailyDiteController@food_item_report")->name("food_item_report");
 
 // Common Routes
 Route::post("upload_image/{folder}","CommonController@upload_image")->name("upload_image");
+Route::get("reports/monthly_dite","CommonController@monthly_dite")->name("monthly_dite");
+Route::get("reports/monthly_dite_report","CommonController@monthly_dite_report")->name("monthly_dite_report");
+

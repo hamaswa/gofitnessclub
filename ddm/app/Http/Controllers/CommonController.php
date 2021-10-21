@@ -7,6 +7,7 @@ use App\Models\DailyBuying;
 use App\Models\DailyDite;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CommonController extends Controller
 {
@@ -56,5 +57,40 @@ class CommonController extends Controller
             $class = ($width / $height) < 1.2 ? "img-full-width" : "img-full-height";
         }
         return response()->json(array("image" => $obj->image, "class" => $class));
+    }
+
+    public function monthly_dite_report()
+    {
+        $month = date("m");
+        $monthly_dite = new DailyDite();
+        $data['data'] = $monthly_dite->selectRaw("dailydite.name, count(dailydite.name) as count,sum(dailydite.qty) as qty, 
+                                          sum(dailydite.weight) as weight, dite.energy as cal")
+            ->whereMonth('dailydite.created_at', $month)
+            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
+            ->groupBy("dailydite.name")
+            ->get();
+        $data['meals'] = $monthly_dite->selectRaw("created_at")->whereMonth("created_at", $month)->groupBy('created_at')->get();
+        $data['weight'] =  DB::table('user_weights')->latest('created_at')->first();
+
+
+        return view("monthly_dite_report", compact("data"));
+    }
+
+    public function monthly_dite()
+    {
+        $month = date("m");
+        $monthly_dite = new DailyDite();
+        $result = $monthly_dite->selectRaw("dailydite.name,dailydite.created_at, dailydite.qty as qty, 
+        dailydite.weight as weight, dite.energy as cal")
+            ->whereMonth('dailydite.created_at', $month)
+            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
+            ->orderBy("dailydite.created_at", "desc")
+            ->get();
+        $data = array();
+        foreach ($result as $row) {
+            $data[date($row->created_at)][] = $row;
+        }
+
+        return view("monthly_dite", compact("data"));
     }
 }

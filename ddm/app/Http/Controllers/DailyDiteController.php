@@ -38,40 +38,7 @@ class DailyDiteController extends Controller
         return view("library", compact("data"));
     }
 
-    public function monthly_dite()
-    {
-        $month = date("m");
-        $monthly_dite = new DailyDite();
-        $result = $monthly_dite->selectRaw("dailydite.name,dailydite.created_at, dailydite.qty as qty, 
-        dailydite.weight as weight, dite.energy as cal")
-            ->whereMonth('dailydite.created_at', $month)
-            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
-            ->orderBy("dailydite.created_at", "desc")
-            ->get();
-        $data = array();
-        foreach ($result as $row) {
-            $data[date($row->created_at)][] = $row;
-        }
-
-        return view("monthly_dite", compact("data"));
-    }
-
-    public function monthly_dite_report()
-    {
-        $month = date("m");
-        $monthly_dite = new DailyDite();
-        $data['data'] = $monthly_dite->selectRaw("dailydite.name, count(dailydite.name) as count,sum(dailydite.qty) as qty, 
-                                          sum(dailydite.weight) as weight, dite.energy as cal")
-            ->whereMonth('dailydite.created_at', $month)
-            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
-            ->groupBy("dailydite.name")
-            ->get();
-        $data['meals'] = $monthly_dite->selectRaw("created_at")->whereMonth("created_at", $month)->groupBy('created_at')->get();
-        $data['weight'] =  DB::table('user_weights')->latest('created_at')->first();
-
-
-        return view("monthly_dite_report", compact("data"));
-    }
+   
 
     public function food_item_report(Request $request)
     {
@@ -88,30 +55,6 @@ class DailyDiteController extends Controller
         return  response()->json($data);
     }
 
-    public function show_monthly_dite(int $month, Request $request)
-    {
-        $input = $request->all();
-        //$month = $input['month'];
-        $monthly_dite = new DailyDite();
-        $data = $monthly_dite->whereMonth('created_at', $month)->orderBy("created_at", "asc")->get();
-        $response_data = array();
-        foreach ($data as $row) {
-            $templateData[date("Y-m-d", strtotime($row->created_at))][] = $row;
-        }
-        return response()->json(compact("templateData"));
-    }
-
-    public function show_monthly_dite_report(int $month, Request $request)
-    {
-        $input = $request->all();
-        //$month = $input['month'];
-        $monthly_dite = new DailyDite();
-        $data = $monthly_dite->selectRaw("name,sum(qty) as qty,sum(weight) as weight")
-            ->whereMonth('created_at', $month)
-            ->groupBy("name")
-            ->get();
-        return response()->json(compact("data"));
-    }
 
     /**
      * Show the form for creating a new resource.

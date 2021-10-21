@@ -1,3 +1,5 @@
+var form_row = "";
+
 $("document").ready(function() {
 
     $.ajax({
@@ -279,6 +281,8 @@ $(".nav-menu-link").on("click", function(e) {
     }).done(function(res) {
 
         $("#content").html("").append(res);
+        form_row = $(".form-row:first").clone();
+
 
     })
 
@@ -388,6 +392,7 @@ $("#content").on("click", ".ajax-page-link", function(e) {
     }).done(function(res) {
 
         $("#content").html("").append(res);
+
 
     })
 
@@ -819,14 +824,14 @@ function alert(msg) {
     }, 2000);
 }
 
-$(document).on('click','#add_buy_meal_form_row', function (e) {
-  e.preventDefault();
-  var form_row = $(".form-row:first").clone();
-  $(form_row).find("input").val("");
-  $(form_row).find("a.btn-danger").removeClass('d-none');
-  $('#buy_meal_form .form-row:last').after(form_row);
+$(document).on('click','.add_buy_meal_form_row', function (e) {
+  e.preventDefault();  
+  var _form_row = $(form_row).clone();
+  $(_form_row).find("a.btn-danger").removeClass('d-none');
+  $('#buy_meal_form .text-end').before(_form_row);
 });
-$(document).on('click', '#jsRemoveFormRow', function (e) {
+
+$(document).on('click', '.remove_buy_meal_form_row', function (e) {
   e.preventDefault();
   $(this).parents('.form-row:not(:first-child)').remove();
 });

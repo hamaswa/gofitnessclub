@@ -27,8 +27,8 @@
             </div>
             <div class="form-col">
                 <div class="button-group">
-                    <a href="#" id="add_buy_meal_form_row" class="btn btn-success"><i class="fas fa-plus"></i></a>
-                    <a href="#" id="remove_buy_meal_form_row" class="btn btn-danger d-none"><i class="fas fa-minus"></i></a>
+                    <a href="#"  class="btn btn-success add_buy_meal_form_row"><i class="fas fa-plus"></i></a>
+                    <a href="#"  class="btn btn-danger d-none remove_buy_meal_form_row"><i class="fas fa-minus"></i></a>
                 </div>
 
             </div>
