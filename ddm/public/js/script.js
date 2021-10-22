@@ -1,6 +1,6 @@
 var form_row = "";
 
-$("document").ready(function() {
+$("document").ready(function () {
 
     $.ajax({
 
@@ -8,7 +8,7 @@ $("document").ready(function() {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         $("#content").html("").append(res);
 
@@ -16,7 +16,7 @@ $("document").ready(function() {
 
 })
 
-$(document).on("click", "#button-add-meal", function() {
+$(document).on("click", "#button-add-meal", function () {
 
     $.ajax({
 
@@ -26,8 +26,8 @@ $(document).on("click", "#button-add-meal", function() {
 
         data: { "dite": $("#meal-input-box").val() },
 
-    }).done(function(res) {
-        if (typeof(res.weight) != 'undefined') {
+    }).done(function (res) {
+        if (typeof (res.weight) != 'undefined') {
             weightAdded(res);
         } else {
             mealAdded(res);
@@ -39,7 +39,7 @@ $(document).on("click", "#button-add-meal", function() {
 
 
 
-$(document).on("click", "#button-edit-meal", function() {
+$(document).on("click", "#button-edit-meal", function () {
 
     if (confirm("Are you sure to update meal")) {
         $.ajax({
@@ -50,7 +50,7 @@ $(document).on("click", "#button-edit-meal", function() {
 
             data: { "created_at": $("#created_at").val(), "dite": $("#meal-edit-input-box").val() },
 
-        }).done(function(res) {
+        }).done(function (res) {
 
             msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -68,7 +68,7 @@ $(document).on("click", "#button-edit-meal", function() {
 
 
 
-$(document).on("click", ".btn-edit-item", function(e) {
+$(document).on("click", ".btn-edit-item", function (e) {
 
     e.preventDefault();
 
@@ -80,7 +80,7 @@ $(document).on("click", ".btn-edit-item", function(e) {
 
         data: { id: $(this).attr("id"), defaults: $(this).prev("input").val() },
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -96,7 +96,7 @@ $(document).on("click", ".btn-edit-item", function(e) {
 //     $(this).next("a").trigger("click");
 // })
 
-$(document).on("click", ".btn-delete-item", function(e) {
+$(document).on("click", ".btn-delete-item", function (e) {
 
     e.preventDefault();
     $.ajax({
@@ -107,7 +107,7 @@ $(document).on("click", ".btn-delete-item", function(e) {
 
         data: { id: $(this).attr("id") },
 
-    }).done(function(res) {
+    }).done(function (res) {
         $(this).parent("li").remove();
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -122,7 +122,7 @@ $(document).on("click", ".btn-delete-item", function(e) {
 
 
 
-$(document).on("click", "#btn-add-item", function(e) {
+$(document).on("click", "#btn-add-item", function (e) {
 
     e.preventDefault();
 
@@ -134,7 +134,7 @@ $(document).on("click", "#btn-add-item", function(e) {
 
         data: { defaults: $(this).prev("input").val() },
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -151,7 +151,7 @@ $(document).on("click", "#btn-add-item", function(e) {
 
 });
 
-$(document).on("submit", "#dite-item-default-frm", function(e) {
+$(document).on("submit", "#dite-item-default-frm", function (e) {
 
     e.preventDefault();
 
@@ -160,7 +160,7 @@ $(document).on("submit", "#dite-item-default-frm", function(e) {
 });
 
 
-$(document).on("click", ".text-add-btn", function() {
+$(document).on("click", ".text-add-btn", function () {
     input = $(this).data('input');
     val = $("#" + input).val();
     if (val != "") {
@@ -172,7 +172,7 @@ $(document).on("click", ".text-add-btn", function() {
 
 });
 
-$(document).on('keypress', ".data-input-box", function(event) {
+$(document).on('keypress', ".data-input-box", function (event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
@@ -183,19 +183,19 @@ $(document).on('keypress', ".data-input-box", function(event) {
 
 });
 
-$(document).on("click", ".upload-image", function() {
+$(document).on("click", ".upload-image", function () {
 
     $(this).parent("a").find("input").trigger("click");
 
 });
 
-$(document).on('change', ".upload-image-input", function() {
+$(document).on('change', ".upload-image-input", function () {
 
     $(this).parents("form").trigger("submit");
 
 });
 
-$(document).on("submit", ".upload-image-form", function(e) {
+$(document).on("submit", ".upload-image-form", function (e) {
 
     e.preventDefault();
 
@@ -219,7 +219,7 @@ $(document).on("submit", ".upload-image-form", function(e) {
 
             processData: false,
 
-            success: function(response) {
+            success: function (response) {
 
                 fooditem = $("#image-container-" + id).parent("div").find("div"); //.closest("div").find("div");
 
@@ -264,7 +264,7 @@ $(document).on("submit", ".upload-image-form", function(e) {
 
 
 
-$(".nav-menu-link").on("click", function(e) {
+$(".nav-menu-link").on("click", function (e) {
 
     e.preventDefault();
 
@@ -278,7 +278,7 @@ $(".nav-menu-link").on("click", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         $("#content").html("").append(res);
         form_row = $(".form-row:first").clone();
@@ -288,7 +288,7 @@ $(".nav-menu-link").on("click", function(e) {
 
 });
 
-$(document).on("click", ".btn-edit-food", function() {
+$(document).on("click", ".btn-edit-food", function () {
 
     $.ajax({
 
@@ -298,7 +298,7 @@ $(document).on("click", ".btn-edit-food", function() {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         res = JSON.parse(res);
 
@@ -320,7 +320,7 @@ $(document).on("click", ".btn-edit-food", function() {
 
 })
 
-$(document).on("click", ".btn-delete-food", function(e) {
+$(document).on("click", ".btn-delete-food", function (e) {
 
     if (confirm("Are you sure to delete Food")) {
 
@@ -332,7 +332,7 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
 
             $(this).parent("div").remove();
 
@@ -350,7 +350,7 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
 });
 
-$("#content").on("click", ".ajax-page-load-more", function(e) {
+$("#content").on("click", ".ajax-page-load-more", function (e) {
 
     e.preventDefault();
 
@@ -360,7 +360,7 @@ $("#content").on("click", ".ajax-page-load-more", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         html = $(res).filter(".recent-meals");
 
@@ -379,7 +379,7 @@ $("#content").on("click", ".ajax-page-load-more", function(e) {
 })
 
 
-$("#content").on("click", ".ajax-page-link", function(e) {
+$("#content").on("click", ".ajax-page-link", function (e) {
 
     e.preventDefault();
 
@@ -389,7 +389,7 @@ $("#content").on("click", ".ajax-page-link", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         $("#content").html("").append(res);
 
@@ -402,7 +402,7 @@ $("#content").on("click", ".ajax-page-link", function(e) {
 
 
 
-$(document).on("click", ".meal_item_history", function(e) {
+$(document).on("click", ".meal_item_history", function (e) {
 
     e.preventDefault();
 
@@ -421,13 +421,13 @@ $(document).on("click", ".meal_item_history", function(e) {
 
         type: "post",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         myModalBodyHtml = '';
 
 
 
-        res.data.forEach(function(element) {
+        res.data.forEach(function (element) {
 
             if (element.qty != 0) {
 
@@ -466,75 +466,84 @@ $(document).on("click", ".meal_item_history", function(e) {
 
 });
 
-$(document).on("mouseleave", ".library-input", function() {
+$(document).on("mouseleave", ".library-input", function () {
     $(this).find("a").addClass("d-none");
 })
 
-$(document).on("mouseenter", ".library-input", function() {
+$(document).on("mouseenter", ".library-input", function () {
     $(this).find("a").removeClass("d-none");
 })
 
-$(document).on("click", ".person-weight", function(e) {
-        e.preventDefault();
-        myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
-        myModalHeadHtml = modalHeadHtml(['Date', 'Weight'])
+$(document).on("click", ".person-weight", function (e) {
+    e.preventDefault();
+    myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
+    myModalHeadHtml = modalHeadHtml(['Date', 'Weight'])
 
-        $("#myModalHead").html($(myModalHeadHtml));
+    $("#myModalHead").html($(myModalHeadHtml));
 
-        $.ajax({
+    $.ajax({
 
-            url: $(this).data('href'),
+        url: $(this).data('href'),
 
-            type: "post",
+        type: "post",
 
-        }).done(function(res) {
+    }).done(function (res) {
 
-            myModalBodyHtml = '';
-
-
-
-            res.data.forEach(function(element) {
-
-                myModalBodyHtml += '<tr>';
-
-                myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
-
-                myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
-
-                myModalBodyHtml += '<td>' + element.weight + '</td>';
-
-                myModalBodyHtml += '</tr>';
+        myModalBodyHtml = '';
 
 
 
-            });
+        res.data.forEach(function (element) {
+
+            myModalBodyHtml += '<tr>';
+
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
+
+            myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
+
+            myModalBodyHtml += '<td>' + element.weight + '</td>';
+
+            myModalBodyHtml += '</tr>';
 
 
-            $(".modal-title").text("User Weight Report")
 
-            $("#myModalBody").html($(myModalBodyHtml));
+        });
 
-        })
 
-        $('#myModal').modal('show');
+        $(".modal-title").text("User Weight Report")
+
+        $("#myModalBody").html($(myModalBodyHtml));
 
     })
 
+    $('#myModal').modal('show');
+
+})
+
 // buying events
 
-$(document).on('submit','#buy_meal_form',function (e) {
+$(document).on('submit', '#buy_meal_form', function (e) {
     e.preventDefault();
+    var validated = true;
+    $('#buy_meal_form input').not('.quantity').filter(function() {
+        if( !$(this).val() ) {
+          $(this).parents('.form-col').addClass('has-error');
+          validated=false;
+        }
+      });
+    if(!validated)
+     return;
     data = $(this).serializeArray();
-   
+
     $.ajax({
 
         url: "/api/buying/buy_meal",
 
         type: "post",
 
-        data: data ,
+        data: data,
 
-    }).done(function(res) {
+    }).done(function (res) {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
         msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
@@ -548,7 +557,7 @@ $(document).on('submit','#buy_meal_form',function (e) {
 
 });
 
-$(document).on("submit", ".update-food-form", function(e) {
+$(document).on("submit", ".update-food-form", function (e) {
     e.preventDefault();
     url = $(".update-food-form").data("action");
     formdata = $(this).serializeArray();
@@ -561,7 +570,7 @@ $(document).on("submit", ".update-food-form", function(e) {
 
         type: "post",
 
-    }).done(function(res) {
+    }).done(function (res) {
         if (res.status != "error") {
             item = $(res).attr("id");
             console.log(item);
@@ -576,7 +585,7 @@ $(document).on("submit", ".update-food-form", function(e) {
     }.bind(this));
 })
 
-$(document).on("click", ".edit-item-btn", function(e) {
+$(document).on("click", ".edit-item-btn", function (e) {
     e.preventDefault();
     $.ajax({
 
@@ -586,7 +595,7 @@ $(document).on("click", ".edit-item-btn", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
         $("#myModalHead").html("");
         $(".modal-title").text("Update Food Item");
         td = $("<td></td>");
@@ -597,7 +606,7 @@ $(document).on("click", ".edit-item-btn", function(e) {
     }.bind(this));
 })
 
-$(document).on("click", ".buying-details", function(e) {
+$(document).on("click", ".buying-details", function (e) {
     e.preventDefault();
     myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg', 'shop', 'brand'])
     $("#myModalHead").html($(myModalHeadHtml));
@@ -614,14 +623,14 @@ $(document).on("click", ".buying-details", function(e) {
 
         type: "post",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         myModalBodyHtml = '';
 
 
 
         lowestPricePerKg = 0;
-        res.data.forEach(function(element) {
+        res.data.forEach(function (element) {
 
 
             pricePerKg = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
@@ -665,13 +674,13 @@ $(document).on("click", ".buying-details", function(e) {
 
 })
 
-$(document).on("click", ".delete-card", function(e) {
+$(document).on("click", ".delete-card", function (e) {
     if (confirm("are you sure to delete")) {
         $.ajax({
             url: $(this).data('href'),
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
 
         });
     }
@@ -686,7 +695,7 @@ Settings and Configrations
 // Shop events
 
 
-$(document).on("click", "#button-add-shop", function() {
+$(document).on("click", "#button-add-shop", function () {
     if ($("#" + $(this).data('input')).val() == "") {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
         msg += '<strong>Error!</strong> Please Input Shop list';
@@ -698,19 +707,19 @@ $(document).on("click", "#button-add-shop", function() {
 });
 
 
-$(document).on("click", ".shop-delete-btn", function() {
+$(document).on("click", ".shop-delete-btn", function () {
     url = $(this).data("href");
     if (confirm("Are you sure to delete Shop")) {
         $.ajax({
             url: url,
             type: "get",
-        }).done(function(res) {
+        }).done(function (res) {
             $(this).parent().parent().parent().parent().remove();
         }.bind(this));
     }
 });
 
-$(document).on("click", ".shop-edit-btn", function() {
+$(document).on("click", ".shop-edit-btn", function () {
     id = $(this).data("id");
     text = $(this).data("text");
     input = $(this).data("input");
@@ -721,7 +730,7 @@ $(document).on("click", ".shop-edit-btn", function() {
 // Brand events
 
 
-$(document).on("click", "#button-add-brand", function() {
+$(document).on("click", "#button-add-brand", function () {
     if ($("#" + $(this).data('input')).val() == "") {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
         msg += '<strong>Error!</strong> Please Input brand list';
@@ -732,20 +741,20 @@ $(document).on("click", "#button-add-brand", function() {
     submitInputData(this);
 });
 
-$(document).on("click", ".brand-delete-btn", function() {
+$(document).on("click", ".brand-delete-btn", function () {
     url = $(this).data("href");
     if (confirm("Are you sure to delete brand")) {
         $.ajax({
             url: url,
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
             $(this).parent().parent().parent().parent().remove();
         }.bind(this));
     }
 });
 
-$(document).on("click", ".brand-edit-btn", function() {
+$(document).on("click", ".brand-edit-btn", function () {
     id = $(this).data("id");
     text = $(this).data("text");
     input = $(this).data("input");
@@ -764,7 +773,7 @@ function submitInputData(element) {
 
         data: { "input": $("#" + input).val(), id: $("#" + input).data("id") },
 
-    }).done(function(res) {
+    }).done(function (res) {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-' + res.status + '" id="success-alert">';
         msg += res.msg;
         msg += '</div>';
@@ -777,7 +786,7 @@ function submitInputData(element) {
 
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
             $("#content").html("").append(res);
         });
 
@@ -787,7 +796,7 @@ function submitInputData(element) {
 
 function modalHeadHtml(cols) {
     myModalHeadHtml = '<tr>';
-    cols.forEach(function(col) {
+    cols.forEach(function (col) {
         myModalHeadHtml += '<th scope="col">' + col + '</th>'
     })
     myModalHeadHtml += '</tr>';
@@ -817,39 +826,30 @@ function alert(msg) {
 
     $("#success-alert").alert();
 
-    window.setTimeout(function() {
+    window.setTimeout(function () {
 
         $("#success-alert").alert('close');
 
     }, 2000);
 }
 
-$(document).on('click','.add_buy_meal_form_row', function (e) {
-  e.preventDefault();  
-  var _form_row = $(form_row).clone();
-  $(_form_row).find("a.btn-danger").removeClass('d-none');
-  $('#buy_meal_form .text-end').before(_form_row);
+$(document).on('click', '.add_buy_meal_form_row', function (e) {
+    e.preventDefault();
+    var _form_row = $(form_row).clone();
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
+    $('#buy_meal_form .text-end').before(_form_row);
 });
 
 $(document).on('click', '.remove_buy_meal_form_row', function (e) {
-  e.preventDefault();
-  $(this).parents('.form-row:not(:first-child)').remove();
+    e.preventDefault();
+    $(this).parents('.form-row:not(:first-child)').remove();
 });
 
-$(document).ready( function () {
-    $(document).on('click','#buy_meal_form #submitForm',function (e) {
-        e.preventDefault();
-      $('#buy_meal_form input').not('.quantity').filter(function() {
-        if( !$(this).val() ) {
-          $(this).parents('.form-col').addClass('has-error');
-        }
-      });
-    });
 
-    $(document).on('keyup','#buy_meal_form input',function(){
-        $(this).parent('.form-col').removeClass('has-error');
-    });
-} );
+$(document).on('keyup', '#buy_meal_form input', function () {
+    $(this).parent('.form-col').removeClass('has-error');
+});
+
 
 // override jquery validate plugin defaults
 

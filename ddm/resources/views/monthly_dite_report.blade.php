@@ -17,6 +17,7 @@
                     <th scope="col">g/pcs</th>
                     <th scope="col">Counts</th>
                     <th scope="col">Cal</th>
+                    <th scope="col">Price</th>
                  </tr>
               </thead>
               <tbody>
@@ -29,6 +30,18 @@
                         @endphp</td>
                         <td>{{$item->count}}</td>
                         <td>{{ (int)str_replace("g","",$item->weight) * (int)str_replace("cal","",$item->cal)/100}}</td>
+                        <td>
+                           @php
+                               $obj = $data['price'];
+                               if(isset($obj[$item->name]['pergram'])){
+                               $price = $obj[$item->name]['pergram'] * $item->weight ;
+                               }
+                               else 
+                               $price = $obj[$item->name]['perpiece'] * $item->qty;
+                               echo round($price,2);
+                           @endphp
+
+                        </td>
                      </tr>
                  @endforeach 
               </tbody>

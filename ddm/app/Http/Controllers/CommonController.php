@@ -71,8 +71,24 @@ class CommonController extends Controller
             ->get();
         $data['meals'] = $monthly_dite->selectRaw("created_at")->whereMonth("created_at", $month)->groupBy('created_at')->get();
         $data['weight'] =  DB::table('user_weights')->latest('created_at')->first();
-
-
+         $data['price'] = DB::table('dailybuyings')
+        ->select(DB::raw('sum(price) as price, sum(qty) as qty,sum(weight) as weight, name'))
+        ->groupBy('name')
+        ->get();
+        $_price=[];
+        foreach($data['price'] as $price){
+            $weight = $price->weight;
+            $qty = $price->qty;
+            if(isset($price->qty) and $price->qty > 0){
+                $_price[$price->name]['perpiece'] = $price->price/$price->qty;
+            }
+            else if(isset($price->weight) and $price->weight > 0){
+                $_price[$price->name]['pergram'] = $price->price / $weight;
+            }
+            $_price[$price->name]['total_weight'] = $price->weight;
+            $_price[$price->name]['total_qty'] = $qty;
+        }
+        $data['price']  = $_price;
         return view("monthly_dite_report", compact("data"));
     }
 

@@ -49,10 +49,11 @@ class BuyingController extends Controller
             if (isset($inputs['name'][$i]) and $inputs['name'][$i] != "") {
                 $newbuy = new  DailyBuying();
                 $newbuy->name =  $inputs['name'][$i];
-                if ($inputs['unit'] == "g")
+                if ($inputs['unit'][$i] == "g")
                     $newbuy->weight =  $inputs['weight'][$i];
                 else
                     $newbuy->qty =  $inputs['weight'][$i];
+                echo $newbuy->weight;
                 $newbuy->price =  $inputs['price'][$i];
                 $newbuy->frequency =  isset($inputs['count'][$i]) ? $inputs['count'][$i] : 0;
                 if ($newbuy->save()) {
@@ -65,7 +66,7 @@ class BuyingController extends Controller
 
                 if (!isset($row)) {
                     $new_food_item->name = $newbuy->name;
-                    $new_food_item->weight = $inputs['unit'] == "g" ? $newbuy->weight : 0;
+                    $new_food_item->weight = $inputs['unit'][$i] == "g" ? $newbuy->weight : 0;
                     $new_food_item->save();
                 }
             }
