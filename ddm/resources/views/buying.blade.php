@@ -9,7 +9,7 @@
             <p>Please enter weight!</p>
         </div>
         <div class="form-col">
-            <select name="unit[]" class="form-select">
+            <select id='unit' name="unit[]" class="form-select">
                 <option value="pcs">Pcs</option>
                 <option value="g">g</option>
             </select>
@@ -120,11 +120,14 @@
                         <input type="file" name="image" style="display: none" class="upload-image-input">
                         <img src="{{ asset('images/camera-icon.png') }}" height="16" class="upload-image"
                             alt="Photos" /></a>
-                    <a type="submit" data-id="{{ $item->id }}" data-href="{{ route('edit_item_bought') }}"
+                    <a type="submit" data-id="{{ $item->id }}"
+                       data-href="{{ route('edit_item_bought') }}"
                         class="text-decoration-none edit-item-btn">Edit</a>
                     <a type="submit" data-input="buy-meal-input-box"
-                        data-text="{{ $item->name }} {{ $item->weight }}g RM{{ $item->price }} {{ $item->frequency }}"
-                        class="text-decoration-none text-add-btn">add</a>
+                       data-name="{{ $item->name }}" data-weight="{{ $item->weight }}"
+                       data-qty="{{$item->qty}}" data-price="{{ $item->price }}"
+                       data-quantity="{{ $item->frequency }}"
+                       class="text-decoration-none text-add-btn">add</a>
                 </div>
             </form>
             @php

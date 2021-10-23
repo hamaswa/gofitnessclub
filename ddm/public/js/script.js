@@ -850,6 +850,37 @@ $(document).on('keyup', '#buy_meal_form input', function () {
     $(this).parent('.form-col').removeClass('has-error');
 });
 
+$(document).on('click', '.text-add-btn', function(){
+
+  var nameValue = $(this).attr("data-name");
+  var weightValue = $(this).attr("data-weight");
+  var qtyValue = $(this).attr("data-qty");
+  var priceValue = $(this).attr("data-price");
+  var quantityValue = $(this).attr("data-quantity");
+
+  var _form_row = $(form_row).clone();
+  $(_form_row).find("a.btn-danger").removeClass('d-none');
+  $(_form_row).find('input[name="name[]"]').val(nameValue);
+  if(qtyValue!=""){
+    $(_form_row).find('input[name="weight[]"]').val(qtyValue);
+  }
+  else
+  {
+    $(_form_row).find('input[name="weight[]"]').val(weightValue);
+    $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
+  }
+  $(_form_row).find('input[name="count"]').val(quantityValue);
+  $(_form_row).find('input[name="price[]"]').val(priceValue);
+
+  $('#buy_meal_form .text-end').before(_form_row);
+  if($(_form_row).find('.form-row.weight')){
+    $('.form-row.weight').find('select[name="unit[]"]').val('g').trigger('change');
+  }
+});
+
+
+
+
 
 // override jquery validate plugin defaults
 
