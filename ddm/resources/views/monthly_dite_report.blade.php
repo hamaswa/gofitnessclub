@@ -33,11 +33,14 @@
                         <td>
                            @php
                                $obj = $data['price'];
+                               $price = "N/A";
                                if(isset($obj[$item->name]['pergram'])){
                                $price = $obj[$item->name]['pergram'] * $item->weight ;
                                }
-                               else 
-                               $price = $obj[$item->name]['perpiece'] * $item->qty;
+                               else if(isset($obj[$item->name]['perpiece'])){
+                                 $price = $obj[$item->name]['perpiece'] * $item->qty;
+                               }
+                               
                                echo round($price,2);
                            @endphp
 
