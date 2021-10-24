@@ -202,6 +202,9 @@ a {
         width: 100%;
         margin-bottom: 15px;
     }
+    .form-col input {
+        max-width: 100%;
+    }
 }
 
 @media (min-width: 1200px) {
