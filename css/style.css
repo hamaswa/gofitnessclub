@@ -119,8 +119,89 @@
     margin-bottom: 2px;
 }
 
+a {
+    cursor: pointer;
+}
+
+.delete-card {
+    color: red;
+    z-index: 1000;
+    right: 10px;
+}
+
+.delete-card:hover {
+    color: rgb(214, 7, 7);
+    z-index: 1000;
+    right: 10px;
+}
+
 .lowest-price {
     background-color: green;
+}
+.form-row{
+    display: -webkit-box;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.form-row + .form-row {
+    margin-top: 20px;
+}
+.form-col{
+    display: -webkit-box;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 0 5px;
+}
+.form-col input{
+    max-width: 202px;
+}
+.form-col .button-group{
+    display: -webkit-box;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+#buy_meal_form .btn{
+    margin-left: 5px;
+    min-width: 40px;
+}
+#buy_meal_form .btn img{
+    margin-top: -5px;
+}
+.form-col p{
+    display: none;
+}
+.form-col.has-error p{
+    display: block;
+    color: red;
+    margin: 0;
+    font-size: 12px;
+    padding: 5px 4px 0;
+}
+@media (max-width: 767px) and (min-width: 320px) {
+    .form-row{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .form-col{
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -158,3 +239,42 @@
         height: calc(100vw / 2 - 56px);
     }
 }
+
+
+/*Safari Support Styling*/
+.bg-dark{
+    background-color: #212529;
+}
+.d-flex{
+    display:-webkit-flex;
+    display:-webkit-box;
+    display:-moz-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    flex-direction:row;
+}
+.row{
+    display:-webkit-flex;
+    display:-webkit-box;
+    display:-moz-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    flex-direction:row;
+}
+.navbar-expand-sm .navbar-collapse {
+    display: -webkit-box !important;
+    flex-basis: auto;
+    -webkit-flex:1;
+    -webkit-box-flex:1;
+}
+.navbar-nav {
+    display: -webkit-box !important;
+    flex-basis: auto;
+}
+.navbar > .container, .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl{
+    display: -webkit-box !important;
+}
+
+/*End*/

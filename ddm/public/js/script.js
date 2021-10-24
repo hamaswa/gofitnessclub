@@ -678,11 +678,7 @@ $(document).on("click", ".buying-details", function (e) {
         $(".modal-title").text("Meal Item Report");
         $("#myModalBody").html($(myModalBodyHtml));
         $(document).find('[data-id="' + lowestPricePerKg + '"]').addClass("lowest-price")
-        $('#myModal').modal({
-            escapeClose: false,
-            clickClose: false,
-            showClose: false
-        });
+        $('#myModal').modal("show");
 
 
     })

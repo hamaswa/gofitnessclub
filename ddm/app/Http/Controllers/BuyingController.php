@@ -72,13 +72,18 @@ class BuyingController extends Controller
             }
         }
 
-        $data =  DailyBuying::select(DB::raw('t.*'))
-            ->from(DB::raw('(SELECT * FROM dailybuyings ORDER BY created_at DESC) t'))
-            ->groupBy('t.name')
-            ->get();
-
-
-        return redirect()->route("buying-index", compact("data"));
+        $data =  DailyDite::select(DB::raw('t.*'))
+            ->from(
+                DB::raw('(SELECT m1.* FROM dailybuyings m1 LEFT JOIN 
+                            dailybuyings m2 ON (m1.name = m2.name AND m1.id < m2.id) 
+                            WHERE m2.id IS NULL ORDER BY id asc) t')
+            )
+            ->OrderBy('id', 'desc')
+            ->paginate(25);
+        if (isset($input['response_type']) and $input['response_type'] === "json")
+            return response()->json(compact("data"));
+        else
+            return view("buying", compact("data"));
     }
 
 
