@@ -161,6 +161,7 @@ $(document).on("submit", "#dite-item-default-frm", function (e) {
 
 
 $(document).on("click", ".text-add-btn", function () {
+    alert("hello");
   var nameValue = $(this).attr("data-name");
   var weightValue = $(this).attr("data-weight");
   var qtyValue = $(this).attr("data-qty");
@@ -172,13 +173,16 @@ $(document).on("click", ".text-add-btn", function () {
   $(_form_row).find('input[name="name[]"]').val(nameValue);
   if(qtyValue!=""){
     $(_form_row).find('input[name="weight[]"]').val(qtyValue);
+    //$(_form_row).find('input[name="unit[]"]').val("pcs");
   }
   else
   {
     $(_form_row).find('input[name="weight[]"]').val(weightValue);
+    //$(_form_row).find('input[name="unit[]"]').val("g");
+
     $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
   }
-  $(_form_row).find('input[name="count"]').val(quantityValue);
+  $(_form_row).find('input[name="count[]"]').val(quantityValue);
   $(_form_row).find('input[name="price[]"]').val(priceValue);
 
   $('#buy_meal_form .text-end').before(_form_row);
@@ -548,7 +552,7 @@ $(document).on('submit', '#buy_meal_form', function (e) {
         }
       });
     if(!validated)
-     return;
+    return;
     data = $(this).serializeArray();
 
     $.ajax({
@@ -687,13 +691,13 @@ $(document).on("click", ".buying-details", function (e) {
 });
 
 $(document).on("click", ".delete-card", function (e) {
+    id=$(this).data("id");
     if (confirm("are you sure to delete")) {
         $.ajax({
             url: $(this).data('href'),
             type: "get",
-
         }).done(function (res) {
-
+            $("#item-"+id).remove();
         });
     }
 

@@ -26,9 +26,15 @@
                 {{ date("d", strtotime($key)) }}
             </button>
             @foreach ($item as $sub_item)       
-                <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">{{$sub_item->name}} 
+                <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">
+                    {{$sub_item->name}} 
                     <div class="history-btn-weight bg-primary position-absolute text-white">
-                        {{ str_replace("g","",$sub_item->weight)."g" }} 
+                        @php 
+                        if(isset($sub_item->qty) and $sub_item->qty!="")
+                         echo str_replace("pcs","",$sub_item->qty)."pcs";
+                         else 
+                         echo str_replace("g","",$sub_item->weight)."g"
+                        @endphp
                     </div>
                     <span class="text-muted font-11">
                         RM{{ str_replace("RM","", $sub_item->price) }} 

@@ -53,7 +53,6 @@ class BuyingController extends Controller
                     $newbuy->weight =  $inputs['weight'][$i];
                 else
                     $newbuy->qty =  $inputs['weight'][$i];
-                echo $newbuy->weight;
                 $newbuy->price =  $inputs['price'][$i];
                 $newbuy->frequency =  isset($inputs['count'][$i]) ? $inputs['count'][$i] : 0;
                 if ($newbuy->save()) {
@@ -132,20 +131,31 @@ class BuyingController extends Controller
     public function update_item_bought(Request $request)
     {
         try {
-            $input = $request->all();
-            $item = DailyBuying::find($input['id']);
-            //print_r($fooditem);
-            $food_item = explode(" ", trim($input['food-item']));
-            $item->weight = str_replace("g", "", strtolower($food_item[count($food_item) - 3]));
-            $item->price = str_replace("RM", "", strtoupper($food_item[count($food_item) - 2]));
-            $item->frequency = $food_item[count($food_item) - 1];
-            unset($food_item[count($food_item) - 1]);
-            unset($food_item[count($food_item) - 1]);
-            unset($food_item[count($food_item) - 1]);
-            $item->name =   implode(" ", $food_item);
-            $item->shop_id = $input['shop'];
-            $item->brand_id = $input['brand'];
+            $inputs = $request->all();
+            $item = DailyBuying::find($inputs['id']);
+            $item->name =  $inputs['name'];
+            if ($inputs['unit'] == "g")
+                $item->weight =  $inputs['weight'];
+            else
+                $item->qty =  $inputs['weight'];
+            $item->price =  $inputs['price'];
+            $item->frequency =  isset($inputs['count']) ? $inputs['count'] : 0;
+            if ($item->save()) {
+                $saved[] = $inputs['name'];
+            } else {
+                $rejected[] = $inputs['name'];
+            }
+            $new_food_item = new Dite();
+            
+            $row = $new_food_item->where("name", $inputs['name'])->first();
+
+            if (!isset($row)) {
+                $new_food_item->name = $item->name;
+                $new_food_item->weight = $inputs['unit'] == "g" ? $item->weight : 0;
+                $new_food_item->save();
+            }
             $item->save();
+
             if (isset($input['response_type']) and $input['response_type'] == "json") {
                 return response()->json(json_encode(json_decode($item)));
             } else {
@@ -179,8 +189,9 @@ class BuyingController extends Controller
     {
         $month = date("m");
         $monthly_buy_dite = new DailyBuying();
-        $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, dailybuyings.weight, 
-             dailybuyings.price")
+        $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, 
+        dailybuyings.weight, dailybuyings.qty, 
+            dailybuyings.price")
             ->whereMonth('dailybuyings.created_at', $month)
             ->orderBy("dailybuyings.created_at", "desc")
             ->get();

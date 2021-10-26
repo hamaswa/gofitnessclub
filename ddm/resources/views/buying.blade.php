@@ -8,11 +8,10 @@
             <input name="weight[]" type="text" class="form-control" placeholder="weight/pcs">
             <p>Please enter weight!</p>
         </div>
-        <div class="form-col">
-            <select id='unit' name="unit[]" class="form-select">
-                <option value="pcs">Pcs</option>
-                <option value="g">g</option>
-            </select>
+        <div class="form-col form-row">
+               <input type="radio" checked name="unit[]" value="pcs">Pcs
+                <input type="radio" name="unit[]" value="g">g
+            
         </div>
         <div class="form-col">
             <input name="price[]" type="number" class="form-control" placeholder="Price">
@@ -47,7 +46,8 @@
 
         <div id="item-{{ $item->id }}" class="col-6 col-md-4 col-lg-3 col-xl-3 col-xxl-3 mb-3">
             <div class="product-block border rounded-2 overflow-hidden bg-white position-relative">
-                <a data-href="{{ route('delete_item_bought', $item->id) }}" class="position-absolute delete-card">
+                <a data-id="{{$item->id}}" data-href="{{ route('delete_item_bought', $item->id) }}" 
+                    class="position-absolute delete-card">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-trash" viewBox="0 0 16 16">
                         <path
