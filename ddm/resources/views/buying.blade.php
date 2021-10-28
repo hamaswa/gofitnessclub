@@ -1,13 +1,15 @@
 <form id="buy_meal_form" class="mb-3">
     <div class="form-row">
-        <label class="form-label">Shop</label>
-        <select name="shop_id" class="form-select">
-            <option selected>Choose...</option>
-            @foreach ($data['shops'] as $shop)
-                <option value="{{ $shop->id }}">
-                    {{ $shop->name }}</option>
-            @endforeach
-        </select>
+        <div class="form-col flex-md-row align-items-md-center">
+            <label class="form-label">Shop</label>
+            <select name="shop_id" class="form-select select-shop">
+                <option selected>Choose...</option>
+                @foreach ($data['shops'] as $shop)
+                    <option value="{{ $shop->id }}">
+                        {{ $shop->name }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
     <div class="form-row">
         <div class="form-col">
@@ -18,7 +20,7 @@
             <input name="weight[]" type="number" step=".01" class="form-control" placeholder="weight/pcs">
             <p>Please enter weight!</p>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <div class="btn-group mb-md-0 mb-3" role="group" aria-label="Basic radio toggle button group">
            
             <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off" checked value="pcs">
             <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>

@@ -26,7 +26,7 @@
                 {{ date("d", strtotime($key)) }}
             </button>
             @foreach ($item as $k=>$shop)
-            <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">
+            <button type="button" class="btn btn-primary position-relative me-2 mb-2">
                 @php
                     echo $k;
                 @endphp

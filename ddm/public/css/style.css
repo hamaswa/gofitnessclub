@@ -192,6 +192,11 @@ a {
     font-size: 12px;
     padding: 5px 4px 0;
 }
+.form-row .select-shop{
+    margin-left: 10px;
+    min-width: 390px
+;
+}
 @media (max-width: 767px) and (min-width: 320px) {
     .form-row{
         flex-direction: column;
@@ -204,6 +209,10 @@ a {
     }
     .form-col input {
         max-width: 100%;
+    }
+    .form-row .select-shop{
+        margin-left: 0;
+        min-width: unset;
     }
 }
 
