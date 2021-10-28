@@ -159,9 +159,9 @@ $(document).on("submit", "#dite-item-default-frm", function (e) {
 
 });
 
-
+var i = 0;
 $(document).on("click", ".text-add-btn", function () {
-    alert("hello");
+    i++;
   var nameValue = $(this).attr("data-name");
   var weightValue = $(this).attr("data-weight");
   var qtyValue = $(this).attr("data-qty");
@@ -173,23 +173,36 @@ $(document).on("click", ".text-add-btn", function () {
   $(_form_row).find('input[name="name[]"]').val(nameValue);
   if(qtyValue!=""){
     $(_form_row).find('input[name="weight[]"]').val(qtyValue);
-    //$(_form_row).find('input[name="unit[]"]').val("pcs");
+    $(_form_row).find('select[name="unit[]"]').val("pcs");
+    $(_form_row).find('option[value=pcs]').attr('selected', 'selected');
+    $(_form_row).find('#radio_pcs').prop("checked", true);
   }
   else
   {
     $(_form_row).find('input[name="weight[]"]').val(weightValue);
-    //$(_form_row).find('input[name="unit[]"]').val("g");
-
+    $(_form_row).find('select[name="unit[]"]').val("g");
+    $(_form_row).find('option[value=g]').attr('selected', 'selected');
+    $(_form_row).find('#radio_g').prop("checked", true);
     $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
   }
   $(_form_row).find('input[name="count[]"]').val(quantityValue);
   $(_form_row).find('input[name="price[]"]').val(priceValue);
-
+  $(_form_row).find(':radio').attr("name","radio"+i);
+    $(_form_row).find('#radio_pcs').attr("id","radio_pcs"+i);
+    $(_form_row).find('#radio_g').attr("id","radio_g"+i);
+    
+    $(_form_row).find('#radio_pcs_for').attr("for","radio_pcs"+i);
+    $(_form_row).find('#radio_g_for').attr("for","radio_g"+i);
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
   $('#buy_meal_form .text-end').before(_form_row);
   if($(_form_row).find('.form-row.weight')){
     $('.form-row.weight').find('select[name="unit[]"]').val('g').trigger('change');
   }
 
+});
+$(document.body).on("click","input.unit",function(e){
+    $(this).parent("div").find("select").val($(this).val())
+    console.log($(this).parent("div").find("select").val())
 });
 
 $(document).on('keypress', ".data-input-box", function (event) {
@@ -301,7 +314,7 @@ $(".nav-menu-link").on("click", function (e) {
     }).done(function (res) {
 
         $("#content").html("").append(res);
-        form_row = $(".form-row:first").clone();
+        form_row = $(".form-row:nth-child(2)").clone();
 
 
     })
@@ -849,9 +862,17 @@ function alert(msg) {
     }, 2000);
 }
 
+var i = 0;
 $(document).on('click', '.add_buy_meal_form_row', function (e) {
+    i++;
     e.preventDefault();
     var _form_row = $(form_row).clone();
+    $(_form_row).find(':radio').attr("name","radio"+i);
+    $(_form_row).find('#radio_pcs').attr("id","radio_pcs"+i);
+    $(_form_row).find('#radio_g').attr("id","radio_g"+i);
+    
+    $(_form_row).find('#radio_pcs_for').attr("for","radio_pcs"+i);
+    $(_form_row).find('#radio_g_for').attr("for","radio_g"+i);
     $(_form_row).find("a.btn-danger").removeClass('d-none');
     $('#buy_meal_form .text-end').before(_form_row);
 });

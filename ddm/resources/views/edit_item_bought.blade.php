@@ -26,13 +26,16 @@
             <label class="form-label">RM</label>
             <input class="form-control" name="price" value="{{ $data['item']->price }}">
         </div>
-        <div class="mb-3">
-
-            <label class="form-label">Unit</label>
-                <input name="unit[]" value="pcs" {{(isset($data['item']->qty) and $data['item']->qty !="")? "checked":""}} >Pcs
-                <input name="unit[]" value="g" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"checked"}}>g
-
-        </div>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">          
+            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off" {{(isset($data['item']->qty) and $data['item']->qty !="")? "checked":""}} value="pcs">
+            <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>
+            <select name="unit[]" class="d-none">
+                <option name="unit[]" value="pcs" {{(isset($data['item']->qty) and $data['item']->qty !="")? "selected":""}}></option>
+                <option name="unit[]" value="g" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"selected"}}></option>
+            </select>
+            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"checked"}}  value="g">
+            <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>          
+        </div>   
     </div>
     <input type="hidden" name="id" value="{{ $data['id'] }}">
 

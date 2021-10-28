@@ -25,23 +25,32 @@
             class="btn btn-success me-2 mb-2">
                 {{ date("d", strtotime($key)) }}
             </button>
-            @foreach ($item as $sub_item)       
-                <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">
-                    {{$sub_item->name}} 
-                    <div class="history-btn-weight bg-primary position-absolute text-white">
-                        @php 
-                        if(isset($sub_item->qty) and $sub_item->qty!="")
-                         echo str_replace("pcs","",$sub_item->qty)."pcs";
-                         else 
-                         echo str_replace("g","",$sub_item->weight)."g"
-                        @endphp
-                    </div>
-                    <span class="text-muted font-11">
-                        RM{{ str_replace("RM","", $sub_item->price) }} 
-                    </span>
-                   
-                </button>             
+            @foreach ($item as $k=>$shop)
+            <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">
+                @php
+                    echo $k;
+                @endphp
+            </button>
+            @foreach ($shop as $sub_item)       
+            <button type="button" class="btn btn-outline-primary position-relative me-2 mb-2">
+                {{$sub_item->name}} 
+                <div class="history-btn-weight bg-primary position-absolute text-white">
+                    @php 
+                    if(isset($sub_item->qty) and $sub_item->qty!="")
+                     echo str_replace("pcs","",$sub_item->qty)."pcs";
+                     else 
+                     echo str_replace("g","",$sub_item->weight)."g"
+                    @endphp
+                </div>
+                <span class="text-muted font-11">
+                    RM{{ str_replace("RM","", $sub_item->price) }} 
+                </span>
+               
+            </button>             
+        @endforeach
+                
             @endforeach
+          
             {{-- <a href="javascript:void(0)" data-href="{{route("edit_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-edit-food">Edit</a>
             <a href="javascript:void(0)" data-href="{{route("delete_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-delete-food">Delete</a>  --}}
          </div>                      

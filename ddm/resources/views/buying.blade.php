@@ -1,20 +1,38 @@
 <form id="buy_meal_form" class="mb-3">
     <div class="form-row">
+        <label class="form-label">Shop</label>
+        <select name="shop_id" class="form-select">
+            <option selected>Choose...</option>
+            @foreach ($data['shops'] as $shop)
+                <option value="{{ $shop->id }}">
+                    {{ $shop->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-row">
         <div class="form-col">
             <input id="qName" name="name[]" type="text" class="form-control" placeholder="Name">
             <p>Please enter Name!</p>
         </div>
         <div class="form-col">
-            <input name="weight[]" type="text" class="form-control" placeholder="weight/pcs">
+            <input name="weight[]" type="number" step=".01" class="form-control" placeholder="weight/pcs">
             <p>Please enter weight!</p>
         </div>
-        <div class="form-col form-row">
-               <input type="radio" checked name="unit[]" value="pcs">Pcs
-                <input type="radio" name="unit[]" value="g">g
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+           
+            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off" checked value="pcs">
+            <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>
+            <select name="unit[]" class="d-none">
+                <option selected value="pcs"></option>
+                <option value="g"></option>
+            </select>
+            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off"  value="g">
+            <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>
             
         </div>
+        
         <div class="form-col">
-            <input name="price[]" type="number" class="form-control" placeholder="Price">
+            <input name="price[]" type="number" step=".01" class="form-control" placeholder="Price">
             <p>Please enter RM!</p>
         </div>
         <div class="form-col">
@@ -42,7 +60,7 @@
 </div>
 <div class="row row-cols-5 recent-meals" id="recent-meals">
 
-    @foreach ($data as $item)
+    @foreach ($data['data'] as $item)
 
         <div id="item-{{ $item->id }}" class="col-6 col-md-4 col-lg-3 col-xl-3 col-xxl-3 mb-3">
             <div class="product-block border rounded-2 overflow-hidden bg-white position-relative">
@@ -138,7 +156,7 @@
 </div>
 <div class="col" id="load_more">
     @php
-        $link = $data->nextPageUrl();
+        $link = $data['data']->nextPageUrl();
         if ($link != '') {
             $add_more = '<a class="text-center col-2 m-auto page-link ajax-page-load-more" href="" data-href="' . $link . '">Load More</a>';
             echo $add_more;

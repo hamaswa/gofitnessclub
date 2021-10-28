@@ -21,12 +21,13 @@ class BuyingController extends Controller
     public function index(Request $request)
     {
         $input = $request->all();
-        $data =  DailyDite::select(DB::raw('t.*'))
+        $data['data'] =  DailyDite::select(DB::raw('t.*'))
             ->from(DB::raw('(SELECT m1.* FROM dailybuyings m1 LEFT JOIN 
-            dailybuyings m2 ON (m1.name = m2.name AND m1.id < m2.id) 
+            dailybuyings m2 ON (m1.name = m2.name AND m1.id < m2.id and m1.shop_id!=m2.shop_id) 
                                     WHERE m2.id IS NULL ORDER BY id asc) t'))
             ->OrderBy('id', 'desc')
             ->paginate(25);
+        $data['shops'] = Shop::all();    
         if (isset($input['response_type']) and $input['response_type'] === "json") {
             return response()->json(compact("data"));
         } else
@@ -44,11 +45,13 @@ class BuyingController extends Controller
     {
         $inputs = $request->all();
         $rows = count($inputs['name']);
+        $shop = (isset($inputs['shop_id']) and $inputs['shop_id']!="")?$inputs['shop_id']:"null";
 
         for ($i = 0; $i < $rows; $i++) {
             if (isset($inputs['name'][$i]) and $inputs['name'][$i] != "") {
                 $newbuy = new  DailyBuying();
                 $newbuy->name =  $inputs['name'][$i];
+                $newbuy->shop_id =  $shop;
                 if ($inputs['unit'][$i] == "g")
                     $newbuy->weight =  $inputs['weight'][$i];
                 else
@@ -70,19 +73,8 @@ class BuyingController extends Controller
                 }
             }
         }
+        return $this->index($request);
 
-        $data =  DailyDite::select(DB::raw('t.*'))
-            ->from(
-                DB::raw('(SELECT m1.* FROM dailybuyings m1 LEFT JOIN 
-                            dailybuyings m2 ON (m1.name = m2.name AND m1.id < m2.id) 
-                            WHERE m2.id IS NULL ORDER BY id asc) t')
-            )
-            ->OrderBy('id', 'desc')
-            ->paginate(25);
-        if (isset($input['response_type']) and $input['response_type'] === "json")
-            return response()->json(compact("data"));
-        else
-            return view("buying", compact("data"));
     }
 
 
@@ -140,6 +132,8 @@ class BuyingController extends Controller
                 $item->qty =  $inputs['weight'];
             $item->price =  $inputs['price'];
             $item->frequency =  isset($inputs['count']) ? $inputs['count'] : 0;
+            $item->shop_id = isset($inputs['shop']) ? $inputs['shop'] : null;
+            $item->brand_id = isset($inputs['brand']) ? $inputs['brand'] : null;
             if ($item->save()) {
                 $saved[] = $inputs['name'];
             } else {
@@ -190,14 +184,15 @@ class BuyingController extends Controller
         $month = date("m");
         $monthly_buy_dite = new DailyBuying();
         $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, 
-        dailybuyings.weight, dailybuyings.qty, 
+        dailybuyings.weight, dailybuyings.qty, shops.name as shopname, 
             dailybuyings.price")
+            ->leftjoin("shops", 'dailybuyings.shop_id', '=', 'shops.id')
             ->whereMonth('dailybuyings.created_at', $month)
             ->orderBy("dailybuyings.created_at", "desc")
             ->get();
         $data = array();
         foreach ($result as $row) {
-            $data[date('Y-m-d', strtotime($row->created_at))][] = $row;
+            $data[date('Y-m-d', strtotime($row->created_at))][$row->shopname][] = $row;
         }
         return view("buy_monthly_meal", compact("data"));
     }
