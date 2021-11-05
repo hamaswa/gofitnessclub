@@ -16,60 +16,96 @@ use Intervention\Image\ImageManagerStatic as Image;
 class DailyDiteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Return daily consumed food items list.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response JSON OR (default html)
      */
-    public function home()
+    public function home(Request $request)
     {
-        $data =  DailyDite::select(DB::raw('t.*'))
-            ->from(DB::raw('(SELECT m1.* FROM dailydite m1 LEFT JOIN 
+        try {
+            $data =  DailyDite::select(DB::raw('t.*'))
+                ->from(DB::raw('(SELECT m1.* FROM dailydite m1 LEFT JOIN 
                                         dailydite m2 ON (m1.name = m2.name AND m1.id < m2.id) 
                                         WHERE m2.id IS NULL ORDER BY id asc) t'))
-            ->OrderBy('id', 'desc')
-            ->paginate(25);
-        // print_r($data);                      
-        return view("home", compact("data"));
-    }
-
-    public function library()
-    {
-        $data =  Dite::orderBy("id", 'desc')->paginate(50);
-        return view("library", compact("data"));
-    }
-
-   
-
-    public function food_item_report(Request $request)
-    {
-        $input = $request->all();
-        $month = date("m");
-        $food_item = $input['food_item'];
-        $monthly_dite = new DailyDite();
-        $data['data'] = $monthly_dite->selectRaw("dailydite.name, dailydite.qty as qty, dailydite.weight as weight, 
-                                        dailydite.created_at, ifnull(dite.energy,0) as cal")
-            ->where("dailydite.name", '=', $food_item)
-            ->whereMonth('dailydite.created_at', $month)
-            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
-            ->get();
-        return  response()->json($data);
+                ->OrderBy('id', 'desc')
+                ->paginate(25);
+            // If json response is required or default theme html
+            if (isset($input['response_type']) and $input['response_type'] === "json") {
+                return response()->json(compact("data"));
+            } else
+                return view("home", compact("data"));
+        } catch (Exception $e) {
+            return response()->json(array("status" => "error", "message" => $e->getMessage()));
+        }
     }
 
 
     /**
-     * Show the form for creating a new resource.
+     * Return daily consumed food items list.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response JSON OR (default html)
      */
-    public function create()
+
+    public function library()
     {
-        //
+        try {
+            $data =  Dite::orderBy("id", 'desc')->paginate(50);
+            if (isset($input['response_type']) and $input['response_type'] === "json") {
+                return response()->json(compact("data"));
+            } else
+                return view("library", compact("data"));
+        } catch (Exception $e) {
+            return response()->json(array("status" => "error", "message" => $e->getMessage()));
+        }
     }
+
+
+    /**
+     * Food item monthly report.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response JSON
+     */
+
+    public function food_item_report(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $month = date("m");
+            $food_item = $input['food_item'];
+            $monthly_dite = new DailyDite();
+            $data['data'] = $monthly_dite->selectRaw("dailydite.name, dailydite.qty as qty, dailydite.weight as weight, 
+                                        dailydite.created_at, ifnull(dite.energy,0) as cal")
+                ->where("dailydite.name", '=', $food_item)
+                ->whereMonth('dailydite.created_at', $month)
+                ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
+                ->get();
+            return  response()->json($data);
+        } catch (Exception $e) {
+            return response()->json(array("status" => "error", "message" => $e->getMessage()));
+        }
+    }
+
+
     
+    /**
+     * Food item monthly report.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response JSON
+     */
     public function dite_defaults(int $id)
     {
+        try{
         $dite = Dite::find($id);
         return view('dite_defaults', ["dite" => $dite]);
+        }
+        catch (Exception $e) {
+            return response()->json(array("status" => "error", "message" => $e->getMessage()));
+        }
+
     }
 
     /**
@@ -87,7 +123,7 @@ class DailyDiteController extends Controller
     }
 
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -98,61 +134,61 @@ class DailyDiteController extends Controller
     public function add_dite(Request $request)
     {
         $input = $request->all();
-        $ditelist = explode(",", $input['dite']);
+        try {
+            if (is_numeric(str_replace("kg", "", $input['dite']))) {
+                $userweight = UserWeight::Create(
+                    ['user_id' => 1, 'weight' => $input['dite']]
+                );
+                $data = ['weight' => $input['dite'], 'status' => 'success', 'msg' => '<strong>Success!</strong> Weight successfully Added'];
+                return response()->json($data);
+            } else {
+                $ditelist = explode(",", $input['dite']);
+                foreach ($ditelist as $dite) {
+                    if (trim($dite) == '')
+                        continue;
+                    $dailydite = new DailyDite();
+                    $diteitem = explode(" ", trim($dite));
+                    $arr_length = count($diteitem);
+                    $dite_results = new Dite();
+                    if (strpos($diteitem[$arr_length - 1], 'g') and  is_numeric(str_replace("g", "", $diteitem[$arr_length - 1]))) {
+                        $weight = str_replace("g", "", $diteitem[$arr_length - 1]);
+                        $qty = is_numeric(str_replace("pcs", "", $diteitem[$arr_length - 2])) ? str_replace("pcs", "", $diteitem[$arr_length - 2]) : 0;
 
-        if (is_numeric(str_replace("kg", "", $input['dite']))) {
-            $userweight = UserWeight::Create(
-                ['user_id' => 1, 'weight' => $input['dite']]
-            );
-            $data = ['weight' => $input['dite'], 'status' => 'success', 'msg' => '<strong>Success!</strong> Weight successfully Added'];
-            return response()->json($data);
-        } else {
-            foreach ($ditelist as $dite) {
-                $dailydite = new DailyDite();
-                $diteitem = explode(" ", trim($dite));
-                //$dailydite = new DailyDite();//::whereDate('created_at' , Carbon::today())
-                //->firstOrNew(array('name' => $diteitem[0])); 
-
-                $arr_length = count($diteitem);
-                $dite_results = new Dite();
-                if (strpos($diteitem[$arr_length - 1], 'g') and  is_numeric(str_replace("g", "", $diteitem[$arr_length - 1]))) {
-                    $weight = str_replace("g", "", $diteitem[$arr_length - 1]);
-                    $qty = is_numeric(str_replace("pcs", "", $diteitem[$arr_length - 2])) ? str_replace("pcs", "", $diteitem[$arr_length - 2]) : 0;
-
-                    if ($qty == 0) {
+                        if ($qty == 0) {
+                            $name = trim(str_replace($diteitem[$arr_length - 1], "", $dite));
+                        } else {
+                            $name = trim(str_replace(array($diteitem[$arr_length - 1], $diteitem[$arr_length - 2]), "", $dite));
+                        }
+                        $row = $dite_results->where("name", $name)->first();
+                    } else if (is_numeric(str_replace("pcs", "", $diteitem[$arr_length - 1]))) {
+                        $qty = str_replace("pcs", "", $diteitem[$arr_length - 1]);
                         $name = trim(str_replace($diteitem[$arr_length - 1], "", $dite));
+                        $row = $dite_results->where("name", $name)->first();
+                        $weight = (isset($row->weight) and $row->weight != false) ? (int)str_replace("g", "", $row->weight) * $qty : 0;
                     } else {
-                        $name = trim(str_replace(array($diteitem[$arr_length - 1], $diteitem[$arr_length - 2]), "", $dite));
+                        $qty = 1;
+                        $name = trim($dite);
+                        $row = $dite_results->where("name", $name)->first();
+                        $weight = (isset($row->weight) and $row->weight != false) ? (int)str_replace("g", "", $row->weight) : 0;
                     }
-                    $row = $dite_results->where("name", $name)->first();
-                } else if (is_numeric(str_replace("pcs", "", $diteitem[$arr_length - 1]))) {
-                    $qty = str_replace("pcs", "", $diteitem[$arr_length - 1]);
-                    $name = trim(str_replace($diteitem[$arr_length - 1], "", $dite));
-                    $row = $dite_results->where("name", $name)->first();
-                    $weight = (isset($row->weight) and $row->weight != false) ? (int)str_replace("g", "", $row->weight) * $qty : 0;
-                } else {
-                    $qty = 1;
-                    $name = trim($dite);
-                    $row = $dite_results->where("name", $name)->first();
-                    $weight = (isset($row->weight) and $row->weight != false) ? (int)str_replace("g", "", $row->weight) : 0;
+
+                    if ($name == "")
+                        continue;
+
+                    $dailydite->name = $name;
+                    $dailydite->qty = $qty;
+                    $dailydite->weight = $weight;
+                    $dailydite->save();
+
+                    if (!isset($row)) {
+                        $dite_results->name = $name;
+                        $dite_results->weight = $dailydite->weight;
+                        $dite_results->save();
+                    }
                 }
-
-                if ($name == "")
-                    continue;
-
-                $dailydite->name = $name;
-                $dailydite->qty = $qty;
-                $dailydite->weight = $weight;
-                $dailydite->save();
-
-                if (!isset($row)) {
-                    $dite_results->name = $name;
-                    $dite_results->weight = $dailydite->weight;
-                    $dite_results->save();
-                }
-                //unset($row);           
-
             }
+        } catch (Exception $e) {
+            return response()->json(array("status" => "error", "err_code" => $e->getCode(), "message" => $e->getMessage()));
         }
 
         $data =  DailyDite::select(DB::raw('t.*'))
@@ -272,8 +308,8 @@ class DailyDiteController extends Controller
         $name = trim(explode("=", $input['defaults'])[0]);
         $defaults = explode(",", $defaults);
         $weight = trim($defaults[0]);
-        
-        $energy = (int) trim(str_replace("cal/100g","", $defaults[1]));
+
+        $energy = (int) trim(str_replace("cal/100g", "", $defaults[1]));
         if (is_numeric($energy)) {
             if (isset($input['id']) and $input['id'] != "") {
                 $id = $input['id'];
@@ -289,8 +325,7 @@ class DailyDiteController extends Controller
                 $dite->save();
             }
         } else {
-            return response()->json(array("success"=>"error","message"=>"Invalide Format"));
-
+            return response()->json(array("success" => "error", "message" => "Invalide Format"));
         }
         $dailydite = DB::statement("update `dailydite` set `weight` = qty * " . str_replace("g", "", $weight) . " where `name` = '$name' and `weight` = 0");
 

@@ -5,7 +5,7 @@
             <select name="shop_id" class="form-select select-shop">
                 <option selected>Choose...</option>
                 @foreach ($data['shops'] as $shop)
-                    <option value="{{ $shop->id }}">
+                    <option {{ $shop->id==$data['shop_id']?"selected":""}} value="{{ $shop->id }}">
                         {{ $shop->name }}</option>
                 @endforeach
             </select>
@@ -83,10 +83,10 @@
                             if ($item->image != null) {
                                 echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
                                 echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">RM' . $item->price . '/' . $val . '</h6>';
-                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
                             } else {
                                 echo '<div class="position-absolute product-title">';
-                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
                                 echo '<h6  class="mb-auto">RM' . $item->price . '/' . $val . '</h6>';
                             }
                         } else {
@@ -94,21 +94,24 @@
                             if ($item->image != null) {
                                 echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
                                 echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">RM' . $item->price . '/' . $val . '</h6>';
-                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
                             } else {
                                 echo '<div class="position-absolute product-title">';
-                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
                                 echo '<h6  class="mb-auto">RM' . $item->price . '/' . $val . '</h6>';
                             }
                         }
                     @endphp
 
                     @if ((int) $item->weight > 0)
-                        <h5 class="mb-auto bg-white p-2 opacity-50 rounded right">
+                        <h5 class="mb-auto bg-white p-2 opacity-50 price">
                             RM{{ round(((int) $item->price / (int) $item->weight) * 12, 2) }}/kg</h5>
                     @else
-                    <h5 class="mb-auto bg-white p-2 opacity-50 rounded right">
-                        RM{{ round(((int) $item->price / (int) $item->qty) * 12, 2) }}/dozen</h5>
+                    <h5 class="mb-auto bg-white p-2 opacity-50 price">
+                        RM{{ round(((int) $item->price / (int) $item->qty), 2) }}/pcs</h5>
+                    @endif
+                    @if ($item->brand_name!=null)
+                    <h5 class="mb-auto bg-white p-2 opacity-50 brand">{{$item->brand_name}}</h5>
                     @endif
 
 

@@ -1,66 +1,57 @@
 var form_row = "";
 
+// Load Home page content i.e Dining page content initializing
 $("document").ready(function () {
-
     $.ajax({
-
-        url: "/home",
-
+        url: "/api/home",
         type: "get",
-
     }).done(function (res) {
-
         $("#content").html("").append(res);
-
     })
-
 })
 
+// Add new meal consumed 
+// OR record your weight
 $(document).on("click", "#button-add-meal", function () {
-
-    $.ajax({
-
-        url: "/api/dailydite/add_dite",
-
-        type: "post",
-
-        data: { "dite": $("#meal-input-box").val() },
-
-    }).done(function (res) {
-        if (typeof (res.weight) != 'undefined') {
-            weightAdded(res);
-        } else {
-            mealAdded(res);
-        }
-
-    });
-
+    if ($("#meal-input-box").val() != "") {
+        $.ajax({
+            url: "/api/dailydite/add_dite",
+            type: "post",
+            data: { "dite": $("#meal-input-box").val() },
+        }).done(function (res) {
+            if (typeof (res.status != 'undefined') && res.status == 'error') {
+                alertError(res);
+            }
+            else {
+                if (typeof (res.weight) != 'undefined') {
+                    //success message for user weight record
+                    weightAdded(res);
+                } else {
+                    //success message for new consumed meal added
+                    mealAdded(res);
+                }
+            }
+        });
+    }
+    else {
+        alertInputData();
+    }
 });
 
 
 
 $(document).on("click", "#button-edit-meal", function () {
-
     if (confirm("Are you sure to update meal")) {
         $.ajax({
-
             url: "/api/dailydite/update_dite",
-
             type: "post",
-
             data: { "created_at": $("#created_at").val(), "dite": $("#meal-edit-input-box").val() },
-
         }).done(function (res) {
-
             msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
-
             msg += '<strong>Success!</strong> Meal successfully Updated</div>'
-
             $("#content").html("").append(res);
-
             alert(msg)
             $("#myModal").modal("hide");
-
         });
     }
 
@@ -162,45 +153,45 @@ $(document).on("submit", "#dite-item-default-frm", function (e) {
 var i = 0;
 $(document).on("click", ".text-add-btn", function () {
     i++;
-  var nameValue = $(this).attr("data-name");
-  var weightValue = $(this).attr("data-weight");
-  var qtyValue = $(this).attr("data-qty");
-  var priceValue = $(this).attr("data-price");
-  var quantityValue = $(this).attr("data-quantity");
+    var nameValue = $(this).attr("data-name");
+    var weightValue = $(this).attr("data-weight");
+    var qtyValue = $(this).attr("data-qty");
+    var priceValue = $(this).attr("data-price");
+    var quantityValue = $(this).attr("data-quantity");
 
-  var _form_row = $(form_row).clone();
-  $(_form_row).find("a.btn-danger").removeClass('d-none');
-  $(_form_row).find('input[name="name[]"]').val(nameValue);
-  if(qtyValue!=""){
-    $(_form_row).find('input[name="weight[]"]').val(qtyValue);
-    $(_form_row).find('select[name="unit[]"]').val("pcs");
-    $(_form_row).find('option[value=pcs]').attr('selected', 'selected');
-    $(_form_row).find('#radio_pcs').prop("checked", true);
-  }
-  else
-  {
-    $(_form_row).find('input[name="weight[]"]').val(weightValue);
-    $(_form_row).find('select[name="unit[]"]').val("g");
-    $(_form_row).find('option[value=g]').attr('selected', 'selected');
-    $(_form_row).find('#radio_g').prop("checked", true);
-    $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
-  }
-  $(_form_row).find('input[name="count[]"]').val(quantityValue);
-  $(_form_row).find('input[name="price[]"]').val(priceValue);
-  $(_form_row).find(':radio').attr("name","radio"+i);
-    $(_form_row).find('#radio_pcs').attr("id","radio_pcs"+i);
-    $(_form_row).find('#radio_g').attr("id","radio_g"+i);
-    
-    $(_form_row).find('#radio_pcs_for').attr("for","radio_pcs"+i);
-    $(_form_row).find('#radio_g_for').attr("for","radio_g"+i);
+    var _form_row = $(form_row).clone();
     $(_form_row).find("a.btn-danger").removeClass('d-none');
-  $('#buy_meal_form .text-end').before(_form_row);
-  if($(_form_row).find('.form-row.weight')){
-    $('.form-row.weight').find('select[name="unit[]"]').val('g').trigger('change');
-  }
+    $(_form_row).find('input[name="name[]"]').val(nameValue);
+    if (qtyValue != "") {
+        $(_form_row).find('input[name="weight[]"]').val(qtyValue);
+        $(_form_row).find('select[name="unit[]"]').val("pcs");
+        $(_form_row).find('option[value=pcs]').attr('selected', 'selected');
+        $(_form_row).find('#radio_pcs').prop("checked", true);
+    }
+    else {
+        $(_form_row).find('input[name="weight[]"]').val(weightValue);
+        $(_form_row).find('select[name="unit[]"]').val("g");
+        $(_form_row).find('option[value=g]').attr('selected', 'selected');
+        $(_form_row).find('#radio_g').prop("checked", true);
+        $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
+    }
+    $(_form_row).find('input[name="count[]"]').val(quantityValue);
+    $(_form_row).find('input[name="price[]"]').val(priceValue);
+    $(_form_row).find(':radio').attr("name", "radio" + i);
+    $(_form_row).find('#radio_pcs').attr("id", "radio_pcs" + i);
+    $(_form_row).find('#radio_g').attr("id", "radio_g" + i);
+
+    $(_form_row).find('#radio_pcs_for').attr("for", "radio_pcs" + i);
+    $(_form_row).find('#radio_g_for').attr("for", "radio_g" + i);
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
+    $('#buy_meal_form .text-end').before(_form_row);
+    if ($(_form_row).find('.form-row.weight')) {
+        $('.form-row.weight').find('select[name="unit[]"]').val('g').trigger('change');
+    }
 
 });
-$(document.body).on("click","input.unit",function(e){
+
+$(document.body).on("click", "input.unit", function (e) {
     $(this).parent("div").find("select").val($(this).val())
     console.log($(this).parent("div").find("select").val())
 });
@@ -558,14 +549,14 @@ $(document).on("click", ".person-weight", function (e) {
 $(document).on('submit', '#buy_meal_form', function (e) {
     e.preventDefault();
     var validated = true;
-    $('#buy_meal_form input').not('.quantity').filter(function() {
-        if( !$(this).val() ) {
-          $(this).parents('.form-col').addClass('has-error');
-          validated=false;
+    $('#buy_meal_form input').not('.quantity').filter(function () {
+        if (!$(this).val()) {
+            $(this).parents('.form-col').addClass('has-error');
+            validated = false;
         }
-      });
-    if(!validated)
-    return;
+    });
+    if (!validated)
+        return;
     data = $(this).serializeArray();
 
     $.ajax({
@@ -650,6 +641,7 @@ $(document).on("click", ".buying-details", function (e) {
 
         data: {
 
+            response_type: "json",
             food_item: $(this).data('item'),
 
         },
@@ -662,28 +654,38 @@ $(document).on("click", ".buying-details", function (e) {
 
 
 
-        lowestPricePerKg = 0;
+        lowestPrice = 0;
         res.data.forEach(function (element) {
 
 
-            pricePerKg = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
-            if (lowestPricePerKg == 0) {
-                lowestPricePerKg = pricePerKg;
+            if(element.weight!=null)
+            unitPrice = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
+            else
+            unitPrice = Math.round((element.price / element.qty + Number.EPSILON) * 100) / 100
+
+            if (lowestPrice == 0) {
+                lowestPrice = unitPrice;
             }
-            if (lowestPricePerKg > pricePerKg) {
-                lowestPricePerKg = pricePerKg;
+            if (lowestPrice > unitPrice) {
+                lowestPrice = unitPrice;
             }
 
-            if (lowestPricePerKg == pricePerKg)
-                myModalBodyHtml += '<tr data-id="' + lowestPricePerKg + '">';
+            if (lowestPrice == unitPrice)
+                myModalBodyHtml += '<tr data-id="' + lowestPrice + '">';
             else
                 myModalBodyHtml += '<tr>';
 
             myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
+            if(element.weight!=null)
             myModalBodyHtml += '<td>' + element.weight + 'g</td>';
+            else
+            myModalBodyHtml += '<td>' + element.qty + 'pcs</td>';
             myModalBodyHtml += '<td>RM' + element.price + '</td>';
-            myModalBodyHtml += '<td>RM' + pricePerKg + '</td>';
+            if(element.weight!="")
+            myModalBodyHtml += '<td>RM' + unitPrice + '/Kg</td>';
+            else
+            myModalBodyHtml += '<td>RM' + unitPrice + '/pcs</td>';
             myModalBodyHtml += '<td>' + element.shop_name + '</td>';
             myModalBodyHtml += '<td>' + element.brand_name + '</td>';
             myModalBodyHtml += '</tr>';
@@ -691,10 +693,10 @@ $(document).on("click", ".buying-details", function (e) {
 
         });
 
-
-        $(".modal-title").text("Meal Item Report");
+        let today = currentMonthYear();
+        $(".modal-title").text("Meal Item Report "+ today);
         $("#myModalBody").html($(myModalBodyHtml));
-        $(document).find('[data-id="' + lowestPricePerKg + '"]').addClass("lowest-price")
+        $(document).find('[data-id="' + lowestPrice + '"]').addClass("lowest-price")
         $('#myModal').modal("show");
 
 
@@ -704,13 +706,13 @@ $(document).on("click", ".buying-details", function (e) {
 });
 
 $(document).on("click", ".delete-card", function (e) {
-    id=$(this).data("id");
+    id = $(this).data("id");
     if (confirm("are you sure to delete")) {
         $.ajax({
             url: $(this).data('href'),
             type: "get",
         }).done(function (res) {
-            $("#item-"+id).remove();
+            $("#item-" + id).remove();
         });
     }
 
@@ -850,6 +852,22 @@ function mealAdded(res) {
     alert(msg);
 }
 
+function alertError() {
+    msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-danger" id="success-alert">';
+
+    msg += '<strong>Error!</strong> Unknow error occured.</div>'
+
+    alert(msg);
+}
+
+function alertInputData() {
+    msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-danger" id="success-alert">';
+
+    msg += '<strong>Error!</strong> Please input Data.</div>'
+
+    alert(msg);
+}
+
 function alert(msg) {
     $(document.body).prepend(msg);
 
@@ -867,12 +885,12 @@ $(document).on('click', '.add_buy_meal_form_row', function (e) {
     i++;
     e.preventDefault();
     var _form_row = $(form_row).clone();
-    $(_form_row).find(':radio').attr("name","radio"+i);
-    $(_form_row).find('#radio_pcs').attr("id","radio_pcs"+i);
-    $(_form_row).find('#radio_g').attr("id","radio_g"+i);
-    
-    $(_form_row).find('#radio_pcs_for').attr("for","radio_pcs"+i);
-    $(_form_row).find('#radio_g_for').attr("for","radio_g"+i);
+    $(_form_row).find(':radio').attr("name", "radio" + i);
+    $(_form_row).find('#radio_pcs').attr("id", "radio_pcs" + i);
+    $(_form_row).find('#radio_g').attr("id", "radio_g" + i);
+
+    $(_form_row).find('#radio_pcs_for').attr("for", "radio_pcs" + i);
+    $(_form_row).find('#radio_g_for').attr("for", "radio_g" + i);
     $(_form_row).find("a.btn-danger").removeClass('d-none');
     $('#buy_meal_form .text-end').before(_form_row);
 });
@@ -887,7 +905,24 @@ $(document).on('keyup', '#buy_meal_form input', function () {
     $(this).parent('.form-col').removeClass('has-error');
 });
 
+function currentMonthYear(){
+    const month = new Array();
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
 
+const d = new Date();
+return  month[d.getMonth()] + " " +  d.getFullYear();
+}
 
 
 

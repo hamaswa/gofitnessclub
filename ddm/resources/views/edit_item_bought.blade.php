@@ -28,14 +28,17 @@
         </div>
         <label class="form-label">Unit</label><br>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">          
-            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off" {{(isset($data['item']->qty) and $data['item']->qty !="")? "checked":""}} value="pcs">
-            <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>
+            <input type="radio" class="btn-check unit" name="radio_edit" id="radio_pcs_edit" autocomplete="off" {{(isset($data['item']->qty) and $data['item']->qty !="")? "checked":""}} value="pcs">
+            <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs_edit">pcs</label>
             <select name="unit[]" class="d-none">
-                <option name="unit[]" value="pcs" {{(isset($data['item']->qty) and $data['item']->qty !="")? "selected":""}}></option>
-                <option name="unit[]" value="g" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"selected"}}></option>
+                <option  value="pcs" {{(isset($data['item']->qty) and $data['item']->qty !="")? "selected":""}}></option>
+                <option  value="g" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"selected"}}></option>
             </select>
-            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off" {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"checked"}}  value="g">
-            <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>          
+            <input type="radio" class="btn-check unit" name="radio_edit" id="radio_g_edit" autocomplete="off" 
+            {{(isset($data['item']->qty) and $data['item']->qty !="")? "":"checked"}}  value="g">
+            <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g_edit">g</label> 
+            
+            
         </div>   
     </div>
     <input type="hidden" name="id" value="{{ $data['id'] }}">

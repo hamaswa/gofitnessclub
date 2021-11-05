@@ -13,7 +13,7 @@ class CommonController extends Controller
 {
    
     /**
-     * Store or update image for dite.
+     * Store or update image.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

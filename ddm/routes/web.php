@@ -14,7 +14,6 @@
 Route::get('/', function(){
     return view("index");
 })->name("root");
-Route::get('/home', "DailyDiteController@home")->name("home");
 // Route::get('/library', "DailyDiteController@library")->name("library");
 // Route::get('/show_monthly_dite', "DailyDiteController@monthly_dite");
 // // Route::get('/show_monthly_dite', "DailyDiteController@monthly_dite")->name("monthly_dite");

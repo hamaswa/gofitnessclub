@@ -16,10 +16,10 @@
                        @php
                            if ($brand->image != null) {
                                echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
-                               echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $brand->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-white buying-details">' . $brand->name . '</a></h2>';
+                               echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $brand->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $brand->name . '</a></h2>';
                            } else {
                                echo '<div class="position-absolute product-title">';
-                               echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $brand->name . '" data-href="' . route('buying_detail') . '" class="text-decoration-none text-dark buying-details">' . $brand->name . '</a></h2>';
+                               echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $brand->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $brand->name . '</a></h2>';
                            }
                        @endphp
                    </div>

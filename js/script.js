@@ -614,9 +614,8 @@ $(document).on("click", ".buying-details", function(e) {
         url: $(this).data('href'),
 
         data: {
-
+            response_type:"json",
             food_item: $(this).data('item'),
-
         },
 
         type: "post",

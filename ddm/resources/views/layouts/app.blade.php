@@ -71,7 +71,7 @@
                     <li class="nav-item">
 
                         <a class="nav-link nav-menu-link active" aria-current="page" href=""
-                            data-href="{{ url('/home') }}">Dining</a>
+                            data-href="{{ route('home') }}">Dining</a>
 
                     </li>
 
@@ -140,7 +140,6 @@
     <!-- Scrips -->
 
     <script src="{{ asset('js/jquery-3.6.0.js') }}" type="text/javascript"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
 
