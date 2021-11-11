@@ -33,12 +33,20 @@
     color: #6c757d;
 }
 
-.product-title h5 {
+.product-title h5.price {
     position: absolute;
     bottom: 0;
     right: 0;
     font-size: .75rem;
     border-radius: 5px 0 0 0 !important;
+}
+
+.product-title h5.brand {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: .75rem;
+    border-radius: 0 5px 0 0 !important;
 }
 
 .product-img-gradiant {
@@ -192,6 +200,11 @@ a {
     font-size: 12px;
     padding: 5px 4px 0;
 }
+.form-row .select-shop{
+    margin-left: 10px;
+    min-width: 390px
+;
+}
 @media (max-width: 767px) and (min-width: 320px) {
     .form-row{
         flex-direction: column;
@@ -201,6 +214,13 @@ a {
     .form-col{
         width: 100%;
         margin-bottom: 15px;
+    }
+    .form-col input {
+        max-width: 100%;
+    }
+    .form-row .select-shop{
+        margin-left: 0;
+        min-width: unset;
     }
 }
 

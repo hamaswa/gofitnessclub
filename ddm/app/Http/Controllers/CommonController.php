@@ -59,13 +59,25 @@ class CommonController extends Controller
         return response()->json(array("image" => $obj->image, "class" => $class));
     }
 
-    public function monthly_dite_report()
+    public function monthly_dite_report(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['month']) and $input['month']!=""){
+            $date = explode("-",$input['month']);
+            $month = $date[0];
+            $year = $date[1];
+        }
+        else {
         $month = date("m");
+        $year = date("y");
+        }
+        $data['month'] = $month."-".$year;
+
         $monthly_dite = new DailyDite();
         $data['data'] = $monthly_dite->selectRaw("dailydite.name, count(dailydite.name) as count,sum(dailydite.qty) as qty, 
                                           sum(dailydite.weight) as weight, dite.energy as cal")
             ->whereMonth('dailydite.created_at', $month)
+            ->whereYear('dailydite.created_at', $year)
             ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
             ->groupBy("dailydite.name")
             ->get();
@@ -92,20 +104,34 @@ class CommonController extends Controller
         return view("monthly_dite_report", compact("data"));
     }
 
-    public function monthly_dite()
+    public function monthly_dite(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['month']) and $input['month']!=""){
+            $date = explode("-",$input['month']);
+            $month = $date[0];
+            $year = $date[1];
+        }
+        else {
         $month = date("m");
+        $year = date("y");
+        }
+
         $monthly_dite = new DailyDite();
         $result = $monthly_dite->selectRaw("dailydite.name,dailydite.created_at, dailydite.qty as qty, 
         dailydite.weight as weight, dite.energy as cal")
-            ->whereMonth('dailydite.created_at', $month)
-            ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
+        ->whereMonth('dailydite.created_at', $month)
+        ->whereYear('dailydite.created_at', $year)
+        ->leftjoin("dite", 'dailydite.name', '=', 'dite.name')
             ->orderBy("dailydite.created_at", "desc")
             ->get();
         $data = array();
         foreach ($result as $row) {
             $data[date($row->created_at)][] = $row;
         }
+        $data['data'] = $data;
+        $data['month'] = $month."-".$year;
+
 
         return view("monthly_dite", compact("data"));
     }

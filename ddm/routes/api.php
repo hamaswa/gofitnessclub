@@ -38,8 +38,8 @@ Route::get("/buying/delete-item-bought/{id}","BuyingController@delete_item_bough
 Route::get('/home', "DailyDiteController@home")->name("home");
 Route::get('/library', "DailyDiteController@library")->name("library");
 Route::get("dailydite/add_dite","DailyDiteController@add_dite")->name("add_dite");
-Route::get("dailydite/delete_dite","DailyDiteController@delete_dite")->name("delete_dite");
-Route::get("dailydite/edit_dite","DailyDiteController@edit_dite")->name("edit_dite");
+Route::get("dailydite/delete_meal","DailyDiteController@delete_meal")->name("delete_meal");
+Route::get("dailydite/edit_meal","DailyDiteController@edit_meal")->name("edit_meal");
 Route::post("dailydite/update_dite","DailyDiteController@update_dite")->name("update_dite");
 Route::get("dailydite/edit","DailyDiteController@edit");
 Route::post("dailydite/add_dite","DailyDiteController@add_dite");

@@ -110,7 +110,33 @@ $(document).on("click", ".btn-delete-item", function (e) {
 
 });
 
+$(document).on("focus", "#monthpicker", function () {
+    $("#monthpicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'm-yy',
+        onClose: function (dateText, inst) {
+            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            $(this).trigger("change");
+        }
+    });
+});
 
+$(document).on("change","#monthpicker",function(){
+    url = $(this).data("url");
+    $.ajax({
+
+        url: url,
+
+        type: "get",
+
+        data: { month: $(this).val() },
+
+    }).done(function (res) {
+        $("#content").html("").append(res);
+    })
+});
 
 
 $(document).on("click", "#btn-add-item", function (e) {
@@ -438,7 +464,7 @@ $(document).on("click", ".meal_item_history", function (e) {
         url: $(this).data('href'),
 
         data: {
-
+            month: $(this).data("month"),
             food_item: $(this).data('item'),
 
         },
@@ -508,7 +534,7 @@ $(document).on("click", ".person-weight", function (e) {
     $.ajax({
 
         url: $(this).data('href'),
-
+        data:{month: $(this).data("month")},
         type: "post",
 
     }).done(function (res) {
@@ -658,10 +684,10 @@ $(document).on("click", ".buying-details", function (e) {
         res.data.forEach(function (element) {
 
 
-            if(element.weight!=null)
-            unitPrice = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
+            if (element.weight != null)
+                unitPrice = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
             else
-            unitPrice = Math.round((element.price / element.qty + Number.EPSILON) * 100) / 100
+                unitPrice = Math.round((element.price / element.qty + Number.EPSILON) * 100) / 100
 
             if (lowestPrice == 0) {
                 lowestPrice = unitPrice;
@@ -677,15 +703,15 @@ $(document).on("click", ".buying-details", function (e) {
 
             myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
-            if(element.weight!=null)
-            myModalBodyHtml += '<td>' + element.weight + 'g</td>';
+            if (element.weight != null)
+                myModalBodyHtml += '<td>' + element.weight + 'g</td>';
             else
-            myModalBodyHtml += '<td>' + element.qty + 'pcs</td>';
+                myModalBodyHtml += '<td>' + element.qty + 'pcs</td>';
             myModalBodyHtml += '<td>RM' + element.price + '</td>';
-            if(element.weight!="")
-            myModalBodyHtml += '<td>RM' + unitPrice + '/Kg</td>';
+            if (element.weight != "")
+                myModalBodyHtml += '<td>RM' + unitPrice + '/Kg</td>';
             else
-            myModalBodyHtml += '<td>RM' + unitPrice + '/pcs</td>';
+                myModalBodyHtml += '<td>RM' + unitPrice + '/pcs</td>';
             myModalBodyHtml += '<td>' + element.shop_name + '</td>';
             myModalBodyHtml += '<td>' + element.brand_name + '</td>';
             myModalBodyHtml += '</tr>';
@@ -694,7 +720,7 @@ $(document).on("click", ".buying-details", function (e) {
         });
 
         let today = currentMonthYear();
-        $(".modal-title").text("Meal Item Report "+ today);
+        $(".modal-title").text("Meal Item Report " + today);
         $("#myModalBody").html($(myModalBodyHtml));
         $(document).find('[data-id="' + lowestPrice + '"]').addClass("lowest-price")
         $('#myModal').modal("show");
@@ -905,23 +931,23 @@ $(document).on('keyup', '#buy_meal_form input', function () {
     $(this).parent('.form-col').removeClass('has-error');
 });
 
-function currentMonthYear(){
+function currentMonthYear() {
     const month = new Array();
-month[0] = "January";
-month[1] = "February";
-month[2] = "March";
-month[3] = "April";
-month[4] = "May";
-month[5] = "June";
-month[6] = "July";
-month[7] = "August";
-month[8] = "September";
-month[9] = "October";
-month[10] = "November";
-month[11] = "December";
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
 
-const d = new Date();
-return  month[d.getMonth()] + " " +  d.getFullYear();
+    const d = new Date();
+    return month[d.getMonth()] + " " + d.getFullYear();
 }
 
 

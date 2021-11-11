@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <title>@yield('title')</title>
@@ -139,9 +140,11 @@
 
     <!-- Scrips -->
 
-    <script src="{{ asset('js/jquery-3.6.0.js') }}" type="text/javascript"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-    <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-3.6.0.js') }}" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+        <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
 
 </body>
 

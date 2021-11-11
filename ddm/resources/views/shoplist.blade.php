@@ -17,10 +17,10 @@
                            if ($shop->image != null) {
                                echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
                                echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">' . $shop->location  . '</h6>';
-                               echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $shop->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $shop->name . '</a></h2>';
+                               echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="shop_id" data-href="' . route('buying_detail',$shop->id) . '" class="text-decoration-none text-white buying-details">' . $shop->name . '</a></h2>';
                            } else {
                                echo '<div class="position-absolute product-title">';
-                               echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $shop->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $shop->name . '</a></h2>';
+                               echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="shop_id" data-href="' . route('buying_detail',$shop->id) . '" class="text-decoration-none text-dark buying-details">' . $shop->name . '</a></h2>';
                                echo '<h6  class="mb-auto">' . $shop->location . '</h6>';
                            }
                        @endphp

@@ -1,89 +1,66 @@
-$("document").ready(function() {
-
+var form_row = "";
+var base_url = "http://localhost:8000/";
+// Load Home page content i.e Dining page content initializing
+$("document").ready(function () {
     $.ajax({
-
-        url: "/home",
-
+        url:  base_url +"api/home",
         type: "get",
+    }).done(function (res) {
+        $("#content").html("").append($(res));
 
-    }).done(function(res) {
+        $('#txtDate').datepicker();
+    });  
 
-        $("#content").html("").append(res);
-
-    })
-
+    
+    
 })
 
-$(document).on("click", "#button-add-meal", function() {
-
-    $.ajax({
-
-        url: "/api/dailydite/add_dite",
-
-        type: "post",
-
-        data: { "dite": $("#meal-input-box").val() },
-
-    }).done(function(res) {
-        if (typeof(res.weight) != 'undefined') {
-            weightAdded(res);
-        } else {
-            mealAdded(res);
-        }
-
-    });
-
-});
 
 
-$(document).on("click", "#button-buy-meal", function() {
-
-    $.ajax({
-
-        url: "/api/buying/buy_meal",
-
-        type: "post",
-
-        data: { "items": $("#buy-meal-input-box").val() },
-
-    }).done(function(res) {
-        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
-
-        msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
-
-        $("#content").html("").append(res);
-
-        alert(msg);
 
 
-    });
-
+// Add new meal consumed 
+// OR record your weight
+$(document).on("click", "#button-add-meal", function () {
+    if ($("#meal-input-box").val() != "") {
+        $.ajax({
+            url: "/api/dailydite/add_dite",
+            type: "post",
+            data: { "dite": $("#meal-input-box").val() },
+        }).done(function (res) {
+            if (typeof (res.status != 'undefined') && res.status == 'error') {
+                alertError(res);
+            }
+            else {
+                if (typeof (res.weight) != 'undefined') {
+                    //success message for user weight record
+                    weightAdded(res);
+                } else {
+                    //success message for new consumed meal added
+                    mealAdded(res);
+                }
+            }
+        });
+    }
+    else {
+        alertInputData();
+    }
 });
 
 
 
-$(document).on("click", "#button-edit-meal", function() {
-
+$(document).on("click", "#button-edit-meal", function () {
     if (confirm("Are you sure to update meal")) {
         $.ajax({
-
             url: "/api/dailydite/update_dite",
-
             type: "post",
-
             data: { "created_at": $("#created_at").val(), "dite": $("#meal-edit-input-box").val() },
-
-        }).done(function(res) {
-
+        }).done(function (res) {
             msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
-
             msg += '<strong>Success!</strong> Meal successfully Updated</div>'
-
             $("#content").html("").append(res);
-
             alert(msg)
             $("#myModal").modal("hide");
-
         });
     }
 
@@ -91,7 +68,7 @@ $(document).on("click", "#button-edit-meal", function() {
 
 
 
-$(document).on("click", ".btn-edit-item", function(e) {
+$(document).on("click", ".btn-edit-item", function (e) {
 
     e.preventDefault();
 
@@ -103,7 +80,7 @@ $(document).on("click", ".btn-edit-item", function(e) {
 
         data: { id: $(this).attr("id"), defaults: $(this).prev("input").val() },
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -115,11 +92,11 @@ $(document).on("click", ".btn-edit-item", function(e) {
 
 });
 
-$(document).on("change blur", ".library-input input", function() {
-    $(this).next("a").trigger("click");
-})
+// $(document).on("change blur", ".library-input input:not(.intro input)", function() {
+//     $(this).next("a").trigger("click");
+// })
 
-$(document).on("click", ".btn-delete-item", function(e) {
+$(document).on("click", ".btn-delete-item", function (e) {
 
     e.preventDefault();
     $.ajax({
@@ -130,7 +107,7 @@ $(document).on("click", ".btn-delete-item", function(e) {
 
         data: { id: $(this).attr("id") },
 
-    }).done(function(res) {
+    }).done(function (res) {
         $(this).parent("li").remove();
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -145,7 +122,7 @@ $(document).on("click", ".btn-delete-item", function(e) {
 
 
 
-$(document).on("click", "#btn-add-item", function(e) {
+$(document).on("click", "#btn-add-item", function (e) {
 
     e.preventDefault();
 
@@ -157,7 +134,7 @@ $(document).on("click", "#btn-add-item", function(e) {
 
         data: { defaults: $(this).prev("input").val() },
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
 
@@ -174,9 +151,7 @@ $(document).on("click", "#btn-add-item", function(e) {
 
 });
 
-
-
-$(document).on("submit", "#dite-item-default-frm", function(e) {
+$(document).on("submit", "#dite-item-default-frm", function (e) {
 
     e.preventDefault();
 
@@ -184,25 +159,53 @@ $(document).on("submit", "#dite-item-default-frm", function(e) {
 
 });
 
+var i = 0;
+$(document).on("click", ".text-add-btn", function () {
+    i++;
+    var nameValue = $(this).attr("data-name");
+    var weightValue = $(this).attr("data-weight");
+    var qtyValue = $(this).attr("data-qty");
+    var priceValue = $(this).attr("data-price");
+    var quantityValue = $(this).attr("data-quantity");
 
-
-$(document).on("click", ".text-add-btn", function() {
-    input = $(this).data('input');
-    val = $("#" + input).val();
-    if (val != "") {
-        val = val + ", ";
+    var _form_row = $(form_row).clone();
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
+    $(_form_row).find('input[name="name[]"]').val(nameValue);
+    if (qtyValue != "") {
+        $(_form_row).find('input[name="weight[]"]').val(qtyValue);
+        $(_form_row).find('select[name="unit[]"]').val("pcs");
+        $(_form_row).find('option[value=pcs]').attr('selected', 'selected');
+        $(_form_row).find('#radio_pcs').prop("checked", true);
     }
-    str = $(this).data("text");
-    val += str;
-    $("#" + input).val(val).trigger('focus');
+    else {
+        $(_form_row).find('input[name="weight[]"]').val(weightValue);
+        $(_form_row).find('select[name="unit[]"]').val("g");
+        $(_form_row).find('option[value=g]').attr('selected', 'selected');
+        $(_form_row).find('#radio_g').prop("checked", true);
+        $(_form_row).find('input[name="weight[]"]').parents('.form-row').addClass('weight')
+    }
+    $(_form_row).find('input[name="count[]"]').val(quantityValue);
+    $(_form_row).find('input[name="price[]"]').val(priceValue);
+    $(_form_row).find(':radio').attr("name", "radio" + i);
+    $(_form_row).find('#radio_pcs').attr("id", "radio_pcs" + i);
+    $(_form_row).find('#radio_g').attr("id", "radio_g" + i);
+
+    $(_form_row).find('#radio_pcs_for').attr("for", "radio_pcs" + i);
+    $(_form_row).find('#radio_g_for').attr("for", "radio_g" + i);
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
+    $('#buy_meal_form .text-end').before(_form_row);
+    if ($(_form_row).find('.form-row.weight')) {
+        $('.form-row.weight').find('select[name="unit[]"]').val('g').trigger('change');
+    }
 
 });
 
+$(document.body).on("click", "input.unit", function (e) {
+    $(this).parent("div").find("select").val($(this).val())
+    console.log($(this).parent("div").find("select").val())
+});
 
-
-
-
-$(document).on('keypress', "#meal-input-box, #buy-meal-input-box", function(event) {
+$(document).on('keypress', ".data-input-box", function (event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
@@ -213,25 +216,19 @@ $(document).on('keypress', "#meal-input-box, #buy-meal-input-box", function(even
 
 });
 
-
-
-$(document).on("click", ".upload-image", function() {
+$(document).on("click", ".upload-image", function () {
 
     $(this).parent("a").find("input").trigger("click");
 
 });
 
-
-
-$(document).on('change', ".upload-image-input", function() {
+$(document).on('change', ".upload-image-input", function () {
 
     $(this).parents("form").trigger("submit");
 
 });
 
-
-
-$(document).on("submit", ".upload-image-form", function(e) {
+$(document).on("submit", ".upload-image-form", function (e) {
 
     e.preventDefault();
 
@@ -255,7 +252,7 @@ $(document).on("submit", ".upload-image-form", function(e) {
 
             processData: false,
 
-            success: function(response) {
+            success: function (response) {
 
                 fooditem = $("#image-container-" + id).parent("div").find("div"); //.closest("div").find("div");
 
@@ -300,9 +297,7 @@ $(document).on("submit", ".upload-image-form", function(e) {
 
 
 
-
-
-$(".nav-menu-link").on("click", function(e) {
+$(".nav-menu-link").on("click", function (e) {
 
     e.preventDefault();
 
@@ -316,17 +311,17 @@ $(".nav-menu-link").on("click", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         $("#content").html("").append(res);
+        form_row = $(".form-row:nth-child(2)").clone();
+
 
     })
 
 });
 
-
-
-$(document).on("click", ".btn-edit-food", function() {
+$(document).on("click", ".btn-edit-food", function () {
 
     $.ajax({
 
@@ -336,7 +331,7 @@ $(document).on("click", ".btn-edit-food", function() {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         res = JSON.parse(res);
 
@@ -358,9 +353,7 @@ $(document).on("click", ".btn-edit-food", function() {
 
 })
 
-
-
-$(document).on("click", ".btn-delete-food", function(e) {
+$(document).on("click", ".btn-delete-food", function (e) {
 
     if (confirm("Are you sure to delete Food")) {
 
@@ -372,7 +365,7 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
 
             $(this).parent("div").remove();
 
@@ -390,9 +383,7 @@ $(document).on("click", ".btn-delete-food", function(e) {
 
 });
 
-
-
-$("#content").on("click", ".ajax-page-load-more", function(e) {
+$("#content").on("click", ".ajax-page-load-more", function (e) {
 
     e.preventDefault();
 
@@ -402,7 +393,7 @@ $("#content").on("click", ".ajax-page-load-more", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         html = $(res).filter(".recent-meals");
 
@@ -421,10 +412,7 @@ $("#content").on("click", ".ajax-page-load-more", function(e) {
 })
 
 
-
-
-
-$("#content").on("click", ".ajax-page-link", function(e) {
+$("#content").on("click", ".ajax-page-link", function (e) {
 
     e.preventDefault();
 
@@ -434,9 +422,10 @@ $("#content").on("click", ".ajax-page-link", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         $("#content").html("").append(res);
+
 
     })
 
@@ -446,12 +435,11 @@ $("#content").on("click", ".ajax-page-link", function(e) {
 
 
 
-$(document).on("click", ".meal_item_history", function(e) {
+$(document).on("click", ".meal_item_history", function (e) {
 
     e.preventDefault();
 
-    myModalHeadHtml = '<tr><th scope="col">Items</th><th scope="col">g/pcs</th><th scope="col">Counts</th></tr>';
-
+    myModalHeadHtml = modalHeadHtml(['Items', 'g/pcs', 'Counts'])
     $("#myModalHead").html($(myModalHeadHtml));
 
     $.ajax({
@@ -466,13 +454,13 @@ $(document).on("click", ".meal_item_history", function(e) {
 
         type: "post",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         myModalBodyHtml = '';
 
 
 
-        res.data.forEach(element => {
+        res.data.forEach(function (element) {
 
             if (element.qty != 0) {
 
@@ -511,64 +499,102 @@ $(document).on("click", ".meal_item_history", function(e) {
 
 });
 
-$(document).on("mouseleave", ".library-input", function() {
+$(document).on("mouseleave", ".library-input", function () {
     $(this).find("a").addClass("d-none");
 })
 
-$(document).on("mouseenter", ".library-input", function() {
+$(document).on("mouseenter", ".library-input", function () {
     $(this).find("a").removeClass("d-none");
 })
 
-$(document).on("click", ".person-weight", function(e) {
-        e.preventDefault();
-        myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
-        myModalHeadHtml = modalHeadHtml(['Date', 'Weight'])
+$(document).on("click", ".person-weight", function (e) {
+    e.preventDefault();
+    myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
+    myModalHeadHtml = modalHeadHtml(['Date', 'Weight'])
 
-        $("#myModalHead").html($(myModalHeadHtml));
+    $("#myModalHead").html($(myModalHeadHtml));
 
-        $.ajax({
+    $.ajax({
 
-            url: $(this).data('href'),
+        url: $(this).data('href'),
 
-            type: "post",
+        type: "post",
 
-        }).done(function(res) {
+    }).done(function (res) {
 
-            myModalBodyHtml = '';
-
-
-
-            res.data.forEach(element => {
-
-                myModalBodyHtml += '<tr>';
-
-                myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
-
-                myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
-
-                myModalBodyHtml += '<td>' + element.weight + '</td>';
-
-                myModalBodyHtml += '</tr>';
+        myModalBodyHtml = '';
 
 
 
-            });
+        res.data.forEach(function (element) {
+
+            myModalBodyHtml += '<tr>';
+
+            myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
+
+            myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
+
+            myModalBodyHtml += '<td>' + element.weight + '</td>';
+
+            myModalBodyHtml += '</tr>';
 
 
-            $(".modal-title").text("User Weight Report")
 
-            $("#myModalBody").html($(myModalBodyHtml));
+        });
 
-        })
 
-        $('#myModal').modal('show');
+        $(".modal-title").text("User Weight Report")
+
+        $("#myModalBody").html($(myModalBodyHtml));
 
     })
-    // buying events
-$(document).on("submit", ".update-food-form", function(e) {
+
+    $('#myModal').modal('show');
+
+})
+
+// buying events
+
+$(document).on('submit', '#buy_meal_form', function (e) {
+    e.preventDefault();
+    var validated = true;
+    $('#buy_meal_form input').not('.quantity').filter(function () {
+        if (!$(this).val()) {
+            $(this).parents('.form-col').addClass('has-error');
+            validated = false;
+        }
+    });
+    if (!validated)
+        return;
+    data = $(this).serializeArray();
+
+    $.ajax({
+
+        url: "/api/buying/buy_meal",
+
+        type: "post",
+
+        data: data,
+
+    }).done(function (res) {
+        msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
+
+        msg += '<strong>Success!</strong>New Purchase successfully Added</div>'
+
+        $("#content").html("").append(res);
+
+        alert(msg);
+
+
+    });
+
+});
+
+$(document).on("submit", ".update-food-form", function (e) {
     e.preventDefault();
     url = $(".update-food-form").data("action");
     formdata = $(this).serializeArray();
+    console.log(formdata);
     $.ajax({
 
         url: url,
@@ -577,12 +603,22 @@ $(document).on("submit", ".update-food-form", function(e) {
 
         type: "post",
 
-    }).done(function(res) {
-        console.log($(this));
+    }).done(function (res) {
+        if (res.status != "error") {
+            item = $(res).attr("id");
+            console.log(item);
+            $("#" + item).html("").append($($(res).html()))
+            msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-success" id="success-alert">';
+            msg += '<strong>Success!</strong> Successfully Updated';
+            msg += '</div>';
+            alert(msg);
+        }
+        $('#myModal').modal('hide');
+
     }.bind(this));
 })
 
-$(document).on("click", ".edit-item-btn", function(e) {
+$(document).on("click", ".edit-item-btn", function (e) {
     e.preventDefault();
     $.ajax({
 
@@ -592,8 +628,7 @@ $(document).on("click", ".edit-item-btn", function(e) {
 
         type: "get",
 
-    }).done(function(res) {
-        console.log(res);
+    }).done(function (res) {
         $("#myModalHead").html("");
         $(".modal-title").text("Update Food Item");
         td = $("<td></td>");
@@ -604,9 +639,9 @@ $(document).on("click", ".edit-item-btn", function(e) {
     }.bind(this));
 })
 
-$(document).on("click", ".buying-details", function(e) {
+$(document).on("click", ".buying-details", function (e) {
     e.preventDefault();
-    myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg'])
+    myModalHeadHtml = modalHeadHtml(['Date', 'Weight', 'Price Paid', 'Price/Kg', 'shop', 'brand'])
     $("#myModalHead").html($(myModalHeadHtml));
 
     $.ajax({
@@ -614,56 +649,87 @@ $(document).on("click", ".buying-details", function(e) {
         url: $(this).data('href'),
 
         data: {
-            response_type:"json",
-            food_item: $(this).data('item'),
+
+            response_type: "json",
+            source: $(this).data('item'),
+
         },
 
         type: "post",
 
-    }).done(function(res) {
+    }).done(function (res) {
 
         myModalBodyHtml = '';
 
 
 
-        lowestPricePerKg = 0;
-        res.data.forEach(element => {
+        lowestPrice = 0;
+        res.data.forEach(function (element) {
 
 
-            pricePerKg = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
-            if (lowestPricePerKg == 0) {
-                lowestPricePerKg = pricePerKg;
+            if(element.weight!=null)
+            unitPrice = Math.round((element.price / element.weight * 1000 + Number.EPSILON) * 100) / 100
+            else
+            unitPrice = Math.round((element.price / element.qty + Number.EPSILON) * 100) / 100
+
+            if (lowestPrice == 0) {
+                lowestPrice = unitPrice;
             }
-            if (lowestPricePerKg > pricePerKg) {
-                lowestPricePerKg = pricePerKg;
+            if (lowestPrice > unitPrice) {
+                lowestPrice = unitPrice;
             }
 
-            if (lowestPricePerKg == pricePerKg)
-                myModalBodyHtml += '<tr data-id="' + lowestPricePerKg + '">';
+            if (lowestPrice == unitPrice)
+                myModalBodyHtml += '<tr data-id="' + lowestPrice + '">';
             else
                 myModalBodyHtml += '<tr>';
 
             myModalBodyHtml += '<th><a href="javascript:void(0)" class="text-decoration-none" data-bs-toggle="modal"';
             myModalBodyHtml += 'data-bs-target="#exampleModal">' + element.created_at.substr(0, 10) + '</a></th>';
+            if(element.weight!=null)
             myModalBodyHtml += '<td>' + element.weight + 'g</td>';
+            else
+            myModalBodyHtml += '<td>' + element.qty + 'pcs</td>';
             myModalBodyHtml += '<td>RM' + element.price + '</td>';
-            myModalBodyHtml += '<td>RM' + pricePerKg + '</td>';
+            if(element.weight!="")
+            myModalBodyHtml += '<td>RM' + unitPrice + '/Kg</td>';
+            else
+            myModalBodyHtml += '<td>RM' + unitPrice + '/pcs</td>';
+            myModalBodyHtml += '<td>' + element.shop_name + '</td>';
+            myModalBodyHtml += '<td>' + element.brand_name + '</td>';
             myModalBodyHtml += '</tr>';
-
-
         });
+        let month = currentMonthYear();
 
+        if(myModalBodyHtml==""){
+            myModalBodyHtml = "<th colspan='6'>No Data Found for " + month;
+        }
 
-        $(".modal-title").text("Meal Item Report");
+        $(".modal-title").text("Meal Item Report "+ month);
         $("#myModalBody").html($(myModalBodyHtml));
-        $(document).find('[data-id="' + lowestPricePerKg + '"]').addClass("lowest-price")
-        $('#myModal').modal('show');
+        $(document).find('[data-id="' + lowestPrice + '"]').addClass("lowest-price")
+        $('#myModal').modal("show");
 
 
     })
 
 
-})
+});
+
+$(document).on("click", ".delete-card", function (e) {
+    id = $(this).data("id");
+    if (confirm("are you sure to delete")) {
+        $.ajax({
+            url: $(this).data('href'),
+            type: "get",
+        }).done(function (res) {
+            $("#item-" + id).remove();
+        });
+    }
+
+});
+
+
 
 /*
 Settings and Configrations
@@ -671,7 +737,7 @@ Settings and Configrations
 // Shop events
 
 
-$(document).on("click", "#button-add-shop", function() {
+$(document).on("click", "#button-add-shop", function () {
     if ($("#" + $(this).data('input')).val() == "") {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
         msg += '<strong>Error!</strong> Please Input Shop list';
@@ -683,19 +749,19 @@ $(document).on("click", "#button-add-shop", function() {
 });
 
 
-$(document).on("click", ".shop-delete-btn", function() {
+$(document).on("click", ".shop-delete-btn", function () {
     url = $(this).data("href");
     if (confirm("Are you sure to delete Shop")) {
         $.ajax({
             url: url,
             type: "get",
-        }).done(function(res) {
+        }).done(function (res) {
             $(this).parent().parent().parent().parent().remove();
         }.bind(this));
     }
 });
 
-$(document).on("click", ".shop-edit-btn", function() {
+$(document).on("click", ".shop-edit-btn", function () {
     id = $(this).data("id");
     text = $(this).data("text");
     input = $(this).data("input");
@@ -706,7 +772,7 @@ $(document).on("click", ".shop-edit-btn", function() {
 // Brand events
 
 
-$(document).on("click", "#button-add-brand", function() {
+$(document).on("click", "#button-add-brand", function () {
     if ($("#" + $(this).data('input')).val() == "") {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-error" id="success-alert">';
         msg += '<strong>Error!</strong> Please Input brand list';
@@ -717,20 +783,20 @@ $(document).on("click", "#button-add-brand", function() {
     submitInputData(this);
 });
 
-$(document).on("click", ".brand-delete-btn", function() {
+$(document).on("click", ".brand-delete-btn", function () {
     url = $(this).data("href");
     if (confirm("Are you sure to delete brand")) {
         $.ajax({
             url: url,
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
             $(this).parent().parent().parent().parent().remove();
         }.bind(this));
     }
 });
 
-$(document).on("click", ".brand-edit-btn", function() {
+$(document).on("click", ".brand-edit-btn", function () {
     id = $(this).data("id");
     text = $(this).data("text");
     input = $(this).data("input");
@@ -749,7 +815,7 @@ function submitInputData(element) {
 
         data: { "input": $("#" + input).val(), id: $("#" + input).data("id") },
 
-    }).done(function(res) {
+    }).done(function (res) {
         msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-' + res.status + '" id="success-alert">';
         msg += res.msg;
         msg += '</div>';
@@ -762,7 +828,7 @@ function submitInputData(element) {
 
             type: "get",
 
-        }).done(function(res) {
+        }).done(function (res) {
             $("#content").html("").append(res);
         });
 
@@ -772,7 +838,7 @@ function submitInputData(element) {
 
 function modalHeadHtml(cols) {
     myModalHeadHtml = '<tr>';
-    cols.forEach(col => {
+    cols.forEach(function (col) {
         myModalHeadHtml += '<th scope="col">' + col + '</th>'
     })
     myModalHeadHtml += '</tr>';
@@ -797,14 +863,79 @@ function mealAdded(res) {
     alert(msg);
 }
 
+function alertError() {
+    msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-danger" id="success-alert">';
+
+    msg += '<strong>Error!</strong> Unknow error occured.</div>'
+
+    alert(msg);
+}
+
+function alertInputData() {
+    msg = '<div style="z-index:9999" class="position-fixed text-center  w-100 p-3 alert alert-danger" id="success-alert">';
+
+    msg += '<strong>Error!</strong> Please input Data.</div>'
+
+    alert(msg);
+}
+
 function alert(msg) {
     $(document.body).prepend(msg);
 
     $("#success-alert").alert();
 
-    window.setTimeout(function() {
+    window.setTimeout(function () {
 
         $("#success-alert").alert('close');
 
     }, 2000);
 }
+
+var i = 0;
+$(document).on('click', '.add_buy_meal_form_row', function (e) {
+    i++;
+    e.preventDefault();
+    var _form_row = $(form_row).clone();
+    $(_form_row).find(':radio').attr("name", "radio" + i);
+    $(_form_row).find('#radio_pcs').attr("id", "radio_pcs" + i);
+    $(_form_row).find('#radio_g').attr("id", "radio_g" + i);
+
+    $(_form_row).find('#radio_pcs_for').attr("for", "radio_pcs" + i);
+    $(_form_row).find('#radio_g_for').attr("for", "radio_g" + i);
+    $(_form_row).find("a.btn-danger").removeClass('d-none');
+    $('#buy_meal_form .text-end').before(_form_row);
+});
+
+$(document).on('click', '.remove_buy_meal_form_row', function (e) {
+    e.preventDefault();
+    $(this).parents('.form-row:not(:first-child)').remove();
+});
+
+
+$(document).on('keyup', '#buy_meal_form input', function () {
+    $(this).parent('.form-col').removeClass('has-error');
+});
+
+function currentMonthYear(){
+    const month = new Array();
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
+
+const d = new Date();
+return  month[d.getMonth()] + " " +  d.getFullYear();
+}
+
+
+// override jquery validate plugin defaults
+
+

@@ -18,6 +18,7 @@
         <button class="btn btn-success d-flex align-items-center" type="button" id="button-edit-meal">
             <img src="{{ asset("images/right-arrow.png") }}" width="10" class="img-fluid" /></button>
       </div> --}}
+    <input type="text"  value="{{ isset($data['month'])?$data['month']:""}}" placeholder="Select Month" data-url="{{ route("show_monthly_buying")}}" id="monthpicker" >
     <ul class="list-unstyled mb-4">
         @foreach ($data as $key=>$item)
         <div class="d-flex flex-wrap">
@@ -51,8 +52,8 @@
                 
             @endforeach
           
-            {{-- <a href="javascript:void(0)" data-href="{{route("edit_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-edit-food">Edit</a>
-            <a href="javascript:void(0)" data-href="{{route("delete_dite")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-delete-food">Delete</a>  --}}
+            {{-- <a href="javascript:void(0)" data-href="{{route("edit_meal")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-edit-food">Edit</a>
+            <a href="javascript:void(0)" data-href="{{route("delete_meal")}}" data-created_at="{{$key}}" class="py-0 px-2 btn-delete-food">Delete</a>  --}}
          </div>                      
         @endforeach    
     </ul>

@@ -1,9 +1,8 @@
 <form id="buy_meal_form" class="mb-3">
     <div class="form-row">
         <div class="form-col flex-md-row align-items-md-center">
-            <label class="form-label">Shop</label>
             <select name="shop_id" class="form-select select-shop">
-                <option selected>Choose...</option>
+                <option selected>Select Shop</option>
                 @foreach ($data['shops'] as $shop)
                     <option {{ $shop->id==$data['shop_id']?"selected":""}} value="{{ $shop->id }}">
                         {{ $shop->name }}</option>
@@ -22,13 +21,13 @@
         </div>
         <div class="btn-group mb-md-0 mb-3" role="group" aria-label="Basic radio toggle button group">
            
-            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off" checked value="pcs">
+            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off"  value="pcs">
             <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>
             <select name="unit[]" class="d-none">
-                <option selected value="pcs"></option>
-                <option value="g"></option>
+                <option value="pcs"></option>
+                <option selected value="g"></option>
             </select>
-            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off"  value="g">
+            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off" checked value="g">
             <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>
             
         </div>
@@ -83,10 +82,10 @@
                             if ($item->image != null) {
                                 echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
                                 echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">RM' . $item->price . '/' . $val . '</h6>';
-                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="id" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
                             } else {
                                 echo '<div class="position-absolute product-title">';
-                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="id" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
                                 echo '<h6  class="mb-auto">RM' . $item->price . '/' . $val . '</h6>';
                             }
                         } else {
@@ -94,10 +93,10 @@
                             if ($item->image != null) {
                                 echo '<div class="position-absolute product-title d-flex align-items-start flex-column">';
                                 echo '<h6 class="mb-auto bg-white p-2 opacity-75 rounded">RM' . $item->price . '/' . $val . '</h6>';
-                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-1"><a href="javascript:void(0)" data-item="id" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-white buying-details">' . $item->name . '</a></h2>';
                             } else {
                                 echo '<div class="position-absolute product-title">';
-                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="' . $item->name . '" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
+                                echo '<h2 class="mt-0 mb-0"><a href="javascript:void(0)" data-item="id" data-href="' . route('buying_detail',$item->id) . '" class="text-decoration-none text-dark buying-details">' . $item->name . '</a></h2>';
                                 echo '<h6  class="mb-auto">RM' . $item->price . '/' . $val . '</h6>';
                             }
                         }

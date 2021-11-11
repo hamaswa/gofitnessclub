@@ -33,10 +33,10 @@ class BuyingController extends Controller
                 (m1.shop_id=m2.shop_id and m1.brand_id=m2.brand_id and m1.unit_price = m2.unit_price) 
                 WHERE m2.id IS NULL ORDER BY id asc) t'))
                 ->whereMonth('t.created_at', $month)
-                ->leftJoin("brands","t.brand_id","=",'brands.id')
+                ->leftJoin("brands", "t.brand_id", "=", 'brands.id')
                 ->OrderBy('id', 'desc')
                 ->paginate(25);
-            $data['shop_id'] = isset($input['shop_id'])?$input['shop_id']:null;
+            $data['shop_id'] = isset($input['shop_id']) ? $input['shop_id'] : null;
             $data['shops'] = Shop::all();
 
             // If json response is required or default theme html
@@ -107,29 +107,28 @@ class BuyingController extends Controller
      * 
      */
 
-    public function buying_detail(Request $request,$id)
+    public function buying_detail(Request $request, $id)
     {
         $input = $request->all();
         $month = date("m");
-        $food_item = $input['food_item'];
+        $source = $input['source'];
+
         $monthly_buying = new DailyBuying();
         $data['data'] = $monthly_buying->selectRaw("dailybuyings.*,ifnull(shops.name,'') as shop_name,
                                                 ifnull(brands.name,'')  as brand_name")
-            ->where("dailybuyings.id", '=', $id)
+            ->where("dailybuyings.$source", '=', $id)
             ->whereMonth('dailybuyings.created_at', $month)
             ->leftjoin("shops", 'dailybuyings.shop_id', '=', 'shops.id')
-            ->leftjoin("brands", 'dailybuyings.shop_id', '=', 'brands.id')
+            ->leftjoin("brands", 'dailybuyings.brand_id', '=', 'brands.id')
             ->get();
 
-            // If json response is required or default theme html            
-            if (isset($input['response_type']) and $input['response_type'] === "json") {
-                return response()->json($data);
-            } else
-            {   
-                // default view code todo
-                return  response()->json($data);
-            }
-                
+        // If json response is required or default theme html            
+        if (isset($input['response_type']) and $input['response_type'] === "json") {
+            return response()->json($data);
+        } else {
+            // default view code todo
+            return  response()->json($data);
+        }
     }
 
     /**
@@ -222,7 +221,10 @@ class BuyingController extends Controller
     {
         try {
             $item = DailyBuying::where("id", $id)->delete();
-            return response()->json(json_encode(json_decode($item)));
+            if ($item) {
+                return response()->json(array("status" => "success", "message" => "Successfully delete food item"));
+            } else
+                return response()->json(array("status" => "error", "message" => "Database Error Occured. Please contact site administrator"));
         } catch (Exception $e) {
             return response()->json(array("status" => "error", "message" => $e->getMessage()));
         }
@@ -235,14 +237,24 @@ class BuyingController extends Controller
      */
     public function show_monthly_buying(Request $request)
     {
+
         try {
-            $month = date("m");
+            $input = $request->all();
+            if (isset($input['month']) and $input['month'] != "") {
+                $date = explode("-", $input['month']);
+                $month = $date[0];
+                $year = $date[1];
+            } else {
+                $month = date("m");
+                $year = date("y");
+            }
             $monthly_buy_dite = new DailyBuying();
             $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, 
         dailybuyings.weight, dailybuyings.qty, coalesce(shops.name, 'No Shop Selected') as shopname, 
             dailybuyings.price")
                 ->leftjoin("shops", 'dailybuyings.shop_id', '=', 'shops.id')
                 ->whereMonth('dailybuyings.created_at', $month)
+                ->whereYear('dailybuyings.created_at', $year)
                 ->orderBy("dailybuyings.created_at", "desc")
                 ->get();
             $data = array();
