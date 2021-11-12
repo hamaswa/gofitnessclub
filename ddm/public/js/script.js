@@ -251,9 +251,9 @@ $(document).on("submit", ".upload-image-form", function (e) {
 
     var fd = new FormData(this);
 
-    var files = $(this).find('input[name=image')[0].files;
+    var files = $(this).find('input[name=image]')[0].files;
 
-    var id = $(this).find('input[name=id').val();
+    var id = $(this).find('input[name=id]').val();
 
     if (files.length > 0) {
 
@@ -516,14 +516,6 @@ $(document).on("click", ".meal_item_history", function (e) {
 
 });
 
-$(document).on("mouseleave", ".library-input", function () {
-    $(this).find("a").addClass("d-none");
-})
-
-$(document).on("mouseenter", ".library-input", function () {
-    $(this).find("a").removeClass("d-none");
-})
-
 $(document).on("click", ".person-weight", function (e) {
     e.preventDefault();
     myModalHeadHtml = '<tr><th scope="col">Date</th><th scope="col">weight</th></tr>';
@@ -719,7 +711,7 @@ $(document).on("click", ".buying-details", function (e) {
 
         });
 
-        let today = currentMonthYear();
+        const today = currentMonthYear();
         $(".modal-title").text("Meal Item Report " + today);
         $("#myModalBody").html($(myModalBodyHtml));
         $(document).find('[data-id="' + lowestPrice + '"]').addClass("lowest-price")

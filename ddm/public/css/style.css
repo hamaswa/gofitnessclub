@@ -290,11 +290,24 @@ a {
     -webkit-box-flex:1;
 }
 .navbar-nav {
-    display: -webkit-box !important;
+    display: -webkit-box;
+    display: flex;
     flex-basis: auto;
 }
 .navbar > .container, .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl{
     display: -webkit-box !important;
+}
+
+.library-input > a {
+    display: none;
+}
+.library-input:hover > a {
+    display: block;
+}
+@media (max-width: 767px) {
+    .library-input > a {
+        display: block;
+    }
 }
 
 /*End*/
