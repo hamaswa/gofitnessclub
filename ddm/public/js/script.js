@@ -90,6 +90,7 @@ $(document).on("click", ".btn-edit-item", function (e) {
 $(document).on("click", ".btn-delete-item", function (e) {
 
     e.preventDefault();
+    if(confirm("Are you sure to delete Food item")){
     $.ajax({
 
         url: "/api/dailydite/delete_food_item",
@@ -107,23 +108,24 @@ $(document).on("click", ".btn-delete-item", function (e) {
         alert(msg);
 
     }.bind(this));
+}
 
 });
 
-$(document).on("focus", "#monthpicker", function () {
-    $("#monthpicker").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'm-yy',
-        onClose: function (dateText, inst) {
-            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
-            $(this).trigger("change");
-        }
-    });
-});
+// $(document).on("focus", "#monthpicker", function () {
+//     $("#monthpicker").datepicker({
+//         changeMonth: true,
+//         changeYear: true,
+//         showButtonPanel: true,
+//         dateFormat: 'm-yy',
+//         onClose: function (dateText, inst) {
+//             $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+//             $(this).trigger("change");
+//         }
+//     });
+// });
 
-$(document).on("change","#monthpicker",function(){
+$(document).on("click","#monthpicker",function(){
     url = $(this).data("url");
     $.ajax({
 
@@ -131,7 +133,7 @@ $(document).on("change","#monthpicker",function(){
 
         type: "get",
 
-        data: { month: $(this).val() },
+        data: { month: $("select[name=month]").val()+"-"+$("select[name=year]").val() },
 
     }).done(function (res) {
         $("#content").html("").append(res);
@@ -660,7 +662,7 @@ $(document).on("click", ".buying-details", function (e) {
         data: {
 
             response_type: "json",
-            food_item: $(this).data('item'),
+            source: $(this).data('item'),
 
         },
 

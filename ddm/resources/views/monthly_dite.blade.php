@@ -8,29 +8,33 @@ $css_colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', '#E6B333',
     </style>
 <div class="row mb-3">
     <div class="col-md-2">
-        <select name="selectMonth" class="form-select">
+        <select name="month" class="form-select">
             <option value="">Select Month</option>
             <?php for($i=1; $i<=12; $i++) {
-                echo "<option value=".$i.">".$i."</option>";
-            } ?>
-        </select>
-    </div>
-    <div class="col-md-2">
-        <select name="selectYear" class="form-select">
-            <option value="">Select Year</option>
-            <?php
-            for($i=1; $i<=12; $i++)
-            {
-                echo "<option value=".$i.">".$i."</option>";
-            }
+                echo "<option value=".$i.">".strftime('%B', mktime(0, 0, 0, $i))."</option>";
+            } 
+            
             ?>
         </select>
     </div>
     <div class="col-md-2">
-        <button class="btn btn-primary" type="submit">Submit</button>
+        @php 
+        $currently_selected = date('Y');
+        $earliest_year = 2021;
+        $latest_year = date('Y');
+        echo '<select name="year" class="form-select">';
+        echo '<option value="">Select Year</option>';
+        foreach ( range( $latest_year, $earliest_year ) as $i ) {
+            echo '<option value="'.$i.'"'.($i === $currently_selected ? ' selected="selected"' : '').'>'.$i.'</option>';
+        }
+        echo '</select>';
+        @endphp
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" data-url="{{ route("monthly_dite")}}" id="monthpicker" type="submit">Submit</button>
     </div>
 </div>
-<input hidden type="text"  value="{{ isset($data['month'])?$data['month']:""}}" placeholder="Select Month" data-url="{{ route("monthly_dite")}}" id="monthpicker" >
+{{-- <input hidden type="text"  value="{{ isset($data['month'])?$data['month']:""}}" placeholder="Select Month" data-url="{{ route("monthly_dite")}}" id="monthpicker" > --}}
 <ul class="list-unstyled mb-4">
     @foreach ($data['data'] as $key => $item)
         <div class="d-flex flex-wrap">
