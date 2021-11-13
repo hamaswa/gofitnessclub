@@ -1,6 +1,6 @@
 <form id="buy_meal_form" class="mb-3">
-    <div class="form-row">
-        <div class="form-col flex-md-row align-items-md-center">
+    <div class="form-row mb-3 row">
+        <div class="form-col col-sm-6">
             <select name="shop_id" class="form-select select-shop">
                 <option selected>Select Shop</option>
                 @foreach ($data['shops'] as $shop)
@@ -10,43 +10,46 @@
             </select>
         </div>
     </div>
-    <div class="form-row">
-        <div class="form-col">
-            <input id="qName" name="name[]" type="text" class="form-control" placeholder="Name">
-            <p>Please enter Name!</p>
-        </div>
-        <div class="form-col">
-            <input name="weight[]" type="number" step=".01" class="form-control" placeholder="weight/pcs">
-            <p>Please enter weight!</p>
-        </div>
-        <div class="btn-group mb-md-0 mb-3" role="group" aria-label="Basic radio toggle button group">
-           
-            <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off"  value="pcs">
-            <label class="btn btn-outline-primary" id="radio_pcs_for" for="radio_pcs">pcs</label>
-            <select name="unit[]" class="d-none">
-                <option value="pcs"></option>
-                <option selected value="g"></option>
-            </select>
-            <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off" checked value="g">
-            <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>
-            
-        </div>
-        
-        <div class="form-col">
-            <input name="price[]" type="number" step=".01" class="form-control" placeholder="Price">
-            <p>Please enter RM!</p>
-        </div>
-        <div class="form-col">
-            <input name="count" type="number" class="form-control quantity" placeholder="Quantity">
-            <p>Please enter Quantity!</p>
-        </div>
-        <div class="form-col">
-            <div class="button-group">
-                <a href="#" class="btn btn-success add_buy_meal_form_row"><i class="fas fa-plus"></i></a>
-                <a href="#" class="btn btn-danger d-none remove_buy_meal_form_row"><i class="fas fa-minus"></i></a>
+    <div class="form-row pb-3 pb-md-0 mb-3 buying-form-row">
+        <div class="row">
+            <div class="form-col col-12 col-sm mb-2 mb-md-0">
+                <input id="qName" name="name[]" type="text" class="form-control" placeholder="Name">
+                <p>Please enter Name!</p>
             </div>
-
-        </div>
+            <div class="form-col col-12 col-sm mb-2 mb-md-0">
+                <div class="d-flex b-input-buttons">
+                    <input name="weight[]" type="number" step=".01" class="form-control" placeholder="weight/pcs">
+                    <div class="btn-group mb-0" role="group" aria-label="Basic radio toggle button group">
+                    
+                        <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off"  value="pcs">
+                        <label class="btn btn-outline-primary first-btn" id="radio_pcs_for" for="radio_pcs">pcs</label>
+                        <select name="unit[]" class="d-none">
+                            <option value="pcs"></option>
+                            <option selected value="g"></option>
+                        </select>
+                        <input type="radio" class="btn-check unit" name="radio" id="radio_g" autocomplete="off" checked value="g">
+                        <label class="btn btn-outline-primary" id="radio_g_for" for="radio_g">g</label>
+                        
+                    </div>
+                </div>
+                <p>Please enter weight!</p>
+            </div>   
+            
+            <div class="form-col col">
+                <input name="price[]" type="number" step=".01" class="form-control" placeholder="Price">
+                <p>Please enter RM!</p>
+            </div>
+            <div class="form-col col">
+                <input name="count" type="number" class="form-control quantity" placeholder="Quantity">
+                <p>Please enter Quantity!</p>
+            </div>
+            <div class="form-col col text-right b-actions-btns">
+                <div class="button-group">
+                    <a href="#" class="btn btn-success add_buy_meal_form_row"><i class="fas fa-plus"></i></a>
+                    <a href="#" class="btn btn-danger d-none remove_buy_meal_form_row"><i class="fas fa-minus"></i></a>
+                </div>
+            </div>
+        </div>        
     </div>
     <div class="text-end mt-3 px-1">
         <button id="submitForm" class="btn btn-success" type="submit">Save <img
