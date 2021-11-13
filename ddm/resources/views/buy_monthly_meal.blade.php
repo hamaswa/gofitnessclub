@@ -18,7 +18,32 @@
         <button class="btn btn-success d-flex align-items-center" type="button" id="button-edit-meal">
             <img src="{{ asset("images/right-arrow.png") }}" width="10" class="img-fluid" /></button>
       </div> --}}
-    <input type="text"  value="{{ isset($data['month'])?$data['month']:""}}" placeholder="Select Month" data-url="{{ route("show_monthly_buying")}}" id="monthpicker" >
+
+    <div class="row mb-3">
+        <div class="col-md-2">
+            <select name="selectMonth" class="form-select">
+                <option value="">Select Month</option>
+                <?php for($i=1; $i<=12; $i++) {
+                    echo "<option value=".$i.">".$i."</option>";
+                } ?>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="selectYear" class="form-select">
+                <option value="">Select Year</option>
+                <?php
+                for($i=1; $i<=12; $i++)
+                {
+                    echo "<option value=".$i.">".$i."</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </div>
+    <input hidden type="text"  value="{{ isset($data['month'])?$data['month']:""}}" placeholder="Select Month" data-url="{{ route("show_monthly_buying")}}" id="monthpicker" >
     <ul class="list-unstyled mb-4">
         @foreach ($data as $key=>$item)
         <div class="d-flex flex-wrap">

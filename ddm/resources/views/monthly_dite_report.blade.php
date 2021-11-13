@@ -3,7 +3,32 @@
        display: none;
    }
    </style>
-<input type="text" value="{{ isset($data['month'])?$data['month']:""}}" data-url="{{ route("monthly_dite_report")}}" id="monthpicker" >
+
+<div class="row mb-3">
+    <div class="col-md-2">
+        <select name="selectMonth" class="form-select">
+            <option value="">Select Month</option>
+            <?php for($i=1; $i<=12; $i++) {
+                echo "<option value=".$i.">".$i."</option>";
+            } ?>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="selectYear" class="form-select">
+            <option value="">Select Year</option>
+            <?php
+            for($i=1; $i<=12; $i++)
+            {
+                echo "<option value=".$i.">".$i."</option>";
+            }
+            ?>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</div>
+<input hidden type="text" value="{{ isset($data['month'])?$data['month']:""}}" data-url="{{ route("monthly_dite_report")}}" id="monthpicker" >
 <h2 class="mt-0 h5 mb-2">Account</h2>
         <div class="d-flex flex-wrap">
            <button type="button" class="btn btn-dark me-2 mb-2">{{ $data['meals']->count('created_at')}}</button>

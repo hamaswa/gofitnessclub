@@ -52,67 +52,60 @@
 
     <!-- Footer -->
 
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-bottom">
-
-        <div class="container">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom px-3 py-2">
 
             <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-
+            <div class="collapse navbar-collapse" id="navbarDropdown">
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
 
                         <a class="nav-link nav-menu-link active" aria-current="page" href=""
-                            data-href="{{ route('home') }}">Dining</a>
+                           data-href="{{ route('home') }}">Dining</a>
 
                     </li>
 
                     <li class="nav-item">
 
                         <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" aria-current="page" href=""
-                            data-href="{{ route('buying-index') }}">Buying</a>
+                           data-href="{{ route('buying-index') }}">Buying</a>
 
                     </li>
 
                     <li class="nav-item">
 
-                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" 
-                        class="nav-link nav-menu-link" href="" data-href="{{ route('library') }}">Library</a>
+                        <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+                           class="nav-link nav-menu-link" href="" data-href="{{ route('library') }}">Library</a>
 
                     </li>
 
                     <li class="nav-item dropdown dropup">
 
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" 
-                        href="javascript:void(0)" role="button">History</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                           href="javascript:void(0)" role="button">History</a>
 
                         <ul class="dropdown-menu">
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
-                                    data-href="{{ route('monthly_dite') }}">Dining</a></li>
+                                   data-href="{{ route('monthly_dite') }}">Dining</a></li>
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
-                                    data-href="{{ route("show_monthly_buying") }}">Buying</a></li>
+                                   data-href="{{ route("show_monthly_buying") }}">Buying</a></li>
 
                         </ul>
                     </li>
                     <li class="nav-item dropdown dropup">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="javascript:void(0)"
-                            role="button">Settings</a>
+                           role="button">Settings</a>
 
                         <ul class="dropdown-menu">
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
-                                    data-href="{{ route('get_shop_list') }}">
+                                   data-href="{{ route('get_shop_list') }}">
                                     Shop List</a></li>
                             <li><a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="dropdown-item nav-menu-link" href="javascript:void(0)"
-                                    data-href="{{ route('get_brand_list') }}">
+                                   data-href="{{ route('get_brand_list') }}">
                                     Brand List</a></li>
                         </ul>
                     </li>
@@ -120,19 +113,14 @@
                     <li class="nav-item">
 
                         <a data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" class="nav-link nav-menu-link" href=""
-                            data-href="{{ route('monthly_dite_report') }}">Report</a>
+                           data-href="{{ route('monthly_dite_report') }}">Report</a>
 
                     </li>
 
                 </ul>
-
             </div>
-
-        </div>
-
-    </nav>
-
-
+        </nav>
+    </div>
 
     @yield('modal')
 
