@@ -124,21 +124,37 @@ $(document).on("click", ".btn-delete-item", function (e) {
 //         }
 //     });
 // });
+$(document).on('change','select[name="month"]', function () {
+  var monthValue = $("select[name=month]").val();
+  var yearValue = $("input[name=year]").val();
 
-$(document).on("click","#monthpicker",function(){
-    url = $(this).data("url");
-    $.ajax({
+  url = $(this).data("url");
+  $.ajax({
 
-        url: url,
+    url: url,
 
-        type: "get",
+    type: "get",
 
-        data: { month: $("select[name=month]").val()+"-"+$("select[name=year]").val() },
+    data: { month: monthValue +"-"+ yearValue },
 
-    }).done(function (res) {
-        $("#content").html("").append(res);
-    })
+  }).done(function (res) {
+    $("#content").html("").append(res);
+  })
 });
+// $(document).on("click","#monthpicker",function(){
+//     url = $(this).data("url");
+//     $.ajax({
+//
+//         url: url,
+//
+//         type: "get",
+//
+//         data: { month: $("select[name=month]").val()+"-"+$("input[name=year]").val() },
+//
+//     }).done(function (res) {
+//         $("#content").html("").append(res);
+//     })
+// });
 
 
 $(document).on("click", "#btn-add-item", function (e) {
