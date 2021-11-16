@@ -12,7 +12,7 @@ $css_colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', '#E6B333',
         <select name="month" data-url="{{ route("monthly_dite")}}" class="form-select">
             <option value="">Select Month</option>
             <?php for($i=1; $i<=12; $i++) {
-                echo "<option value=" .$i.'-2021'."> ".strftime('%B', mktime(0, 0, 0, $i))." 2021</option>";
+                echo "<option value=" .$i.'-2021'."> ".date('M', mktime(0, 0, 0, $i))." 2021</option>";
             }
             ?>
         </select>

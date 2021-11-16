@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4cf3bffb-e1e7-4574-9f32-026aa009121f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddm/public/js/script.js" afterPath="$PROJECT_DIR$/ddm/public/js/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddm/resources/views/buy_monthly_meal.blade.php" afterPath="$PROJECT_DIR$/ddm/resources/views/buy_monthly_meal.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php" afterPath="$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,7 +53,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="script.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ddm/public/js/script.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="264">
@@ -81,21 +79,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="monthly_dite.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="monthly_dite.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="50" />
+            <state relative-caret-position="375">
+              <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
               <folding>
-                <marker date="1637089082728" expanded="true" signature="5:570" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="20:568" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="1561:1582" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="1689:1732" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="2020:2241" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="2134:2241" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="2397:2445" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="2617:2939" ph="..." />
-                <marker date="1637089082728" expanded="true" signature="2643:2938" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="5:570" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="20:568" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="1556:1577" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="1684:1727" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="2015:2236" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="2129:2236" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="2392:2440" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="2612:2934" ph="..." />
+                <marker date="1637090161280" expanded="true" signature="2638:2933" ph="..." />
               </folding>
             </state>
           </provider>
@@ -193,10 +191,10 @@
         <option value="$PROJECT_DIR$/ddm/resources/views/monthly_dite_report.blade.php" />
         <option value="$PROJECT_DIR$/ddm/resources/views/library.blade.php" />
         <option value="$PROJECT_DIR$/ddm/resources/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php" />
         <option value="$PROJECT_DIR$/ddm/resources/views/buy_monthly_meal.blade.php" />
         <option value="$PROJECT_DIR$/ddm/public/css/style.css" />
         <option value="$PROJECT_DIR$/ddm/public/js/script.js" />
+        <option value="$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php" />
       </list>
     </option>
   </component>
@@ -546,12 +544,12 @@
       <workItem from="1635081407808" duration="94000" />
       <workItem from="1635081518614" duration="3450000" />
       <workItem from="1636737320040" duration="6778000" />
-      <workItem from="1637084267786" duration="4937000" />
+      <workItem from="1637084267786" duration="5772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52479000" />
+    <option name="totallyTimeSpent" value="53314000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="0" />
@@ -1070,24 +1068,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="50" />
-          <folding>
-            <marker date="1637089082728" expanded="true" signature="5:570" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="20:568" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="1561:1582" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="1689:1732" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="2020:2241" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="2134:2241" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="2397:2445" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="2617:2939" ph="..." />
-            <marker date="1637089082728" expanded="true" signature="2643:2938" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ddm/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
@@ -1122,6 +1102,24 @@
             <marker date="1637089387929" expanded="true" signature="22096:22108" ph="..." />
             <marker date="1637089387929" expanded="true" signature="22375:22387" ph="..." />
             <marker date="1637089387929" expanded="true" signature="22613:22625" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ddm/resources/views/monthly_dite.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <marker date="1637090161280" expanded="true" signature="5:570" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="20:568" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="1556:1577" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="1684:1727" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="2015:2236" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="2129:2236" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="2392:2440" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="2612:2934" ph="..." />
+            <marker date="1637090161280" expanded="true" signature="2638:2933" ph="..." />
           </folding>
         </state>
       </provider>
