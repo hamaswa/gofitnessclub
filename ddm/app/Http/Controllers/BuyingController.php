@@ -24,7 +24,18 @@ class BuyingController extends Controller
      */
     public function index(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['month']) and $input['month']!=""){
+            $date = explode("-",$input['month']);
+            $month = $date[0];
+            $year = $date[1];
+        }
+        else {
         $month = date("m");
+        $year = date("Y");
+        }
+        $data['month'] = $month;
+        $data['year'] = $year;
         try {
             $input = $request->all();
             $data['data'] =  DailyDite::select(DB::raw('t.*,brands.name as brand_name'))
@@ -32,8 +43,9 @@ class BuyingController extends Controller
                 ON m1.name = m2.name AND m1.id < m2.id and 
                 (m1.shop_id=m2.shop_id and m1.brand_id=m2.brand_id and m1.unit_price = m2.unit_price) 
                 WHERE m2.id IS NULL ORDER BY id asc) t'))
-                ->whereMonth('t.created_at', $month)
                 ->leftJoin("brands", "t.brand_id", "=", 'brands.id')
+                ->whereMonth('t.created_at', $month)
+                ->whereYear('t.created_at', $year)
                 ->OrderBy('id', 'desc')
                 ->paginate(25);
             $data['shop_id'] = isset($input['shop_id']) ? $input['shop_id'] : null;
@@ -246,7 +258,7 @@ class BuyingController extends Controller
                 $year = $date[1];
             } else {
                 $month = date("m");
-                $year = date("y");
+                $year = date("Y");
             }
             $monthly_buy_dite = new DailyBuying();
             $result = $monthly_buy_dite->selectRaw("dailybuyings.name,dailybuyings.created_at, 

@@ -69,9 +69,10 @@ class CommonController extends Controller
         }
         else {
         $month = date("m");
-        $year = date("y");
+        $year = date("Y");
         }
-        $data['month'] = $month."-".$year;
+        $data['month'] = $month;
+        $data['year'] = $year;
 
         $monthly_dite = new DailyDite();
         $data['data'] = $monthly_dite->selectRaw("dailydite.name, count(dailydite.name) as count,sum(dailydite.qty) as qty, 
@@ -114,7 +115,7 @@ class CommonController extends Controller
         }
         else {
         $month = date("m");
-        $year = date("y");
+        $year = date("Y");
         }
 
         $monthly_dite = new DailyDite();
@@ -130,7 +131,8 @@ class CommonController extends Controller
             $data[date($row->created_at)][] = $row;
         }
         $data['data'] = $data;
-        $data['month'] = $month."-".$year;
+        $data['month'] = $month;
+        $data['year'] = $year;
 
 
         return view("monthly_dite", compact("data"));

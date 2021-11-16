@@ -62,6 +62,34 @@
     <button class="btn btn-success d-flex align-items-center" type="button" id="button-buy-meal">
         <img src="{{ asset('images/right-arrow.png') }}" width="10" class="img-fluid" /></button>
 </div>
+<div class="row mb-3">
+    <div class="col-md-2">
+        <select name="month" class="form-select">
+            <option value="">Select Month</option>
+            <?php for($i=1; $i<=12; $i++) {
+                echo "<option value=".$i.">".strftime('%B', mktime(0, 0, 0, $i))."</option>";
+            } 
+            
+            ?>
+        </select>
+    </div>
+    <div class="col-md-2">
+        @php 
+        $currently_selected = date('Y');
+        $earliest_year = 2021;
+        $latest_year = date('Y');
+        echo '<select name="year" class="form-select">';
+        echo '<option value="">Select Year</option>';
+        foreach ( range( $latest_year, $earliest_year ) as $i ) {
+            echo '<option value="'.$i.'"'.($i === $currently_selected ? ' selected="selected"' : '').'>'.$i.'</option>';
+        }
+        echo '</select>';
+        @endphp
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" data-url="{{ route("buying-index")}}" id="monthpicker" type="submit">Submit</button>
+    </div>
+ </div>
 <div class="row row-cols-5 recent-meals" id="recent-meals">
 
     @foreach ($data['data'] as $item)

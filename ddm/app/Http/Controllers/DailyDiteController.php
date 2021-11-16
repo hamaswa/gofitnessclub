@@ -24,10 +24,23 @@ class DailyDiteController extends Controller
     public function home(Request $request)
     {
         try {
-            $data =  DailyDite::select(DB::raw('t.*'))
+            $input = $request->all();
+            if (isset($input['month']) and $input['month'] != "") {
+                $date = explode("-", $input['month']);
+                $month = $date[0];
+                $year = $date[1];
+            } else {
+                $month = date("m");
+                $year = date("Y");
+            }
+            $data['month'] = $month;
+            $data['year'] = $year;
+            $data['data'] =  DailyDite::select(DB::raw('t.*'))
                 ->from(DB::raw('(SELECT m1.* FROM dailydite m1 LEFT JOIN 
                                         dailydite m2 ON (m1.name = m2.name AND m1.id < m2.id) 
                                         WHERE m2.id IS NULL ORDER BY id asc) t'))
+                ->whereMonth('t.created_at', $month)
+                ->whereYear('t.created_at', $year)
                 ->OrderBy('id', 'desc')
                 ->paginate(25);
             // If json response is required or default theme html
@@ -80,7 +93,7 @@ class DailyDiteController extends Controller
                 $year = $date[1];
             } else {
                 $month = date("m");
-                $year = date("y");
+                $year = date("Y");
             }
             $food_item = $input['food_item'];
             $monthly_dite = new DailyDite();
@@ -418,12 +431,12 @@ class DailyDiteController extends Controller
             $year = $date[1];
         } else {
             $month = date("m");
-            $year = date("y");
+            $year = date("Y");
         }
         $data['data'] = UserWeight::where("user_id", "1")
-        ->whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
-        ->get();
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
         return response()->json($data);
     }
 }
