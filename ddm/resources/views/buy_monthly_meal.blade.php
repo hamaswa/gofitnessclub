@@ -25,7 +25,7 @@
             <select name="month" data-url="{{ route("show_monthly_buying")}}" class="form-select">
                 <option value="">Select Month</option>
                 <?php for($i=1; $i<=12; $i++) {
-                    echo "<option value=".$i.'-2021'.">".strftime('%B', mktime(0, 0, 0, $i))." 2021</option>";
+                    echo "<option value=".$i.'-2021'.">".date('M', mktime(0, 0, 0, $i))." 2021</option>";
                 }
                 ?>
             </select>

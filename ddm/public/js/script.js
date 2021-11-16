@@ -963,6 +963,17 @@ function currentMonthYear() {
 
 
 
+
+$(document).on('keyup','input[name="weight[]"]',function(){
+  var priceVal = $(document).find('input[name="price[]"]').val();
+  var weightVal = $(this).val();
+  if(priceVal.length === 0){
+    if (!Number.isInteger(weightVal)) {
+      intNum = Math.round(weightVal);
+    }
+    $(document).find('input[name="weight[]').val(intNum);
+  }
+});
 // override jquery validate plugin defaults
 
 
