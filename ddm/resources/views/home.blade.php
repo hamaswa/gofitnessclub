@@ -8,7 +8,7 @@
   
 
    <div class="row row-cols-5 recent-meals" id="recent-meals">
-       @foreach ($data as $item)
+       @foreach ($data['data'] as $item)
            <div class="col-6 col-md-4 col-lg-3 col-xl-3 col-xxl-3 mb-3">
                <div class="product-block border rounded-2 overflow-hidden bg-white position-relative">
                    <div class="product-image d-flex flex-wrap">
@@ -72,7 +72,7 @@
    </div>
    <div class="col" id="load_more">
        @php
-           $link = $data->nextPageUrl();
+           $link = $data['data']->nextPageUrl();
            if ($link != '') {
                $add_more = '<a class="text-center col-2 m-auto page-link ajax-page-load-more" href="" data-href="' . $link . '">Load More</a>';
                echo $add_more;

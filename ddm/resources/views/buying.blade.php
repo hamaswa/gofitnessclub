@@ -33,11 +33,13 @@
                     </div>
                 </div>
                 <p>Please enter weight!</p>
+                <span>Zero value not excepted</span>
             </div>   
             
             <div class="form-col col">
                 <input name="price[]" type="number" step=".01" class="form-control" placeholder="Price">
                 <p>Please enter RM!</p>
+                <span>Zero value not excepted</span>
             </div>
             <div class="form-col col">
                 <input name="count" type="number" class="form-control quantity" placeholder="Quantity">

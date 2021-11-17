@@ -585,10 +585,14 @@ $(document).on("click", ".person-weight", function (e) {
 $(document).on('submit', '#buy_meal_form', function (e) {
     e.preventDefault();
     var validated = true;
+
     $('#buy_meal_form input').not('.quantity').filter(function () {
-        if (!$(this).val()) {
+        if ($(this).val() === '') {
             $(this).parents('.form-col').addClass('has-error');
             validated = false;
+        }else if($(this).val() === '0'){
+          $(this).parents('.form-col').addClass('has-error-2');
+          validated = false;
         }
     });
     if (!validated)
@@ -939,8 +943,12 @@ $(document).on('click', '.remove_buy_meal_form_row', function (e) {
 
 $(document).on('keyup', '#buy_meal_form input', function () {
     $(this).parent('.form-col').removeClass('has-error');
+    $(this).parent('.form-col').removeClass('has-error-2');
 });
-
+$(document).on('keyup', '#buy_meal_form input[name="weight[]"]', function () {
+  $(this).parents('.form-col').removeClass('has-error');
+  $(this).parents('.form-col').removeClass('has-error-2');
+});
 function currentMonthYear() {
     const month = new Array();
     month[0] = "January";

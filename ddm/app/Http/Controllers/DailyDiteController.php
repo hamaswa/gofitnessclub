@@ -43,6 +43,8 @@ class DailyDiteController extends Controller
                 ->whereYear('t.created_at', $year)
                 ->OrderBy('id', 'desc')
                 ->paginate(25);
+
+
             // If json response is required or default theme html
             if (isset($input['response_type']) and $input['response_type'] === "json") {
                 return response()->json(compact("data"));

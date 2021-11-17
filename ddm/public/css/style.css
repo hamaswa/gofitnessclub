@@ -162,6 +162,16 @@ a {
     font-size: 12px;
     padding: 0 4px 0;
 }
+.form-col span{
+    display: none;
+}
+.form-col.has-error-2 span{
+    display: block;
+    color: red;
+    margin: 0;
+    font-size: 12px;
+    padding: 0 4px 0;
+}
 
 .b-input-buttons input {
     border-top-right-radius: 0;
