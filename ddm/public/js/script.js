@@ -968,13 +968,13 @@ function currentMonthYear() {
     return month[d.getMonth()] + " " + d.getFullYear();
 }
 
-$(document).on('click','#radio_pcs:radio',function(){
-  var weightVal = $(document).find('input[name="weight[]').val();
-  if($("#radio_pcs").is(':checked')){
+$(document).on('click','.radio_pcs:radio',function(){
+  var weightVal = $(this).closest(".b-input-buttons").find('input[name="weight[]').val();
+  if($(".radio_pcs").is(':checked')){
     if (!Number.isInteger(weightVal)) {
       intNum = Math.round(weightVal);
     }
-    $(document).find('input[name="weight[]').val(intNum);
+    $(this).closest(".b-input-buttons").find('input[name="weight[]').val(intNum);
   }
 });
 $(document).on('keyup','input[name="weight[]"]',function(){

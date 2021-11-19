@@ -21,7 +21,8 @@
                     <input name="weight[]" type="number" step=".01" class="form-control" placeholder="weight/pcs">
                     <div class="btn-group mb-0" role="group" aria-label="Basic radio toggle button group">
                     
-                        <input type="radio" class="btn-check unit" name="radio" id="radio_pcs" autocomplete="off"  value="pcs">
+                        <input type="radio" class="btn-check unit radio_pcs" name="radio" id="radio_pcs" 
+                        autocomplete="off"  value="pcs">
                         <label class="btn btn-outline-primary first-btn" id="radio_pcs_for" for="radio_pcs">pcs</label>
                         <select name="unit[]" class="d-none">
                             <option value="pcs"></option>

@@ -38,7 +38,7 @@ class BuyingController extends Controller
         $data['year'] = $year;
         try {
             $input = $request->all();
-            $data['data'] =  DailyDite::select(DB::raw('t.*,brands.name as brand_name'))
+            $data['data'] =  DailyBuying::select(DB::raw('t.*,brands.name as brand_name'))
                 ->from(DB::raw('(SELECT m1.* FROM dailybuyings m1 LEFT JOIN dailybuyings m2 
                 ON m1.name = m2.name AND m1.id < m2.id and 
                 (m1.shop_id=m2.shop_id and m1.brand_id=m2.brand_id and m1.unit_price = m2.unit_price) 
@@ -179,10 +179,15 @@ class BuyingController extends Controller
             $inputs = $request->all();
             $item = DailyBuying::find($inputs['id']);
             $item->name =  $inputs['name'];
-            if ($inputs['unit'] == "g")
-                $item->weight =  $inputs['weight'];
+            if ($inputs['unit'] == "g"){
+            $item->weight =  $inputs['weight'];
+            $item->qty =  null;
+            }
             else
+            {
                 $item->qty =  $inputs['weight'];
+                $item->weight =  null;
+            }
             $item->price =  $inputs['price'];
             $item->frequency =  isset($inputs['count']) ? $inputs['count'] : 0;
             $item->shop_id = isset($inputs['shop']) ? $inputs['shop'] : null;
@@ -212,6 +217,9 @@ class BuyingController extends Controller
                 }
             }
             $item->save();
+            $item = DailyBuying::select(DB::raw('dailybuyings.*,brands.name as brand_name'))
+            ->leftJoin("brands", "dailybuyings.brand_id", "=", 'brands.id')
+            ->where('dailybuyings.id', $inputs['id'])->first();
 
             // If json response is required or default theme html
             if (isset($input['response_type']) and $input['response_type'] == "json") {
